@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
+import { Button } from "@/components/ui/button";
 import gun1 from "@/assets/gun1.png.asset.json";
 import gun2 from "@/assets/gun2.png.asset.json";
 import gun3 from "@/assets/gun3.png.asset.json";
@@ -22,8 +23,8 @@ export const Route = createFileRoute("/")({
 
 const WEAPONS = [
   { name: "BAL27 CORE OF REASON", img: gun1.url },
-  { name: "ISO HEMLOCK CORE OF THUNDER", img: gun2.url },
-  { name: "STATIC CORE OF FIRE", img: gun3.url },
+  { name: "STATIC-HV CORE OF FIRE", img: gun2.url },
+  { name: "ISO HEMLOCK CORE OF THUNDER", img: gun3.url },
 ];
 
 function useNow() {
@@ -40,16 +41,9 @@ function PhClock() {
   const now = useNow();
   const { time, date } = now ? formatManila(new Date(now)) : { time: "--:--:-- --", date: "—" };
   return (
-    <div className="font-mono">
-      <div className="flex items-center gap-2 text-[10px] tracking-[0.2em] text-muted-foreground">
-        <span className="relative flex h-2 w-2">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-live opacity-75" />
-          <span className="relative inline-flex h-2 w-2 rounded-full bg-live" />
-        </span>
-        PHILIPPINE STANDARD TIME
-      </div>
-      <div className="mt-1 text-2xl font-bold tabular-nums text-foreground">{time}</div>
-      <div className="text-xs tracking-widest text-muted-foreground">{date}</div>
+    <div className="text-center font-mono" aria-label="Current Philippine time">
+      <div className="text-sm tabular-nums text-foreground">{time}</div>
+      <div className="mt-1 text-[10px] text-muted-foreground">{date}</div>
     </div>
   );
 }
@@ -64,17 +58,17 @@ function Countdown() {
     ["SEC", c.seconds],
   ] as const;
   return (
-    <div>
-      <div className="text-[10px] tracking-[0.2em] text-muted-foreground">
+    <div className="mx-auto w-full max-w-lg text-center" aria-label="Event countdown">
+      <div className="text-[10px] text-muted-foreground sm:text-xs">
         EVENT ENDS · DEC 10, 2026 · 7:39 AM PHT
       </div>
       {c.ended && now ? (
-        <div className="mt-2 font-mono text-2xl font-bold text-primary">EVENT EXPIRED</div>
+        <div className="mt-4 font-mono text-4xl font-bold text-primary">EVENT EXPIRED</div>
       ) : (
-        <div className="mt-1 grid grid-cols-4 gap-2 font-mono">
+        <div className="mt-4 grid grid-cols-4 gap-2 font-mono">
           {cells.map(([l, v]) => (
             <div key={l} className="text-center">
-              <div className="text-2xl font-bold tabular-nums text-primary">
+              <div className="text-4xl font-bold tabular-nums text-primary sm:text-5xl">
                 {now ? String(v).padStart(2, "0") : "--"}
               </div>
               <div className="text-[10px] text-muted-foreground">{l}</div>
@@ -125,12 +119,12 @@ function SigilCalc() {
         onKeyDown={(e) => e.key === "Enter" && convert()}
         className="mt-2 w-full border-0 border-b border-border bg-transparent py-2 text-center font-mono text-4xl text-foreground outline-none focus:border-primary"
       />
-      <button
+      <Button
         onClick={convert}
-        className="mt-6 w-full rounded-full bg-primary py-3 font-mono font-bold tracking-[0.3em] text-primary-foreground hover:opacity-90"
+        className="mt-6 h-auto w-full rounded-full bg-primary py-3 font-mono font-bold tracking-[0.3em] text-primary-foreground hover:opacity-90"
       >
         CONVERT
-      </button>
+      </Button>
       {error && <p className="mt-4 font-mono text-sm text-destructive">{error}</p>}
       {res && (
         <div className="mt-10">
@@ -153,11 +147,6 @@ function SigilCalc() {
               </div>
             ))}
           </dl>
-          {res.status !== "MYTHIC UNLOCKED" && (
-            <p className="mt-6 text-xs text-muted-foreground">
-              About {res.opportunities} weekly grind{res.opportunities === 1 ? "" : "s"} left before the deadline. Estimate only, game reset times may vary.
-            </p>
-          )}
         </div>
       )}
     </section>
@@ -165,40 +154,37 @@ function SigilCalc() {
 }
 
 function Index() {
-  const [sel, setSel] = useState(0);
+  const [rotation, setRotation] = useState(0);
   const n = WEAPONS.length;
-  const prev = (sel + n - 1) % n;
-  const next = (sel + 1) % n;
-  const w = WEAPONS[sel]!;
+  const sel = ((rotation % n) + n) % n;
+  const w = WEAPONS[sel];
+  if (!w) return null;
   return (
     <main className="mx-auto min-h-screen max-w-6xl px-4 py-8">
-      <header className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
-        <h1 className="font-mono text-xl font-bold tracking-[0.3em] text-foreground">ARSENAL EVENT</h1>
-        <div className="flex flex-wrap gap-10">
-          <PhClock />
-          <Countdown />
-        </div>
+      <header className="flex flex-col items-center gap-8">
+        <PhClock />
+        <Countdown />
       </header>
 
       <section className="mt-16 text-center">
-        <p className="font-mono text-xs tracking-[0.3em] text-primary">FEATURED MYTHIC</p>
-        <h2 className="mt-2 text-3xl font-bold tracking-wide text-foreground md:text-4xl">{w.name}</h2>
-        <div className="relative mt-8 flex items-center justify-center">
-          {[prev, next].map((i, side) => (
-            <button
-              key={side}
-              onClick={() => setSel(i)}
-              aria-label={`Show ${WEAPONS[i]!.name}`}
-              className={`absolute top-1/2 w-1/4 -translate-y-1/2 opacity-40 blur-[3px] transition hover:opacity-70 hover:blur-[1px] ${side === 0 ? "left-0" : "right-0"}`}
+        <h1 className="text-2xl font-bold text-foreground sm:text-4xl" aria-live="polite">{w.name}</h1>
+        <div className="weapon-carousel mt-8" aria-label="Featured weapons">
+          {WEAPONS.map((weapon, i) => (
+            <Button
+              key={weapon.name}
+              variant="ghost"
+              onClick={() => {
+                const offset = (i - sel + n) % n;
+                if (offset === 1) setRotation((value) => value + 1);
+                if (offset === 2) setRotation((value) => value - 1);
+              }}
+              aria-label={`Show ${weapon.name}`}
+              aria-pressed={i === sel}
+              className="weapon-orbit"
+              style={{ "--orbit-angle": `${(rotation - i) * 120}deg` } as CSSProperties}
             >
-              <img src={WEAPONS[i]!.img} alt="" className="w-full" />
-            </button>
-          ))}
-          <img key={sel} src={w.img} alt={w.name} className="relative z-10 w-3/5 animate-in fade-in zoom-in-95 duration-500" />
-        </div>
-        <div className="mt-6 flex justify-center gap-2">
-          {WEAPONS.map((x, i) => (
-            <button key={x.name} onClick={() => setSel(i)} aria-label={x.name} className={`h-1.5 rounded-full transition-all ${i === sel ? "w-6 bg-primary" : "w-1.5 bg-muted-foreground"}`} />
+              <img src={weapon.img} alt={weapon.name} className="h-full w-full object-contain" draggable={false} />
+            </Button>
           ))}
         </div>
       </section>

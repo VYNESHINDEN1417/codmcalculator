@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep weapon carousel items mounted and animate a continuous orbit angle with CSS depth ordering; crossing weapons pass behind the active weapon without image replacement.
