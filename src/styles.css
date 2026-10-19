@@ -81,6 +81,11 @@
   --accent-foreground: oklch(0.96 0 0);
   --destructive: oklch(0.6 0.22 27);
   --warning-glow: 0 0 6px var(--destructive), 0 0 16px var(--destructive), 0 0 28px var(--destructive);
+  --warning-outline: -2px -2px 0 var(--background), 2px -2px 0 var(--background),
+    -2px 2px 0 var(--background), 2px 2px 0 var(--background), -2px 0 0 var(--background),
+    2px 0 0 var(--background), 0 -2px 0 var(--background), 0 2px 0 var(--background),
+    -3px 0 0 var(--background), 3px 0 0 var(--background), 0 -3px 0 var(--background),
+    0 3px 0 var(--background);
   --destructive-foreground: oklch(0.98 0 0);
   --border: oklch(0.25 0.02 260);
   --input: oklch(0.25 0.02 260);
@@ -160,7 +165,9 @@
 }
 
 .carousel-warning {
-  text-shadow: var(--warning-glow);
+  -webkit-text-stroke: 3px var(--background);
+  paint-order: stroke fill;
+  text-shadow: var(--warning-outline), var(--warning-glow);
 }
 
 .weapon-orbit {
