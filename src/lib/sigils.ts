@@ -21,6 +21,14 @@ export function parseSigils(raw: string): { value: number } | { error: string } 
   return { value: n };
 }
 
+export type SigilStatus = "MYTHIC UNLOCKED" | "ON TRACK" | "NOT ON TRACK";
+
+export const STATUS_LABEL: Record<SigilStatus, string> = {
+  "MYTHIC UNLOCKED": "MYTHIC UNLOCKED",
+  "ON TRACK": "AABOT",
+  "NOT ON TRACK": "HINDI ABOT PAR",
+};
+
 export function calcSigils(current: number, nowMs: number, deadlineMs = EVENT_DEADLINE_MS) {
   const remaining = Math.max(0, TARGET_SIGILS - current);
   const weeksRequired = current < TARGET_SIGILS ? Math.ceil(remaining / WEEKLY_SIGILS) : 0;

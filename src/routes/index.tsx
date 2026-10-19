@@ -5,7 +5,14 @@ import gun1 from "@/assets/gun1.png.asset.json";
 import gun2 from "@/assets/gun2.png.asset.json";
 import gun3 from "@/assets/gun3.png.asset.json";
 import { countdownParts, formatManila } from "@/lib/ph-time";
-import { acquisitionWeek, calcSigils, parseSigils, TARGET_SIGILS, WEEKLY_SIGILS } from "@/lib/sigils";
+import {
+  acquisitionWeek,
+  calcSigils,
+  parseSigils,
+  STATUS_LABEL,
+  TARGET_SIGILS,
+  WEEKLY_SIGILS,
+} from "@/lib/sigils";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -81,7 +88,7 @@ function Countdown() {
 }
 
 function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) => void }) {
-  const [raw, setRaw] = useState("260");
+  const [raw, setRaw] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [res, setRes] = useState<ReturnType<typeof calcSigils> | null>(null);
   const convert = () => {
@@ -100,8 +107,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
     ? ([
         ["CURRENT SIGILS", res.current],
         ["REMAINING SIGILS", res.remaining],
-        ["WEEKLY GRIND", `${WEEKLY_SIGILS} / week`],
-        ["WEEKS REQUIRED", res.weeksRequired],
+        ["AVAILABLE SIGILS PER WEEK", `${WEEKLY_SIGILS} / week`],
         ["PROJECTED TOTAL", res.projected],
       ] as const)
     : [];
@@ -109,7 +115,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
   return (
     <section className="mx-auto max-w-md text-center">
       <h2 aria-live="polite" className={`font-mono text-sm font-bold ${res ? (res.status === "NOT ON TRACK" ? "text-destructive" : "text-live") : "text-muted-foreground"}`}>
-        EVENT STATUS: {res?.status ?? "—"}
+        EVENT STATUS: {res ? STATUS_LABEL[res.status] : "—"}
       </h2>
       <p aria-live="polite" className="mt-1 text-xs leading-tight text-muted-foreground sm:text-sm">
         Projection kung kailan mo makukuha: {res?.status === "MYTHIC UNLOCKED"
@@ -124,7 +130,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
       <input
         id="sigils"
         inputMode="numeric"
-        placeholder="Enter your current sigils"
+        placeholder="Type mo dito Sigils mo"
         value={raw}
         onChange={(e) => {
           setRaw(e.target.value);
@@ -133,7 +139,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
           onWarningChange(false);
         }}
         onKeyDown={(e) => e.key === "Enter" && convert()}
-        className="mt-1 w-full border-0 border-b border-border bg-transparent py-1 text-center font-mono text-3xl text-foreground outline-none focus:border-primary"
+        className="mt-1 w-full border-0 border-b border-border bg-transparent py-1 text-center font-mono text-3xl text-foreground outline-none placeholder:text-muted-foreground focus:border-primary"
       />
       <Button
         onClick={convert}
@@ -177,7 +183,7 @@ export function Index() {
   const w = WEAPONS[sel];
   if (!w) return null;
   return (
-    <main className="mx-auto min-h-screen max-w-6xl px-4 py-4">
+    <main className="mx-auto flex min-h-screen max-w-6xl flex-col px-4 py-4">
       <header className="flex flex-col items-center gap-4">
         <PhClock />
         <Countdown />
@@ -214,6 +220,10 @@ export function Index() {
       <div className="mt-4">
         <SigilCalc onWarningChange={setShowWarning} />
       </div>
+
+      <footer className="mt-auto pt-6 pb-1 text-center font-mono text-[10px] tracking-[0.25em] text-muted-foreground">
+        VYNESHINDEN/TIMOTHY LOMIBAO
+      </footer>
     </main>
   );
 }
