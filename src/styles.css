@@ -80,6 +80,7 @@
   --accent: oklch(0.2 0.01 260);
   --accent-foreground: oklch(0.96 0 0);
   --destructive: oklch(0.6 0.22 27);
+  --warning-glow: 0 0 6px var(--destructive), 0 0 16px var(--destructive), 0 0 28px var(--destructive);
   --destructive-foreground: oklch(0.98 0 0);
   --border: oklch(0.25 0.02 260);
   --input: oklch(0.25 0.02 260);
@@ -156,6 +157,10 @@
   position: relative;
   isolation: isolate;
   height: clamp(130px, 23vw, 240px);
+}
+
+.carousel-warning {
+  text-shadow: var(--warning-glow);
 }
 
 .weapon-orbit {

@@ -4,6 +4,14 @@ export const TARGET_SIGILS = 500;
 export const WEEKLY_SIGILS = 52;
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 
+export function acquisitionWeek(projectedAtMs: number) {
+  const date = new Date(projectedAtMs);
+  const day = Number(new Intl.DateTimeFormat("en-US", { timeZone: "Asia/Manila", day: "numeric" }).format(date));
+  const month = new Intl.DateTimeFormat("fil-PH", { timeZone: "Asia/Manila", month: "long" }).format(date);
+  const year = Number(new Intl.DateTimeFormat("en-US", { timeZone: "Asia/Manila", year: "numeric" }).format(date));
+  return { week: Math.ceil(day / 7), month, year };
+}
+
 export function parseSigils(raw: string): { value: number } | { error: string } {
   const s = raw.trim();
   if (s === "") return { error: "Please enter your current sigils." };
@@ -17,6 +25,7 @@ export function calcSigils(current: number, nowMs: number, deadlineMs = EVENT_DE
   const remaining = Math.max(0, TARGET_SIGILS - current);
   const weeksRequired = current < TARGET_SIGILS ? Math.ceil(remaining / WEEKLY_SIGILS) : 0;
   const projected = current + weeksRequired * WEEKLY_SIGILS;
+  const projectedAtMs = nowMs + weeksRequired * WEEK_MS;
   const opportunities = Math.max(0, Math.floor((deadlineMs - nowMs) / WEEK_MS));
   const status =
     current >= TARGET_SIGILS
@@ -24,5 +33,5 @@ export function calcSigils(current: number, nowMs: number, deadlineMs = EVENT_DE
       : opportunities >= weeksRequired
         ? "ON TRACK"
         : "NOT ON TRACK";
-  return { current, remaining, weeksRequired, projected, opportunities, status } as const;
+  return { current, remaining, weeksRequired, projected, projectedAtMs, opportunities, status } as const;
 }

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { calcSigils, parseSigils } from "@/lib/sigils";
+import { acquisitionWeek, calcSigils, parseSigils } from "@/lib/sigils";
 import { EVENT_DEADLINE_MS } from "@/lib/ph-time";
 
 const now = Date.parse("2026-10-19T22:00:00Z");
@@ -12,6 +12,22 @@ describe("sigil calculator", () => {
   it("E: 0", () => expect(calcSigils(0, now)).toMatchObject({ remaining: 500, weeksRequired: 10, projected: 520 }));
   it("not on track after deadline", () => expect(calcSigils(260, EVENT_DEADLINE_MS + 1).status).toBe("NOT ON TRACK"));
   it("on track with 7 weeks left", () => expect(calcSigils(260, now).status).toBe("ON TRACK"));
+  it("projects acquisition after five weekly grinds for 260 sigils", () => {
+    const result = calcSigils(260, now);
+    expect(result.projectedAtMs).toBe(Date.parse("2026-11-23T22:00:00Z"));
+    expect(acquisitionWeek(result.projectedAtMs)).toEqual({ week: 4, month: "Nobyembre", year: 2026 });
+  });
+  it("projects ten weeks for zero sigils, beyond the deadline", () => {
+    const result = calcSigils(0, now);
+    expect(result.projectedAtMs).toBe(Date.parse("2026-12-28T22:00:00Z"));
+    expect(result.projectedAtMs).toBeGreaterThan(EVENT_DEADLINE_MS);
+  });
+  it("does not add grinding time when mythic is already unlocked", () => {
+    expect(calcSigils(500, now).projectedAtMs).toBe(now);
+  });
+  it("uses the Philippine day for acquisition week and month boundaries", () => {
+    expect(acquisitionWeek(Date.parse("2026-10-31T16:00:00Z"))).toEqual({ week: 1, month: "Nobyembre", year: 2026 });
+  });
   it("validation", () => {
     expect(parseSigils("")).toHaveProperty("error");
     expect(parseSigils("-5")).toHaveProperty("error");
