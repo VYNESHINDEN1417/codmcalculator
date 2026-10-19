@@ -5,7 +5,7 @@ import gun1 from "@/assets/gun1.png.asset.json";
 import gun2 from "@/assets/gun2.png.asset.json";
 import gun3 from "@/assets/gun3.png.asset.json";
 import { countdownParts, formatManila } from "@/lib/ph-time";
-import { calcSigils, parseSigils, TARGET_SIGILS, WEEKLY_SIGILS } from "@/lib/sigils";
+import { acquisitionWeek, calcSigils, parseSigils, TARGET_SIGILS, WEEKLY_SIGILS } from "@/lib/sigils";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -103,13 +103,22 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
         ["WEEKLY GRIND", `${WEEKLY_SIGILS} / week`],
         ["WEEKS REQUIRED", res.weeksRequired],
         ["PROJECTED TOTAL", res.projected],
-        ["EVENT STATUS", res.status],
       ] as const)
     : [];
+  const acquisition = res ? acquisitionWeek(res.projectedAtMs) : null;
   return (
     <section className="mx-auto max-w-md text-center">
-      <h2 className="font-mono text-xs tracking-[0.3em] text-muted-foreground">MYTHIC SIGIL CALCULATOR</h2>
-      <label className="mt-3 block font-mono text-xs tracking-[0.2em] text-muted-foreground" htmlFor="sigils">
+      <h2 aria-live="polite" className={`font-mono text-sm font-bold ${res ? (res.status === "NOT ON TRACK" ? "text-destructive" : "text-live") : "text-muted-foreground"}`}>
+        EVENT STATUS: {res?.status ?? "—"}
+      </h2>
+      <p aria-live="polite" className="mt-1 text-xs leading-tight text-muted-foreground sm:text-sm">
+        Projection kung kailan mo makukuha: {res?.status === "MYTHIC UNLOCKED"
+          ? "May sapat ka nang sigils!"
+          : acquisition
+            ? `ika-${acquisition.week} na linggo ng ${acquisition.month} ${acquisition.year}${res?.status === "NOT ON TRACK" ? " — lagpas sa deadline" : ""}`
+            : "—"}
+      </p>
+      <label className="mt-2 block font-mono text-xs tracking-[0.2em] text-muted-foreground" htmlFor="sigils">
         CURRENT SIGILS
       </label>
       <input
@@ -150,7 +159,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
             {rows.map(([k, v]) => (
               <div key={k} className="flex justify-between">
                 <dt className="text-muted-foreground">{k}</dt>
-                <dd className={k === "EVENT STATUS" ? (res.status === "NOT ON TRACK" ? "text-destructive" : "text-live") : "text-foreground"}>{v}</dd>
+                <dd className="text-foreground">{v}</dd>
               </div>
             ))}
           </dl>
@@ -195,7 +204,7 @@ export function Index() {
             </Button>
           ))}
           {showWarning && (
-            <p role="alert" className="pointer-events-none absolute inset-0 z-30 flex items-center justify-center px-4 text-center text-xl font-bold text-destructive sm:text-3xl">
+            <p role="alert" className="carousel-warning pointer-events-none absolute inset-0 z-30 flex items-center justify-center px-4 text-center text-3xl font-black leading-tight text-destructive sm:text-5xl">
               Sorry par, di ka aabot
             </p>
           )}
