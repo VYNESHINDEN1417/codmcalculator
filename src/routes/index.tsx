@@ -123,7 +123,7 @@ function SigilCalc() {
 
 function Index() {
   const [sel, setSel] = useState(0);
-  const w = WEAPONS[sel];
+  const w = WEAPONS[sel] ?? WEAPONS[0]!;
   return (
     <main className="mx-auto min-h-screen max-w-6xl px-4 py-8">
       <header className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
