@@ -144,3 +144,44 @@
     color: var(--color-foreground);
   }
 }
+
+@property --orbit-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.weapon-carousel {
+  container-type: inline-size;
+  position: relative;
+  isolation: isolate;
+  height: clamp(180px, 35vw, 400px);
+}
+
+.weapon-orbit {
+  position: absolute;
+  left: 20%;
+  top: 0;
+  width: 60%;
+  height: 100%;
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+  transform: translateX(calc(sin(var(--orbit-angle)) * 32cqw))
+    translateY(calc((1 - cos(var(--orbit-angle))) * 3cqw))
+    scale(calc(0.7 + cos(var(--orbit-angle)) * 0.3));
+  opacity: calc(0.65 + cos(var(--orbit-angle)) * 0.35);
+  filter: blur(calc((1 - cos(var(--orbit-angle))) * 1.6px));
+  z-index: calc(10 + cos(var(--orbit-angle)) * 10);
+  transition: --orbit-angle 850ms cubic-bezier(0.45, 0, 0.25, 1);
+}
+
+.weapon-orbit:hover {
+  background: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .weapon-orbit {
+    transition: none;
+  }
+}
