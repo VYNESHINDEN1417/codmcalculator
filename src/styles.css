@@ -180,6 +180,10 @@
   background: transparent;
 }
 
+.weapon-orbit[aria-pressed="true"] {
+  pointer-events: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .weapon-orbit {
     transition: none;
