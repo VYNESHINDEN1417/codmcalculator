@@ -10,3 +10,4 @@
 <!-- LOVABLE:END -->
 
 - Keep weapon carousel items mounted and animate a continuous orbit angle with CSS depth ordering; crossing weapons pass behind the active weapon without image replacement.
+- Keep the calculator warning state in the page, separate from carousel rotation; calculator conversion sets it and input edits clear it.

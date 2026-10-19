@@ -80,7 +80,7 @@ function Countdown() {
   );
 }
 
-function SigilCalc() {
+function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) => void }) {
   const [raw, setRaw] = useState("260");
   const [error, setError] = useState<string | null>(null);
   const [res, setRes] = useState<ReturnType<typeof calcSigils> | null>(null);
@@ -92,7 +92,9 @@ function SigilCalc() {
       return;
     }
     setError(null);
-    setRes(calcSigils(p.value, Date.now()));
+    const result = calcSigils(p.value, Date.now());
+    setRes(result);
+    onWarningChange(result.status === "NOT ON TRACK");
   };
   const rows = res
     ? ([
@@ -107,7 +109,7 @@ function SigilCalc() {
   return (
     <section className="mx-auto max-w-md text-center">
       <h2 className="font-mono text-xs tracking-[0.3em] text-muted-foreground">MYTHIC SIGIL CALCULATOR</h2>
-      <label className="mt-6 block font-mono text-xs tracking-[0.2em] text-muted-foreground" htmlFor="sigils">
+      <label className="mt-3 block font-mono text-xs tracking-[0.2em] text-muted-foreground" htmlFor="sigils">
         CURRENT SIGILS
       </label>
       <input
@@ -115,31 +117,36 @@ function SigilCalc() {
         inputMode="numeric"
         placeholder="Enter your current sigils"
         value={raw}
-        onChange={(e) => setRaw(e.target.value)}
+        onChange={(e) => {
+          setRaw(e.target.value);
+          setRes(null);
+          setError(null);
+          onWarningChange(false);
+        }}
         onKeyDown={(e) => e.key === "Enter" && convert()}
-        className="mt-2 w-full border-0 border-b border-border bg-transparent py-2 text-center font-mono text-4xl text-foreground outline-none focus:border-primary"
+        className="mt-1 w-full border-0 border-b border-border bg-transparent py-1 text-center font-mono text-3xl text-foreground outline-none focus:border-primary"
       />
       <Button
         onClick={convert}
-        className="mt-6 h-auto w-full rounded-full bg-primary py-3 font-mono font-bold tracking-[0.3em] text-primary-foreground hover:opacity-90"
+        className="mt-3 h-auto w-full rounded-full bg-primary py-2 font-mono font-bold tracking-[0.3em] text-primary-foreground hover:opacity-90"
       >
         CONVERT
       </Button>
       {error && <p className="mt-4 font-mono text-sm text-destructive">{error}</p>}
       {res && (
-        <div className="mt-10">
-          <p className="font-mono text-3xl font-bold text-primary">
+        <div className="mt-4">
+          <p className="font-mono text-xl font-bold text-primary sm:text-2xl">
             {res.status === "MYTHIC UNLOCKED"
               ? "MYTHIC UNLOCKED"
               : `${res.weeksRequired} WEEK${res.weeksRequired === 1 ? "" : "S"} LEFT TO GRIND`}
           </p>
-          <p className="mt-2 font-mono text-sm text-muted-foreground">
+          <p className="mt-1 font-mono text-xs text-muted-foreground">
             {res.current} / {TARGET_SIGILS} · {res.remaining} to go
           </p>
-          <div className="mx-auto mt-3 h-1 w-full bg-muted">
+          <div className="mx-auto mt-2 h-1 w-full bg-muted">
             <div className="h-1 bg-primary" style={{ width: `${Math.min(100, (res.current / TARGET_SIGILS) * 100)}%` }} />
           </div>
-          <dl className="mt-8 space-y-3 font-mono text-sm">
+          <dl className="mt-3 space-y-1 font-mono text-xs sm:text-sm">
             {rows.map(([k, v]) => (
               <div key={k} className="flex justify-between">
                 <dt className="text-muted-foreground">{k}</dt>
@@ -153,22 +160,23 @@ function SigilCalc() {
   );
 }
 
-function Index() {
+export function Index() {
   const [rotation, setRotation] = useState(0);
+  const [showWarning, setShowWarning] = useState(false);
   const n = WEAPONS.length;
   const sel = ((rotation % n) + n) % n;
   const w = WEAPONS[sel];
   if (!w) return null;
   return (
-    <main className="mx-auto min-h-screen max-w-6xl px-4 py-8">
-      <header className="flex flex-col items-center gap-8">
+    <main className="mx-auto min-h-screen max-w-6xl px-4 py-4">
+      <header className="flex flex-col items-center gap-4">
         <PhClock />
         <Countdown />
       </header>
 
-      <section className="mt-16 text-center">
-        <h1 className="text-2xl font-bold text-foreground sm:text-4xl" aria-live="polite">{w.name}</h1>
-        <div className="weapon-carousel mt-8" aria-label="Featured weapons">
+      <section className="mt-5 text-center">
+        <h1 className="text-xl font-bold text-foreground sm:text-3xl" aria-live="polite">{w.name}</h1>
+        <div className="weapon-carousel mt-2" aria-label="Featured weapons">
           {WEAPONS.map((weapon, i) => (
             <Button
               key={weapon.name}
@@ -186,11 +194,16 @@ function Index() {
               <img src={weapon.img} alt={weapon.name} className="h-full w-full object-contain" draggable={false} />
             </Button>
           ))}
+          {showWarning && (
+            <p role="alert" className="pointer-events-none absolute inset-0 z-30 flex items-center justify-center px-4 text-center text-xl font-bold text-destructive sm:text-3xl">
+              Sorry par, di ka aabot
+            </p>
+          )}
         </div>
       </section>
 
-      <div className="mt-20">
-        <SigilCalc />
+      <div className="mt-4">
+        <SigilCalc onWarningChange={setShowWarning} />
       </div>
     </main>
   );

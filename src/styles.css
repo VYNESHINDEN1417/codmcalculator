@@ -155,7 +155,7 @@
   container-type: inline-size;
   position: relative;
   isolation: isolate;
-  height: clamp(180px, 35vw, 400px);
+  height: clamp(130px, 23vw, 240px);
 }
 
 .weapon-orbit {
