@@ -5,14 +5,7 @@ import gun1 from "@/assets/gun1.png.asset.json";
 import gun2 from "@/assets/gun2.png.asset.json";
 import gun3 from "@/assets/gun3.png.asset.json";
 import { countdownParts, formatManila } from "@/lib/ph-time";
-import {
-  acquisitionWeek,
-  calcSigils,
-  parseSigils,
-  STATUS_LABEL,
-  TARGET_SIGILS,
-  WEEKLY_SIGILS,
-} from "@/lib/sigils";
+import { calcSigils, parseSigils, STATUS_LABEL, TARGET_SIGILS, WEEKLY_SIGILS } from "@/lib/sigils";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -111,18 +104,18 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
         ["PROJECTED TOTAL", res.projected],
       ] as const)
     : [];
-  const acquisition = res ? acquisitionWeek(res.projectedAtMs) : null;
   return (
     <section className="mx-auto max-w-md text-center">
       <h2 aria-live="polite" className={`font-mono text-sm font-bold ${res ? (res.status === "NOT ON TRACK" ? "text-destructive" : "text-live") : "text-muted-foreground"}`}>
         EVENT STATUS: {res ? STATUS_LABEL[res.status] : "—"}
       </h2>
-      <p aria-live="polite" className="mt-1 text-xs leading-tight text-muted-foreground sm:text-sm">
-        Projection kung kailan mo makukuha: {res?.status === "MYTHIC UNLOCKED"
-          ? "May sapat ka nang sigils!"
-          : acquisition
-            ? `ika-${acquisition.week} na linggo ng ${acquisition.month} ${acquisition.year}${res?.status === "NOT ON TRACK" ? " — lagpas sa deadline" : ""}`
-            : "—"}
+      <p
+        aria-live="polite"
+        className={`mt-1 font-mono text-xs font-bold sm:text-sm ${
+          res ? (res.status === "NOT ON TRACK" ? "text-destructive" : "text-live") : "text-muted-foreground"
+        }`}
+      >
+        SIGILS MO SA DEC 10: {res ? res.deadlineProjection : "—"}
       </p>
       <label className="mt-2 block font-mono text-xs tracking-[0.2em] text-muted-foreground" htmlFor="sigils">
         CURRENT SIGILS

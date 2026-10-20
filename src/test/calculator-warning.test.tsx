@@ -51,4 +51,14 @@ describe("calculator warning lifecycle", () => {
     fireEvent.click(screen.getByRole("button", { name: "CONVERT" }));
     expect(screen.getByText("1 WEEK LEFT TO GRIND")).toBeTruthy();
   });
+
+  it("projects sigils reached by the December 10 deadline", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-10-19T22:26:00Z"));
+    render(<Index />);
+    fireEvent.change(screen.getByLabelText("CURRENT SIGILS"), { target: { value: "0" } });
+    fireEvent.click(screen.getByRole("button", { name: "CONVERT" }));
+    expect(screen.getByText("SIGILS MO SA DEC 10: 364")).toBeTruthy();
+    expect(screen.queryByText(/Projection kung kailan/)).toBeNull();
+  });
 });
