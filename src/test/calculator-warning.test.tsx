@@ -32,4 +32,23 @@ describe("calculator warning lifecycle", () => {
     fireEvent.click(screen.getByRole("button", { name: "CONVERT" }));
     expect(screen.queryByRole("alert")).toBeNull();
   });
+
+  it("replaces the weeks headline with a Tagalog shortfall line when the goal is unreachable", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-10-19T22:26:00Z"));
+    render(<Index />);
+    fireEvent.change(screen.getByLabelText("CURRENT SIGILS"), { target: { value: "0" } });
+    fireEvent.click(screen.getByRole("button", { name: "CONVERT" }));
+    expect(screen.getByText("0 lang ang Sigils mo, hindi abot par")).toBeTruthy();
+    expect(screen.queryByText(/WEEKS LEFT TO GRIND/)).toBeNull();
+  });
+
+  it("keeps the weeks headline when the goal is still reachable", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-10-19T22:26:00Z"));
+    render(<Index />);
+    fireEvent.change(screen.getByLabelText("CURRENT SIGILS"), { target: { value: "450" } });
+    fireEvent.click(screen.getByRole("button", { name: "CONVERT" }));
+    expect(screen.getByText("1 WEEK LEFT TO GRIND")).toBeTruthy();
+  });
 });
