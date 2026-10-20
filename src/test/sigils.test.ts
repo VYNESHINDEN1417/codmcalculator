@@ -27,6 +27,11 @@ describe("sigil calculator", () => {
     expect(result.projectedAtMs).toBe(Date.parse("2026-12-28T22:00:00Z"));
     expect(result.projectedAtMs).toBeGreaterThan(EVENT_DEADLINE_MS);
   });
+  it("estimates sigils reached by the deadline from the weekly grinds still available", () => {
+    expect(calcSigils(0, now).opportunities).toBe(7);
+    expect(calcSigils(0, now).deadlineProjection).toBe(364);
+    expect(calcSigils(440, now).deadlineProjection).toBe(804);
+  });
   it("does not add grinding time when mythic is already unlocked", () => {
     expect(calcSigils(500, now).projectedAtMs).toBe(now);
   });
