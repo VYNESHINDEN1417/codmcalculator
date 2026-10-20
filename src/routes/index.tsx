@@ -153,7 +153,9 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
           <p className="font-mono text-xl font-bold text-primary sm:text-2xl">
             {res.status === "MYTHIC UNLOCKED"
               ? "MYTHIC UNLOCKED"
-              : `${res.weeksRequired} WEEK${res.weeksRequired === 1 ? "" : "S"} LEFT TO GRIND`}
+              : res.status === "NOT ON TRACK"
+                ? `${res.current} lang ang Sigils mo, hindi abot par`
+                : `${res.weeksRequired} WEEK${res.weeksRequired === 1 ? "" : "S"} LEFT TO GRIND`}
           </p>
           <p className="mt-1 font-mono text-xs text-muted-foreground">
             {res.current} / {TARGET_SIGILS} · {res.remaining} to go
