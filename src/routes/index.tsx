@@ -154,7 +154,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
             {res.status === "MYTHIC UNLOCKED"
               ? "MYTHIC UNLOCKED"
               : res.status === "NOT ON TRACK"
-                ? `${res.current} lang ang Sigils mo, hindi abot par`
+                ? `${res.deadlineProjection} lang ang aabutin ng sigil mo sa Deadline`
                 : `${res.weeksRequired} WEEK${res.weeksRequired === 1 ? "" : "S"} LEFT TO GRIND`}
           </p>
           <p className="mt-1 font-mono text-xs text-muted-foreground">

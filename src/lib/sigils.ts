@@ -35,11 +35,12 @@ export function calcSigils(current: number, nowMs: number, deadlineMs = EVENT_DE
   const projected = current + weeksRequired * WEEKLY_SIGILS;
   const projectedAtMs = nowMs + weeksRequired * WEEK_MS;
   const opportunities = Math.max(0, Math.floor((deadlineMs - nowMs) / WEEK_MS));
+  const deadlineProjection = current + opportunities * WEEKLY_SIGILS;
   const status =
     current >= TARGET_SIGILS
       ? "MYTHIC UNLOCKED"
       : opportunities >= weeksRequired
         ? "ON TRACK"
         : "NOT ON TRACK";
-  return { current, remaining, weeksRequired, projected, projectedAtMs, opportunities, status } as const;
+  return { current, remaining, weeksRequired, projected, projectedAtMs, opportunities, deadlineProjection, status } as const;
 }

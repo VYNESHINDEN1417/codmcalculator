@@ -33,13 +33,13 @@ describe("calculator warning lifecycle", () => {
     expect(screen.queryByRole("alert")).toBeNull();
   });
 
-  it("replaces the weeks headline with a Tagalog shortfall line when the goal is unreachable", () => {
+  it("replaces the weeks headline with the projected sigils at the deadline when unreachable", () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date("2026-10-19T22:26:00Z"));
     render(<Index />);
     fireEvent.change(screen.getByLabelText("CURRENT SIGILS"), { target: { value: "0" } });
     fireEvent.click(screen.getByRole("button", { name: "CONVERT" }));
-    expect(screen.getByText("0 lang ang Sigils mo, hindi abot par")).toBeTruthy();
+    expect(screen.getByText("364 lang ang aabutin ng sigil mo sa Deadline")).toBeTruthy();
     expect(screen.queryByText(/WEEKS LEFT TO GRIND/)).toBeNull();
   });
 
