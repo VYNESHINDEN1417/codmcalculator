@@ -12,3 +12,4 @@
 - Keep weapon carousel items mounted and animate a continuous orbit angle with CSS depth ordering; crossing weapons pass behind the active weapon without image replacement.
 - Keep the calculator warning state in the page, separate from carousel rotation; calculator conversion sets it and input edits clear it.
 - Derive acquisition projections from conversion time plus required weekly grinds in the calculator utilities, and format calendar weeks in Asia/Manila so displayed dates stay consistent with the event clock.
+- Keep all media assets (gun images and any future images, fonts, or media) as real files inside the repo under `src/assets/`, imported directly by Vite — never re-externalize them to CDN `.asset.json` pointers — so the synced repository serves them when deployed to Vercel.
