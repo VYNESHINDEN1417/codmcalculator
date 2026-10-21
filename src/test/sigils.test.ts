@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { acquisitionWeek, calcSigils, parseSigils, STATUS_LABEL } from "@/lib/sigils";
+import { acquisitionPhrase, acquisitionWeek, calcSigils, parseSigils, STATUS_LABEL } from "@/lib/sigils";
 import { EVENT_DEADLINE_MS } from "@/lib/ph-time";
 
 const now = Date.parse("2026-10-19T22:00:00Z");
