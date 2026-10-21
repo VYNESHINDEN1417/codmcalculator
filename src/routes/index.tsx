@@ -220,7 +220,7 @@ export function Index() {
         <SigilCalc onWarningChange={setShowWarning} />
       </div>
 
-      <footer className="mt-auto pt-2 pb-[18vh] text-center font-mono text-xs tracking-[0.2em] text-muted-foreground">
+      <footer className="mt-6 pt-1 pb-1 text-center font-mono text-xs tracking-[0.2em] text-muted-foreground">
         VYNESHINDEN/TIMOTHY LOMIBAO
       </footer>
     </main>
