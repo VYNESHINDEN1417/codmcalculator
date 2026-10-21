@@ -101,7 +101,6 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
         ["CURRENT SIGILS", res.current],
         ["REMAINING SIGILS", res.remaining],
         ["AVAILABLE SIGILS PER WEEK", `${WEEKLY_SIGILS} / week`],
-        ["PROJECTED TOTAL", res.projected],
       ] as const)
     : [];
   return (
@@ -221,7 +220,7 @@ export function Index() {
         <SigilCalc onWarningChange={setShowWarning} />
       </div>
 
-      <footer className="mt-auto pt-6 pb-1 text-center font-mono text-[10px] tracking-[0.25em] text-muted-foreground">
+      <footer className="mt-auto pt-2 pb-1 text-center font-mono text-xs tracking-[0.2em] text-muted-foreground">
         VYNESHINDEN/TIMOTHY LOMIBAO
       </footer>
     </main>
