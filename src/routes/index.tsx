@@ -5,7 +5,7 @@ import gun1 from "@/assets/gun1.png.asset.json";
 import gun2 from "@/assets/gun2.png.asset.json";
 import gun3 from "@/assets/gun3.png.asset.json";
 import { countdownParts, formatManila } from "@/lib/ph-time";
-import { acquisitionPhrase, calcSigils, parseSigils, STATUS_LABEL, WEEKLY_SIGILS } from "@/lib/sigils";
+import { acquisitionPhrase, calcSigils, parseSigils, STATUS_LABEL, TARGET_SIGILS, WEEKLY_SIGILS } from "@/lib/sigils";
 
 export const Route = createFileRoute("/")({
   head: () => ({
