@@ -50,6 +50,19 @@ describe("calculator warning lifecycle", () => {
     fireEvent.change(screen.getByLabelText("CURRENT SIGILS"), { target: { value: "450" } });
     fireEvent.click(screen.getByRole("button", { name: "CONVERT" }));
     expect(screen.getByText("1 WEEK LEFT TO GRIND")).toBeTruthy();
+    expect(screen.getByText("500 sigils ka na sa 4th week of October")).toBeTruthy();
+  });
+
+  it("shows no 500-sigil projection line when unreachable or already unlocked", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-10-19T22:26:00Z"));
+    render(<Index />);
+    fireEvent.change(screen.getByLabelText("CURRENT SIGILS"), { target: { value: "0" } });
+    fireEvent.click(screen.getByRole("button", { name: "CONVERT" }));
+    expect(screen.queryByText(/500 sigils ka na sa/)).toBeNull();
+    fireEvent.change(screen.getByLabelText("CURRENT SIGILS"), { target: { value: "600" } });
+    fireEvent.click(screen.getByRole("button", { name: "CONVERT" }));
+    expect(screen.queryByText(/500 sigils ka na sa/)).toBeNull();
   });
 
   it("projects sigils reached by the December 10 deadline", () => {
