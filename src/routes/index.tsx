@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, type CSSProperties } from "react";
 import { Button } from "@/components/ui/button";
-import gun1 from "@/assets/gun1.png.asset.json";
-import gun2 from "@/assets/gun2.png.asset.json";
-import gun3 from "@/assets/gun3.png.asset.json";
+import gun1 from "@/assets/gun1.png";
+import gun2 from "@/assets/gun2.png";
+import gun3 from "@/assets/gun3.png";
 import { countdownParts, formatManila } from "@/lib/ph-time";
 import { acquisitionPhrase, calcSigils, parseSigils, STATUS_LABEL, TARGET_SIGILS, WEEKLY_SIGILS } from "@/lib/sigils";
 
@@ -22,9 +22,9 @@ export const Route = createFileRoute("/")({
 });
 
 const WEAPONS = [
-  { name: "BAL27 CORE OF REASON", img: gun1.url },
-  { name: "STATIC-HV CORE OF FIRE", img: gun2.url },
-  { name: "ISO HEMLOCK CORE OF THUNDER", img: gun3.url },
+  { name: "BAL27 CORE OF REASON", img: gun1 },
+  { name: "STATIC-HV CORE OF FIRE", img: gun2 },
+  { name: "ISO HEMLOCK CORE OF THUNDER", img: gun3 },
 ];
 
 function useNow() {
