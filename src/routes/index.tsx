@@ -117,7 +117,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
         SIGILS MO SA DEC 10: {res ? res.deadlineProjection : "—"}
       </p>
       {res?.status === "ON TRACK" && (
-        <p className="mt-1 font-mono text-xs font-bold text-live sm:text-sm" aria-live="polite">
+        <p className="mt-1 font-mono text-xs font-bold uppercase text-live sm:text-sm" aria-live="polite">
           {acquisitionPhrase(res.projectedAtMs)}
         </p>
       )}
@@ -220,7 +220,7 @@ export function Index() {
         <SigilCalc onWarningChange={setShowWarning} />
       </div>
 
-      <footer className="mt-auto pt-2 pb-1 text-center font-mono text-xs tracking-[0.2em] text-muted-foreground">
+      <footer className="mt-auto pt-2 pb-[18vh] text-center font-mono text-xs tracking-[0.2em] text-muted-foreground">
         VYNESHINDEN/TIMOTHY LOMIBAO
       </footer>
     </main>
