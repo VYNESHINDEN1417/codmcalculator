@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { acquisitionWeek, calcSigils, parseSigils, STATUS_LABEL } from "@/lib/sigils";
+import { acquisitionPhrase, acquisitionWeek, calcSigils, parseSigils, STATUS_LABEL } from "@/lib/sigils";
 import { EVENT_DEADLINE_MS } from "@/lib/ph-time";
 
 const now = Date.parse("2026-10-19T22:00:00Z");
@@ -20,7 +20,8 @@ describe("sigil calculator", () => {
   it("projects acquisition after five weekly grinds for 260 sigils", () => {
     const result = calcSigils(260, now);
     expect(result.projectedAtMs).toBe(Date.parse("2026-11-23T22:00:00Z"));
-    expect(acquisitionWeek(result.projectedAtMs)).toEqual({ week: 4, month: "Nobyembre", year: 2026 });
+    expect(acquisitionWeek(result.projectedAtMs)).toEqual({ week: 4, month: "November", year: 2026 });
+    expect(acquisitionPhrase(result.projectedAtMs)).toBe("500 sigils ka na sa 4th week of November");
   });
   it("projects ten weeks for zero sigils, beyond the deadline", () => {
     const result = calcSigils(0, now);
@@ -36,7 +37,7 @@ describe("sigil calculator", () => {
     expect(calcSigils(500, now).projectedAtMs).toBe(now);
   });
   it("uses the Philippine day for acquisition week and month boundaries", () => {
-    expect(acquisitionWeek(Date.parse("2026-10-31T16:00:00Z"))).toEqual({ week: 1, month: "Nobyembre", year: 2026 });
+    expect(acquisitionWeek(Date.parse("2026-10-31T16:00:00Z"))).toEqual({ week: 1, month: "November", year: 2026 });
   });
   it("validation", () => {
     expect(parseSigils("")).toHaveProperty("error");
