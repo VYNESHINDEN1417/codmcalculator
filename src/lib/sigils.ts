@@ -7,9 +7,23 @@ const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 export function acquisitionWeek(projectedAtMs: number) {
   const date = new Date(projectedAtMs);
   const day = Number(new Intl.DateTimeFormat("en-US", { timeZone: "Asia/Manila", day: "numeric" }).format(date));
-  const month = new Intl.DateTimeFormat("fil-PH", { timeZone: "Asia/Manila", month: "long" }).format(date);
+  const month = new Intl.DateTimeFormat("en-US", { timeZone: "Asia/Manila", month: "long" }).format(date);
   const year = Number(new Intl.DateTimeFormat("en-US", { timeZone: "Asia/Manila", year: "numeric" }).format(date));
   return { week: Math.ceil(day / 7), month, year };
+}
+
+export function ordinal(n: number) {
+  const rem10 = n % 10;
+  const rem100 = n % 100;
+  if (rem10 === 1 && rem100 !== 11) return `${n}st`;
+  if (rem10 === 2 && rem100 !== 12) return `${n}nd`;
+  if (rem10 === 3 && rem100 !== 13) return `${n}rd`;
+  return `${n}th`;
+}
+
+export function acquisitionPhrase(projectedAtMs: number) {
+  const { week, month } = acquisitionWeek(projectedAtMs);
+  return `${TARGET_SIGILS} sigils ka na sa ${ordinal(week)} week of ${month}`;
 }
 
 export function parseSigils(raw: string): { value: number } | { error: string } {
