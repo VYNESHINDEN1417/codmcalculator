@@ -5,7 +5,7 @@ import gun1 from "@/assets/gun1.png.asset.json";
 import gun2 from "@/assets/gun2.png.asset.json";
 import gun3 from "@/assets/gun3.png.asset.json";
 import { countdownParts, formatManila } from "@/lib/ph-time";
-import { calcSigils, parseSigils, STATUS_LABEL, TARGET_SIGILS, WEEKLY_SIGILS } from "@/lib/sigils";
+import { acquisitionPhrase, calcSigils, parseSigils, STATUS_LABEL, WEEKLY_SIGILS } from "@/lib/sigils";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -117,6 +117,11 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
       >
         SIGILS MO SA DEC 10: {res ? res.deadlineProjection : "—"}
       </p>
+      {res?.status === "ON TRACK" && (
+        <p className="mt-1 font-mono text-xs font-bold text-live sm:text-sm" aria-live="polite">
+          {acquisitionPhrase(res.projectedAtMs)}
+        </p>
+      )}
       <label className="mt-2 block font-mono text-xs tracking-[0.2em] text-muted-foreground" htmlFor="sigils">
         CURRENT SIGILS
       </label>
