@@ -23,18 +23,18 @@ describe("calculator warning lifecycle", () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date("2026-10-19T22:26:00Z"));
     render(<Index />);
-    fireEvent.change(screen.getByLabelText("CURRENT SIGILS"), { target: { value: "100" } });
+    fireEvent.change(screen.getByLabelText("CURRENT SIGILS"), { target: { value: "90" } });
     fireEvent.click(screen.getByRole("button", { name: "CALCULATE" }));
-    expect(screen.getByText("100 / 500 · 400 to go")).toBeTruthy();
+    expect(screen.getByText("90 / 500 · 410 to go")).toBeTruthy();
     expect(screen.queryByRole("alert")).not.toBeNull();
     const booster = screen.getByRole("checkbox", { name: "50 SIGIL BOOSTER" });
     fireEvent.click(booster);
-    expect(screen.getByText("150 / 500 · 350 to go")).toBeTruthy();
+    expect(screen.getByText("140 / 500 · 360 to go")).toBeTruthy();
     expect(screen.queryByRole("alert")).toBeNull();
     fireEvent.click(screen.getByRole("button", { name: "CALCULATE" }));
-    expect(screen.getByText("150 / 500 · 350 to go")).toBeTruthy();
+    expect(screen.getByText("140 / 500 · 360 to go")).toBeTruthy();
     fireEvent.click(booster);
-    expect(screen.getByText("100 / 500 · 400 to go")).toBeTruthy();
+    expect(screen.getByText("90 / 500 · 410 to go")).toBeTruthy();
     expect(screen.queryByRole("alert")).not.toBeNull();
   });
   it("warns for an unreachable 0-sigil result and persists across weapon changes", () => {
@@ -68,7 +68,7 @@ describe("calculator warning lifecycle", () => {
     render(<Index />);
     fireEvent.change(screen.getByLabelText("CURRENT SIGILS"), { target: { value: "0" } });
     fireEvent.click(screen.getByRole("button", { name: "CALCULATE" }));
-    expect(screen.getByText("392 lang ang aabutin ng sigil mo sa Deadline")).toBeTruthy();
+    expect(screen.getByText("406 lang ang aabutin ng sigil mo sa Deadline")).toBeTruthy();
     expect(screen.queryByText(/WEEKS LEFT TO GRIND/)).toBeNull();
   });
 
@@ -100,7 +100,7 @@ describe("calculator warning lifecycle", () => {
     render(<Index />);
     fireEvent.change(screen.getByLabelText("CURRENT SIGILS"), { target: { value: "0" } });
     fireEvent.click(screen.getByRole("button", { name: "CALCULATE" }));
-    expect(screen.getByText("SIGILS MO SA DEC 10: 392")).toBeTruthy();
+    expect(screen.getByText("SIGILS MO SA DEC 10: 406")).toBeTruthy();
     expect(screen.queryByText(/Projection kung kailan/)).toBeNull();
   });
 });
