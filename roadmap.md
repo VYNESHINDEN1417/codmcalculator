@@ -1,3 +1,6 @@
 - [x] Add welcome popup with copyable UID, Facebook link, blur, and ten-second gate.
 - [x] Start looping repository-hosted music on OKAY; retain playback across page interactions.
 - [x] Verify countdown, clipboard, music, and calculator together.
+- [x] Add operational 50-sigil booster and simplify/lower calculator results.
+- [x] Rename action to CALCULATE and adjust popup UID colors.
+- [x] Verify booster before and after calculation, calculator layout, and popup.

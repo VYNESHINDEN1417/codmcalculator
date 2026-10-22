@@ -62,9 +62,10 @@ export function Welcome() {
               WELCOME SA WEBSITE KO, PARE
             </DialogPrimitive.Title>
             <DialogPrimitive.Description className="sr-only">CODM at Facebook ni Timothy Lomibao</DialogPrimitive.Description>
-            <Button variant="ghost" onClick={copyUid} className="welcome-neon mt-6 h-auto w-full flex-wrap gap-2 whitespace-normal px-0 py-2 text-sm font-bold text-live hover:bg-transparent hover:text-live">
-              <span className="break-all">CODM UID: {UID}</span>
-              {copied ? <Check className="size-4" /> : <Copy className="size-4" />}
+            <Button variant="ghost" onClick={copyUid} className="mt-6 h-auto w-full flex-wrap gap-2 whitespace-normal px-0 py-2 text-sm font-bold text-foreground hover:bg-transparent hover:text-foreground">
+              <span>CODM UID:</span>
+              <span className="welcome-neon break-all text-live">{UID}</span>
+              {copied ? <Check className="size-4 text-live" /> : <Copy className="size-4 text-live" />}
             </Button>
             {copied && <p role="status" className="text-xs text-live">UID COPIED</p>}
             {copyError && <p role="status" className="text-xs text-destructive">Hindi makopya. Subukan ulit.</p>}

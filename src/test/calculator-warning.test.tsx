@@ -8,12 +8,41 @@ afterEach(() => {
 });
 
 describe("calculator warning lifecycle", () => {
+  it("uses the 50-sigil booster selected before calculation", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-10-19T22:26:00Z"));
+    render(<Index />);
+    fireEvent.change(screen.getByLabelText("CURRENT SIGILS"), { target: { value: "450" } });
+    fireEvent.click(screen.getByRole("checkbox", { name: "50 SIGIL BOOSTER" }));
+    fireEvent.click(screen.getByRole("button", { name: "CALCULATE" }));
+    expect(screen.getByText("500 / 500 · 0 to go")).toBeTruthy();
+    expect(screen.getByLabelText("CURRENT SIGILS")).toHaveValue("450");
+  });
+
+  it("recalculates after submission without accumulating the booster", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-10-19T22:26:00Z"));
+    render(<Index />);
+    fireEvent.change(screen.getByLabelText("CURRENT SIGILS"), { target: { value: "100" } });
+    fireEvent.click(screen.getByRole("button", { name: "CALCULATE" }));
+    expect(screen.getByText("100 / 500 · 400 to go")).toBeTruthy();
+    expect(screen.queryByRole("alert")).not.toBeNull();
+    const booster = screen.getByRole("checkbox", { name: "50 SIGIL BOOSTER" });
+    fireEvent.click(booster);
+    expect(screen.getByText("150 / 500 · 350 to go")).toBeTruthy();
+    expect(screen.queryByRole("alert")).toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: "CALCULATE" }));
+    expect(screen.getByText("150 / 500 · 350 to go")).toBeTruthy();
+    fireEvent.click(booster);
+    expect(screen.getByText("100 / 500 · 400 to go")).toBeTruthy();
+    expect(screen.queryByRole("alert")).not.toBeNull();
+  });
   it("warns for an unreachable 0-sigil result and persists across weapon changes", () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date("2026-10-19T22:26:00Z"));
     render(<Index />);
     fireEvent.change(screen.getByLabelText("CURRENT SIGILS"), { target: { value: "0" } });
-    fireEvent.click(screen.getByRole("button", { name: "CONVERT" }));
+    fireEvent.click(screen.getByRole("button", { name: "CALCULATE" }));
     expect(screen.queryByRole("alert")).not.toBeNull();
     fireEvent.click(screen.getByRole("button", { name: "Show STATIC-HV CORE OF FIRE" }));
     expect(screen.queryByRole("alert")).not.toBeNull();
@@ -25,11 +54,11 @@ describe("calculator warning lifecycle", () => {
     render(<Index />);
     const input = screen.getByLabelText("CURRENT SIGILS");
     fireEvent.change(input, { target: { value: "0" } });
-    fireEvent.click(screen.getByRole("button", { name: "CONVERT" }));
+    fireEvent.click(screen.getByRole("button", { name: "CALCULATE" }));
     expect(screen.queryByRole("alert")).not.toBeNull();
     fireEvent.change(input, { target: { value: "260" } });
     expect(screen.queryByRole("alert")).toBeNull();
-    fireEvent.click(screen.getByRole("button", { name: "CONVERT" }));
+    fireEvent.click(screen.getByRole("button", { name: "CALCULATE" }));
     expect(screen.queryByRole("alert")).toBeNull();
   });
 
@@ -38,7 +67,7 @@ describe("calculator warning lifecycle", () => {
     vi.setSystemTime(new Date("2026-10-19T22:26:00Z"));
     render(<Index />);
     fireEvent.change(screen.getByLabelText("CURRENT SIGILS"), { target: { value: "0" } });
-    fireEvent.click(screen.getByRole("button", { name: "CONVERT" }));
+    fireEvent.click(screen.getByRole("button", { name: "CALCULATE" }));
     expect(screen.getByText("364 lang ang aabutin ng sigil mo sa Deadline")).toBeTruthy();
     expect(screen.queryByText(/WEEKS LEFT TO GRIND/)).toBeNull();
   });
@@ -48,7 +77,7 @@ describe("calculator warning lifecycle", () => {
     vi.setSystemTime(new Date("2026-10-19T22:26:00Z"));
     render(<Index />);
     fireEvent.change(screen.getByLabelText("CURRENT SIGILS"), { target: { value: "450" } });
-    fireEvent.click(screen.getByRole("button", { name: "CONVERT" }));
+    fireEvent.click(screen.getByRole("button", { name: "CALCULATE" }));
     expect(screen.getByText("1 WEEK LEFT TO GRIND")).toBeTruthy();
     expect(screen.getByText("500 sigils ka na sa 4th week of October")).toBeTruthy();
   });
@@ -58,10 +87,10 @@ describe("calculator warning lifecycle", () => {
     vi.setSystemTime(new Date("2026-10-19T22:26:00Z"));
     render(<Index />);
     fireEvent.change(screen.getByLabelText("CURRENT SIGILS"), { target: { value: "0" } });
-    fireEvent.click(screen.getByRole("button", { name: "CONVERT" }));
+    fireEvent.click(screen.getByRole("button", { name: "CALCULATE" }));
     expect(screen.queryByText(/500 sigils ka na sa/)).toBeNull();
     fireEvent.change(screen.getByLabelText("CURRENT SIGILS"), { target: { value: "600" } });
-    fireEvent.click(screen.getByRole("button", { name: "CONVERT" }));
+    fireEvent.click(screen.getByRole("button", { name: "CALCULATE" }));
     expect(screen.queryByText(/500 sigils ka na sa/)).toBeNull();
   });
 
@@ -70,7 +99,7 @@ describe("calculator warning lifecycle", () => {
     vi.setSystemTime(new Date("2026-10-19T22:26:00Z"));
     render(<Index />);
     fireEvent.change(screen.getByLabelText("CURRENT SIGILS"), { target: { value: "0" } });
-    fireEvent.click(screen.getByRole("button", { name: "CONVERT" }));
+    fireEvent.click(screen.getByRole("button", { name: "CALCULATE" }));
     expect(screen.getByText("SIGILS MO SA DEC 10: 364")).toBeTruthy();
     expect(screen.queryByText(/Projection kung kailan/)).toBeNull();
   });
