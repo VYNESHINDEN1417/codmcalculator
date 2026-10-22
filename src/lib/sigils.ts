@@ -2,6 +2,7 @@ import { EVENT_DEADLINE_MS } from "./ph-time";
 
 export const TARGET_SIGILS = 500;
 export const WEEKLY_SIGILS = 52;
+export const BOOSTER_SIGILS = 50;
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 
 export function acquisitionWeek(projectedAtMs: number) {
@@ -43,7 +44,8 @@ export const STATUS_LABEL: Record<SigilStatus, string> = {
   "NOT ON TRACK": "HINDI ABOT PAR",
 };
 
-export function calcSigils(current: number, nowMs: number, deadlineMs = EVENT_DEADLINE_MS) {
+export function calcSigils(inputSigils: number, nowMs: number, deadlineMs = EVENT_DEADLINE_MS, booster = false) {
+  const current = inputSigils + (booster ? BOOSTER_SIGILS : 0);
   const remaining = Math.max(0, TARGET_SIGILS - current);
   const weeksRequired = current < TARGET_SIGILS ? Math.ceil(remaining / WEEKLY_SIGILS) : 0;
   const projected = current + weeksRequired * WEEKLY_SIGILS;

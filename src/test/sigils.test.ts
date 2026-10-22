@@ -5,6 +5,10 @@ import { EVENT_DEADLINE_MS } from "@/lib/ph-time";
 const now = Date.parse("2026-10-19T22:00:00Z");
 
 describe("sigil calculator", () => {
+  it("adds exactly 50 sigils when the booster is enabled", () => {
+    expect(calcSigils(260, now, undefined, true)).toMatchObject({ current: 310, remaining: 190, weeksRequired: 4, projected: 518, deadlineProjection: 674 });
+    expect(calcSigils(260, now, undefined, false).current).toBe(260);
+  });
   it("A: 260", () => expect(calcSigils(260, now)).toMatchObject({ remaining: 240, weeksRequired: 5, projected: 520 }));
   it("B: 310", () => expect(calcSigils(310, now)).toMatchObject({ remaining: 190, weeksRequired: 4, projected: 518 }));
   it("C: 450", () => expect(calcSigils(450, now)).toMatchObject({ remaining: 50, weeksRequired: 1, projected: 502 }));

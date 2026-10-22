@@ -1,11 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, type CSSProperties } from "react";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import gun1 from "@/assets/gun1.png";
 import gun2 from "@/assets/gun2.png";
 import gun3 from "@/assets/gun3.png";
 import { countdownParts, formatManila } from "@/lib/ph-time";
-import { acquisitionPhrase, calcSigils, parseSigils, STATUS_LABEL, TARGET_SIGILS, WEEKLY_SIGILS } from "@/lib/sigils";
+import { acquisitionPhrase, BOOSTER_SIGILS, calcSigils, parseSigils, STATUS_LABEL, TARGET_SIGILS, WEEKLY_SIGILS } from "@/lib/sigils";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -84,22 +85,27 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
   const [raw, setRaw] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [res, setRes] = useState<ReturnType<typeof calcSigils> | null>(null);
-  const convert = () => {
+  const [booster, setBooster] = useState(false);
+  const calculate = (withBooster = booster) => {
     const p = parseSigils(raw);
     if ("error" in p) {
       setError(p.error);
       setRes(null);
       return;
     }
+    if (!Number.isSafeInteger(p.value + (withBooster ? BOOSTER_SIGILS : 0))) {
+      setError("That number is too large.");
+      setRes(null);
+      onWarningChange(false);
+      return;
+    }
     setError(null);
-    const result = calcSigils(p.value, Date.now());
+    const result = calcSigils(p.value, Date.now(), undefined, withBooster);
     setRes(result);
     onWarningChange(result.status === "NOT ON TRACK");
   };
   const rows = res
     ? ([
-        ["CURRENT SIGILS", res.current],
-        ["REMAINING SIGILS", res.remaining],
         ["AVAILABLE SIGILS PER WEEK", `${WEEKLY_SIGILS} / week`],
       ] as const)
     : [];
@@ -121,7 +127,19 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
           {acquisitionPhrase(res.projectedAtMs)}
         </p>
       )}
-      <label className="mt-2 block font-mono text-xs tracking-[0.2em] text-muted-foreground" htmlFor="sigils">
+      <div className="mt-6 flex items-center justify-center gap-2 font-mono text-xs font-bold text-foreground">
+        <Checkbox
+          id="sigil-booster"
+          checked={booster}
+          onCheckedChange={(checked) => {
+            const enabled = checked === true;
+            setBooster(enabled);
+            if (res) calculate(enabled);
+          }}
+        />
+        <label htmlFor="sigil-booster" className="cursor-pointer">50 SIGIL BOOSTER</label>
+      </div>
+      <label className="mt-3 block font-mono text-xs tracking-[0.2em] text-muted-foreground" htmlFor="sigils">
         CURRENT SIGILS
       </label>
       <input
@@ -135,14 +153,14 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
           setError(null);
           onWarningChange(false);
         }}
-        onKeyDown={(e) => e.key === "Enter" && convert()}
+        onKeyDown={(e) => e.key === "Enter" && calculate()}
         className="mt-1 w-full border-0 border-b border-border bg-transparent py-1 text-center font-mono text-3xl text-foreground outline-none placeholder:text-muted-foreground focus:border-primary"
       />
       <Button
-        onClick={convert}
+        onClick={() => calculate()}
         className="mt-3 h-auto w-full rounded-full bg-primary py-2 font-mono font-bold tracking-[0.3em] text-primary-foreground hover:opacity-90"
       >
-        CONVERT
+        CALCULATE
       </Button>
       {error && <p className="mt-4 font-mono text-sm text-destructive">{error}</p>}
       {res && (
