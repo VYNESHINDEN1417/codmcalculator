@@ -6,14 +6,14 @@ const now = Date.parse("2026-10-19T22:00:00Z");
 
 describe("sigil calculator", () => {
   it("adds exactly 50 sigils when the booster is enabled", () => {
-    expect(calcSigils(260, now, undefined, true)).toMatchObject({ current: 310, remaining: 190, weeksRequired: 4, projected: 518, deadlineProjection: 674 });
+    expect(calcSigils(260, now, undefined, true)).toMatchObject({ current: 310, remaining: 190, weeksRequired: 4, projected: 534, deadlineProjection: 702 });
     expect(calcSigils(260, now, undefined, false).current).toBe(260);
   });
-  it("A: 260", () => expect(calcSigils(260, now)).toMatchObject({ remaining: 240, weeksRequired: 5, projected: 520 }));
-  it("B: 310", () => expect(calcSigils(310, now)).toMatchObject({ remaining: 190, weeksRequired: 4, projected: 518 }));
-  it("C: 450", () => expect(calcSigils(450, now)).toMatchObject({ remaining: 50, weeksRequired: 1, projected: 502 }));
+  it("A: 260", () => expect(calcSigils(260, now)).toMatchObject({ remaining: 240, weeksRequired: 5, projected: 540 }));
+  it("B: 310", () => expect(calcSigils(310, now)).toMatchObject({ remaining: 190, weeksRequired: 4, projected: 534 }));
+  it("C: 450", () => expect(calcSigils(450, now)).toMatchObject({ remaining: 50, weeksRequired: 1, projected: 506 }));
   it("D: 500", () => expect(calcSigils(500, now)).toMatchObject({ remaining: 0, weeksRequired: 0, status: "MYTHIC UNLOCKED" }));
-  it("E: 0", () => expect(calcSigils(0, now)).toMatchObject({ remaining: 500, weeksRequired: 10, projected: 520 }));
+  it("E: 0", () => expect(calcSigils(0, now)).toMatchObject({ remaining: 500, weeksRequired: 9, projected: 504 }));
   it("not on track after deadline", () => expect(calcSigils(260, EVENT_DEADLINE_MS + 1).status).toBe("NOT ON TRACK"));
   it("on track with 7 weeks left", () => expect(calcSigils(260, now).status).toBe("ON TRACK"));
   it("shows Tagalog status labels", () => {
@@ -27,15 +27,15 @@ describe("sigil calculator", () => {
     expect(acquisitionWeek(result.projectedAtMs)).toEqual({ week: 4, month: "November", year: 2026 });
     expect(acquisitionPhrase(result.projectedAtMs)).toBe("500 sigils ka na sa 4th week of November");
   });
-  it("projects ten weeks for zero sigils, beyond the deadline", () => {
+  it("projects nine weeks for zero sigils, beyond the deadline", () => {
     const result = calcSigils(0, now);
-    expect(result.projectedAtMs).toBe(Date.parse("2026-12-28T22:00:00Z"));
+    expect(result.projectedAtMs).toBe(Date.parse("2026-12-21T22:00:00Z"));
     expect(result.projectedAtMs).toBeGreaterThan(EVENT_DEADLINE_MS);
   });
   it("estimates sigils reached by the deadline from the weekly grinds still available", () => {
     expect(calcSigils(0, now).opportunities).toBe(7);
-    expect(calcSigils(0, now).deadlineProjection).toBe(364);
-    expect(calcSigils(440, now).deadlineProjection).toBe(804);
+    expect(calcSigils(0, now).deadlineProjection).toBe(392);
+    expect(calcSigils(440, now).deadlineProjection).toBe(832);
   });
   it("does not add grinding time when mythic is already unlocked", () => {
     expect(calcSigils(500, now).projectedAtMs).toBe(now);
