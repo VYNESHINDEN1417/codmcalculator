@@ -1,0 +1,3 @@
+- [x] Add welcome popup with copyable UID, Facebook link, blur, and ten-second gate.
+- [x] Start looping repository-hosted music on OKAY; retain playback across page interactions.
+- [x] Verify countdown, clipboard, music, and calculator together.

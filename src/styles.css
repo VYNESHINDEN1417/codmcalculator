@@ -65,6 +65,7 @@
 :root {
   --radius: 0.5rem;
   --live: oklch(0.8 0.2 150);
+  --welcome-glow: 0 0 10px var(--live);
   --background: oklch(0 0 0);
   --foreground: oklch(0.96 0 0);
   --card: oklch(0.13 0.01 260);
@@ -168,6 +169,10 @@
   -webkit-text-stroke: 3px var(--background);
   paint-order: stroke fill;
   text-shadow: var(--warning-outline), var(--warning-glow);
+}
+
+.welcome-neon {
+  text-shadow: var(--welcome-glow);
 }
 
 .weapon-orbit {
