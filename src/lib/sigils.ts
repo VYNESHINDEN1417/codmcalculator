@@ -1,7 +1,7 @@
 import { EVENT_DEADLINE_MS } from "./ph-time";
 
 export const TARGET_SIGILS = 500;
-export const WEEKLY_SIGILS = 52;
+export const WEEKLY_SIGILS = 56;
 export const BOOSTER_SIGILS = 50;
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 
