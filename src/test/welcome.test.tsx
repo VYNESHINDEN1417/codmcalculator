@@ -9,11 +9,11 @@ afterEach(() => {
 });
 
 describe("welcome entry rules", () => {
-  it("withholds dismissal for ten seconds, including Escape", () => {
+  it("withholds dismissal for five seconds, including Escape", () => {
     vi.useFakeTimers();
     render(<Welcome />);
     fireEvent.keyDown(screen.getByRole("dialog"), { key: "Escape" });
-    act(() => vi.advanceTimersByTime(9999));
+    act(() => vi.advanceTimersByTime(4999));
     expect(screen.queryByRole("button", { name: "OKAY" })).toBeNull();
     act(() => vi.advanceTimersByTime(1));
     expect(screen.getByRole("button", { name: "OKAY" })).toBeVisible();
@@ -32,7 +32,7 @@ describe("welcome entry rules", () => {
     const play = vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue(undefined);
     const { container } = render(<Welcome />);
     expect(play).not.toHaveBeenCalled();
-    act(() => vi.advanceTimersByTime(10000));
+    act(() => vi.advanceTimersByTime(5000));
     await act(async () => fireEvent.click(screen.getByRole("button", { name: "OKAY" })));
     expect(play).toHaveBeenCalledTimes(1);
     expect(container.querySelector("audio")?.loop).toBe(true);

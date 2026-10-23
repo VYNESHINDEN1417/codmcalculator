@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, type CSSProperties } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { SigilTasks } from "@/components/sigil-tasks";
+import { type TaskPlan } from "@/lib/sigil-tasks";
 import gun1 from "@/assets/gun1.png";
 import gun2 from "@/assets/gun2.png";
 import gun3 from "@/assets/gun3.png";
@@ -86,9 +88,11 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
   const [error, setError] = useState<string | null>(null);
   const [res, setRes] = useState<ReturnType<typeof calcSigils> | null>(null);
   const [booster, setBooster] = useState(false);
-  const calculate = (withBooster = booster) => {
+  const [taskPlan, setTaskPlan] = useState<TaskPlan>();
+  const calculate = (withBooster = booster, withPlan = taskPlan, quiet = false) => {
     const p = parseSigils(raw);
     if ("error" in p) {
+      if (quiet) return;
       setError(p.error);
       setRes(null);
       return;
@@ -100,7 +104,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
       return;
     }
     setError(null);
-    const result = calcSigils(p.value, Date.now(), undefined, withBooster);
+    const result = calcSigils(p.value, Date.now(), undefined, withBooster, withPlan);
     setRes(result);
     onWarningChange(result.status === "NOT ON TRACK");
   };
@@ -139,6 +143,10 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
         />
         <label htmlFor="sigil-booster" className="cursor-pointer">50 SIGIL BOOSTER</label>
       </div>
+      <SigilTasks plan={taskPlan} onChange={(plan) => {
+        setTaskPlan(plan);
+        calculate(booster, plan, true);
+      }} />
       <label className="mt-3 block font-mono text-xs tracking-[0.2em] text-muted-foreground" htmlFor="sigils">
         CURRENT SIGILS
       </label>
@@ -154,7 +162,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
           onWarningChange(false);
         }}
         onKeyDown={(e) => e.key === "Enter" && calculate()}
-        className="mt-1 w-full border-0 border-b border-border bg-transparent py-1 text-center font-mono text-3xl text-foreground outline-none placeholder:text-muted-foreground focus:border-primary"
+        className="mt-1 w-full border-0 border-b border-border bg-transparent py-1 text-center font-mono text-3xl text-foreground outline-none placeholder:text-xl placeholder:text-muted-foreground focus:border-primary"
       />
       <Button
         onClick={() => calculate()}
@@ -165,7 +173,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
       {error && <p className="mt-4 font-mono text-sm text-destructive">{error}</p>}
       {res && (
         <div className="mt-4">
-          <p className="font-mono text-xl font-bold text-primary sm:text-2xl">
+          <p className={`font-mono text-xl font-bold sm:text-2xl ${res.status === "NOT ON TRACK" ? "text-destructive" : "text-live"}`}>
             {res.status === "MYTHIC UNLOCKED"
               ? "MYTHIC UNLOCKED"
               : res.status === "NOT ON TRACK"

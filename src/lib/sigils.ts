@@ -1,4 +1,5 @@
 import { EVENT_DEADLINE_MS } from "./ph-time";
+import { taskReward, type TaskPlan } from "./sigil-tasks";
 
 export const TARGET_SIGILS = 500;
 export const WEEKLY_SIGILS = 58;
@@ -44,18 +45,39 @@ export const STATUS_LABEL: Record<SigilStatus, string> = {
   "NOT ON TRACK": "HINDI ABOT PAR",
 };
 
-export function calcSigils(inputSigils: number, nowMs: number, deadlineMs = EVENT_DEADLINE_MS, booster = false) {
+export function calcSigils(inputSigils: number, nowMs: number, deadlineMs = EVENT_DEADLINE_MS, booster = false, taskPlan?: TaskPlan) {
   const current = inputSigils + (booster ? BOOSTER_SIGILS : 0);
   const remaining = Math.max(0, TARGET_SIGILS - current);
-  const weeksRequired = current < TARGET_SIGILS ? Math.ceil(remaining / WEEKLY_SIGILS) : 0;
-  const projected = current + weeksRequired * WEEKLY_SIGILS;
-  const projectedAtMs = nowMs + weeksRequired * WEEK_MS;
+  let weeksRequired = current < TARGET_SIGILS ? Math.ceil(remaining / WEEKLY_SIGILS) : 0;
+  let projected = current + weeksRequired * WEEKLY_SIGILS;
+  let projectedAtMs = nowMs + weeksRequired * WEEK_MS;
   const opportunities = Math.max(0, Math.floor((deadlineMs - nowMs) / WEEK_MS));
-  const deadlineProjection = current + opportunities * WEEKLY_SIGILS;
+  let deadlineProjection = current + opportunities * WEEKLY_SIGILS;
+  let planReachable = opportunities >= weeksRequired;
+  if (taskPlan) {
+    let total = current;
+    let reached = current >= TARGET_SIGILS;
+    weeksRequired = 0;
+    projected = current;
+    projectedAtMs = nowMs;
+    taskPlan.selections.forEach((selection, index) => {
+      const weekEndsAtMs = taskPlan.startsAtMs + (index + 1) * WEEK_MS;
+      if (weekEndsAtMs <= nowMs || weekEndsAtMs > deadlineMs) return;
+      total += taskReward(selection);
+      if (!reached) {
+        weeksRequired += 1;
+        projected = total;
+        projectedAtMs = weekEndsAtMs;
+        reached = total >= TARGET_SIGILS;
+      }
+    });
+    deadlineProjection = total;
+    planReachable = reached;
+  }
   const status =
     current >= TARGET_SIGILS
       ? "MYTHIC UNLOCKED"
-      : opportunities >= weeksRequired
+      : planReachable
         ? "ON TRACK"
         : "NOT ON TRACK";
   return { current, remaining, weeksRequired, projected, projectedAtMs, opportunities, deadlineProjection, status } as const;

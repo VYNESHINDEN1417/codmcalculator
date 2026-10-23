@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import music from "@/assets/honkai-music.mp3";
 
 const UID = "6957634743378640897";
-export const WELCOME_WAIT_SECONDS = 10;
+export const WELCOME_WAIT_SECONDS = 5;
 
 export function Welcome() {
   const [open, setOpen] = useState(false);
