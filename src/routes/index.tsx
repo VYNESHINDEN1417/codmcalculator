@@ -131,7 +131,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
           {acquisitionPhrase(res.projectedAtMs)}
         </p>
       )}
-      <div className="mt-6 flex items-center justify-center gap-2 font-mono text-xs font-bold text-foreground">
+      <div className="mt-4 flex items-center justify-center gap-2 font-mono text-xs font-bold text-foreground">
         <Checkbox
           id="sigil-booster"
           checked={booster}
@@ -172,7 +172,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
       </Button>
       {error && <p className="mt-4 font-mono text-sm text-destructive">{error}</p>}
       {res && (
-        <div className="mt-4">
+        <div className="mt-3">
           <p className={`font-mono text-xl font-bold sm:text-2xl ${res.status === "NOT ON TRACK" ? "text-destructive" : "text-live"}`}>
             {res.status === "MYTHIC UNLOCKED"
               ? "MYTHIC UNLOCKED"
@@ -209,12 +209,12 @@ export function Index() {
   if (!w) return null;
   return (
     <main className="mx-auto flex min-h-screen max-w-6xl flex-col px-4 py-4">
-      <header className="flex flex-col items-center gap-4">
+      <header className="flex flex-col items-center gap-3">
         <PhClock />
         <Countdown />
       </header>
 
-      <section className="mt-5 text-center">
+      <section className="mt-4 text-center">
         <h1 className="text-xl font-bold text-foreground sm:text-3xl" aria-live="polite">{w.name}</h1>
         <div className="weapon-carousel mt-2" aria-label="Featured weapons">
           {WEAPONS.map((weapon, i) => (
