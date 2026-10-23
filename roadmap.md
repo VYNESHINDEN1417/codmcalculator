@@ -4,3 +4,6 @@
 - [x] Add operational 50-sigil booster and simplify/lower calculator results.
 - [x] Rename action to CALCULATE and adjust popup UID colors.
 - [x] Verify booster before and after calculation, calculator layout, and popup.
+- [ ] Shorten welcome wait to five seconds and switch accents to orange.
+- [ ] Add editable weekly task popup and selection-based projections.
+- [ ] Test reward calculations, final-week gate and live calculator flow.
