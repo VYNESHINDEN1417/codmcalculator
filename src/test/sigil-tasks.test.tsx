@@ -28,9 +28,18 @@ describe("weekly task rules", () => {
     expect(calcSigils(440, startsAtMs, undefined, false, plan).status).toBe("NOT ON TRACK");
   });
 
-  it("does not fall back to 58 when weeks have no selected tasks", () => {
+  it("falls back to the weekly grind when no tasks are selected, since tasks are optional", () => {
     const startsAtMs = EVENT_DEADLINE_MS - 2 * WEEK_MS;
-    expect(calcSigils(450, startsAtMs, undefined, false, { startsAtMs, selections: [[], []] })).toMatchObject({ deadlineProjection: 450, status: "NOT ON TRACK" });
+    expect(calcSigils(450, startsAtMs, undefined, false, { startsAtMs, selections: [[], []] })).toMatchObject({ deadlineProjection: 566, status: "ON TRACK" });
+  });
+
+  it("lets the user close the task dialog without answering anything", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(EVENT_DEADLINE_MS - 2 * WEEK_MS);
+    render(<Index />);
+    fireEvent.click(screen.getByRole("button", { name: /SIGIL TASKS/ }));
+    fireEvent.keyDown(screen.getByRole("dialog"), { key: "Escape" });
+    expect(screen.queryByRole("dialog")).toBeNull();
   });
 
   it("ignores expired task weeks and rewards after the deadline", () => {
@@ -44,11 +53,9 @@ describe("weekly task rules", () => {
     vi.setSystemTime(EVENT_DEADLINE_MS - 2 * WEEK_MS);
     render(<Index />);
     fireEvent.change(screen.getByLabelText("CURRENT SIGILS"), { target: { value: "490" } });
-    fireEvent.click(screen.getByRole("button", { name: "SIGIL TASKS" }));
+    fireEvent.click(screen.getByRole("button", { name: /SIGIL TASKS/ }));
     const dialog = screen.getByRole("dialog");
     expect(within(dialog).queryByRole("button", { name: "OKAY" })).toBeNull();
-    fireEvent.keyDown(dialog, { key: "Escape" });
-    expect(screen.getByRole("dialog")).toBeTruthy();
     fireEvent.click(within(dialog).getByRole("checkbox", { name: "Play Matches for a total of 400 minutes" }));
     expect(screen.getByText("SIGILS MO SA DEC 10: 498")).toBeTruthy();
     fireEvent.click(within(dialog).getByRole("button", { name: "NEXT" }));

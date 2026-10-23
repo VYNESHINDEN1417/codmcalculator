@@ -20,7 +20,7 @@ Functional requirements:
 - Use a clear, compact digital-clock design that complements the AMOLED-black interface.
 - Add a small green live indicator beside the label to communicate that the clock is active.
 - Keep the clock visible near the event countdown without distracting from the featured weapon or sigil calculator.
-- Calculate the event countdown using the fixed event deadline of December 10, 2026, at 7:39 AM Philippine time.
+- Calculate the event countdown using the fixed event deadline of December 10, 2026, at 8:00 AM Philippine time.
 - Do not hardcode the displayed current date or time. Generate it dynamically using the browser's date and time functions with the "Asia/Manila" time zone.
 
 Important: The live clock and event countdown must operate independently. Updating the Philippine clock must never reset or extend the event countdown.
