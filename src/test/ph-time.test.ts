@@ -7,8 +7,8 @@ describe("ph-time", () => {
     expect(r.time).toBe("05:39:00 AM");
     expect(r.date).toBe("OCTOBER 20, 2026");
   });
-  it("deadline is Dec 10 2026 07:39 PHT", () => {
-    expect(EVENT_DEADLINE_MS).toBe(Date.parse("2026-12-09T23:39:00Z"));
+  it("deadline is Dec 10 2026 08:00 PHT", () => {
+    expect(EVENT_DEADLINE_MS).toBe(Date.parse("2026-12-10T00:00:00Z"));
   });
   it("countdown hits zero at deadline", () => {
     expect(countdownParts(EVENT_DEADLINE_MS).ended).toBe(true);

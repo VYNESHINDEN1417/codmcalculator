@@ -63,7 +63,7 @@ function Countdown() {
   return (
     <div className="mx-auto w-full max-w-lg text-center" aria-label="Event countdown">
       <div className="text-[10px] text-muted-foreground sm:text-xs">
-        EVENT ENDS · DEC 10, 2026 · 7:39 AM PHT
+        EVENT ENDS · DEC 10, 2026 · 8:00 AM PHT
       </div>
       {c.ended && now ? (
         <div className="mt-4 font-mono text-4xl font-bold text-primary">EVENT EXPIRED</div>

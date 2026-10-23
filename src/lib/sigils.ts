@@ -54,7 +54,8 @@ export function calcSigils(inputSigils: number, nowMs: number, deadlineMs = EVEN
   const opportunities = Math.max(0, Math.floor((deadlineMs - nowMs) / WEEK_MS));
   let deadlineProjection = current + opportunities * WEEKLY_SIGILS;
   let planReachable = opportunities >= weeksRequired;
-  if (taskPlan) {
+  // Tasks are optional: an untouched plan falls back to the plain weekly grind.
+  if (taskPlan && taskPlan.selections.some((selection) => selection.length > 0)) {
     let total = current;
     let reached = current >= TARGET_SIGILS;
     weeksRequired = 0;

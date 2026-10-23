@@ -1,5 +1,5 @@
-// Fixed event deadline: Dec 10, 2026 07:39 AM Philippine time (UTC+8).
-export const EVENT_DEADLINE_MS = Date.parse("2026-12-10T07:39:00+08:00");
+// Fixed event deadline: Dec 10, 2026 08:00 AM Philippine time (UTC+8).
+export const EVENT_DEADLINE_MS = Date.parse("2026-12-10T08:00:00+08:00");
 
 export function formatManila(now: Date) {
   const time = new Intl.DateTimeFormat("en-US", {
