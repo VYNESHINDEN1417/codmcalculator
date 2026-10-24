@@ -7,6 +7,6 @@
 - [x] Shorten welcome wait to five seconds and switch accents to orange.
 - [x] Add editable weekly task popup and selection-based projections.
 - [x] Test reward calculations, final-week gate and live calculator flow.
-- [ ] Add timed task explanation, copy/paste and mandatory weekly completion.
-- [ ] Compact home task button, remove progress numbers and clock time, add music mute.
-- [ ] Verify task flow, music toggle and home layout.
+- [x] Add timed task explanation, copy/paste and mandatory weekly completion.
+- [x] Compact home task button, remove progress numbers and clock time, add music mute.
+- [x] Verify task flow, music toggle and home layout.
