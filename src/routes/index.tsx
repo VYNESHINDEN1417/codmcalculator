@@ -42,9 +42,9 @@ function useNow() {
 
 function PhClock() {
   const now = useNow();
-  const { time, date } = now ? formatManila(new Date(now)) : { time: "--:--:-- --", date: "—" };
+  const { date } = now ? formatManila(new Date(now)) : { date: "—" };
   return (
-    <div className="text-center font-mono" aria-label="Current Philippine time">
+    <div className="text-center font-mono" aria-label="Current Philippine date">
       <div className="mt-1 text-[10px] text-muted-foreground">{date}</div>
     </div>
   );

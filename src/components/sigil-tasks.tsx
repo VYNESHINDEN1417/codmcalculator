@@ -113,8 +113,8 @@ export function SigilTasks({ plan, onChange }: { plan: TaskPlan | undefined; onC
                   else { setWeek((value) => value + 1); setFurthestWeek((value) => Math.max(value, week + 1)); }
                 }}>{finalWeek || selections.length === 0 ? "OKAY" : "NEXT"}</Button>
               </div>
-            </>}
             </div>
+            </>}
           </Dialog.Content>
         </Dialog.Portal>
       </Dialog.Root>
