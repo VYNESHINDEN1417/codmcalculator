@@ -179,7 +179,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
                 ? `${res.deadlineProjection} lang ang aabutin ng sigil mo sa Deadline`
                 : `${res.weeksRequired} WEEK${res.weeksRequired === 1 ? "" : "S"} LEFT TO GRIND`}
           </p>
-          <div className="mx-auto mt-2 h-1 w-full bg-muted">
+          <div role="progressbar" aria-label="Sigil progress" aria-valuemin={0} aria-valuemax={TARGET_SIGILS} aria-valuenow={Math.min(res.current, TARGET_SIGILS)} className="mx-auto mt-2 h-1 w-full bg-muted">
             <div className="h-1 bg-primary" style={{ width: `${Math.min(100, (res.current / TARGET_SIGILS) * 100)}%` }} />
           </div>
           <dl className="mt-3 space-y-1 font-mono text-xs sm:text-sm">

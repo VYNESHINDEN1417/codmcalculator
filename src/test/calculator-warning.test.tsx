@@ -15,7 +15,7 @@ describe("calculator warning lifecycle", () => {
     fireEvent.change(screen.getByLabelText("CURRENT SIGILS"), { target: { value: "450" } });
     fireEvent.click(screen.getByRole("checkbox", { name: "50 SIGIL BOOSTER" }));
     fireEvent.click(screen.getByRole("button", { name: "CALCULATE" }));
-    expect(screen.getByText("500 / 500 · 0 to go")).toBeTruthy();
+    expect(screen.getByLabelText("Sigil progress").getAttribute("aria-valuenow")).toBe("500");
     expect(screen.getByLabelText("CURRENT SIGILS")).toHaveValue("450");
   });
 
@@ -25,16 +25,16 @@ describe("calculator warning lifecycle", () => {
     render(<Index />);
     fireEvent.change(screen.getByLabelText("CURRENT SIGILS"), { target: { value: "90" } });
     fireEvent.click(screen.getByRole("button", { name: "CALCULATE" }));
-    expect(screen.getByText("90 / 500 · 410 to go")).toBeTruthy();
+    expect(screen.getByLabelText("Sigil progress").getAttribute("aria-valuenow")).toBe("90");
     expect(screen.queryByRole("alert")).not.toBeNull();
     const booster = screen.getByRole("checkbox", { name: "50 SIGIL BOOSTER" });
     fireEvent.click(booster);
-    expect(screen.getByText("140 / 500 · 360 to go")).toBeTruthy();
+    expect(screen.getByLabelText("Sigil progress").getAttribute("aria-valuenow")).toBe("140");
     expect(screen.queryByRole("alert")).toBeNull();
     fireEvent.click(screen.getByRole("button", { name: "CALCULATE" }));
-    expect(screen.getByText("140 / 500 · 360 to go")).toBeTruthy();
+    expect(screen.getByLabelText("Sigil progress").getAttribute("aria-valuenow")).toBe("140");
     fireEvent.click(booster);
-    expect(screen.getByText("90 / 500 · 410 to go")).toBeTruthy();
+    expect(screen.getByLabelText("Sigil progress").getAttribute("aria-valuenow")).toBe("90");
     expect(screen.queryByRole("alert")).not.toBeNull();
   });
   it("warns for an unreachable 0-sigil result and persists across weapon changes", () => {
