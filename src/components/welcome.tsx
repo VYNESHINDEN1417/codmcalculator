@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { Check, Copy } from "lucide-react";
+import { Check, Copy, Volume2, VolumeX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import music from "@/assets/honkai-music.mp3";
 
@@ -13,6 +13,7 @@ export function Welcome() {
   const [copied, setCopied] = useState(false);
   const [copyError, setCopyError] = useState(false);
   const [playError, setPlayError] = useState(false);
+  const [muted, setMuted] = useState(false);
   const audio = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
@@ -48,7 +49,10 @@ export function Welcome() {
 
   return (
     <>
-      <audio ref={audio} src={music} loop preload="auto" />
+      <audio ref={audio} src={music} loop muted={muted} preload="auto" />
+      {!open && <Button variant="ghost" size="icon" aria-label={muted ? "Unmute music" : "Mute music"} aria-pressed={muted} title={muted ? "Unmute music" : "Mute music"} onClick={() => setMuted((value) => !value)} className="fixed bottom-3 right-3 z-40 bg-background/80 text-foreground">
+        {muted ? <VolumeX className="size-5" /> : <Volume2 className="size-5" />}
+      </Button>}
       <DialogPrimitive.Root open={open}>
         <DialogPrimitive.Portal>
           <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-background/70 backdrop-blur-md" />
