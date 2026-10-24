@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { Index } from "@/routes/index";
 import { calcSigils } from "@/lib/sigils";
@@ -6,6 +6,12 @@ import { remainingTaskWeeks, SIGIL_TASKS, taskReward, WEEK_MS } from "@/lib/sigi
 import { EVENT_DEADLINE_MS } from "@/lib/ph-time";
 
 afterEach(() => { cleanup(); vi.useRealTimers(); });
+
+function enterTasks() {
+  fireEvent.click(screen.getByRole("button", { name: /SIGIL TASKS/ }));
+  act(() => vi.advanceTimersByTime(20000));
+  fireEvent.click(within(screen.getByRole("dialog")).getByRole("button", { name: "OKAY" }));
+}
 
 describe("weekly task rules", () => {
   it("uses every supplied reward, totaling 58 for all 15 tasks", () => {
@@ -33,12 +39,22 @@ describe("weekly task rules", () => {
     expect(calcSigils(450, startsAtMs, undefined, false, { startsAtMs, selections: [[], []] })).toMatchObject({ deadlineProjection: 566, status: "ON TRACK" });
   });
 
-  it("lets the user close the task dialog without answering anything", () => {
+  it("withholds checkboxes for 20 seconds and prevents canceling the task flow", () => {
     vi.useFakeTimers();
     vi.setSystemTime(EVENT_DEADLINE_MS - 2 * WEEK_MS);
     render(<Index />);
     fireEvent.click(screen.getByRole("button", { name: /SIGIL TASKS/ }));
     fireEvent.keyDown(screen.getByRole("dialog"), { key: "Escape" });
+    act(() => vi.advanceTimersByTime(19999));
+    expect(within(screen.getByRole("dialog")).queryByRole("button", { name: "OKAY" })).toBeNull();
+    expect(within(screen.getByRole("dialog")).queryAllByRole("checkbox")).toHaveLength(0);
+    act(() => vi.advanceTimersByTime(1));
+    fireEvent.click(within(screen.getByRole("dialog")).getByRole("button", { name: "OKAY" }));
+    fireEvent.keyDown(screen.getByRole("dialog"), { key: "Escape" });
+    expect(screen.getByRole("dialog")).toBeVisible();
+    expect(within(screen.getByRole("dialog")).queryByRole("button", { name: "OKAY" })).toBeNull();
+    fireEvent.click(within(screen.getByRole("dialog")).getByRole("button", { name: "NEXT" }));
+    fireEvent.click(within(screen.getByRole("dialog")).getByRole("button", { name: "OKAY" }));
     expect(screen.queryByRole("dialog")).toBeNull();
   });
 
@@ -53,7 +69,7 @@ describe("weekly task rules", () => {
     vi.setSystemTime(EVENT_DEADLINE_MS - 2 * WEEK_MS);
     render(<Index />);
     fireEvent.change(screen.getByLabelText("CURRENT SIGILS"), { target: { value: "490" } });
-    fireEvent.click(screen.getByRole("button", { name: /SIGIL TASKS/ }));
+    enterTasks();
     const dialog = screen.getByRole("dialog");
     expect(within(dialog).queryByRole("button", { name: "OKAY" })).toBeNull();
     fireEvent.click(within(dialog).getByRole("checkbox", { name: "Play Matches for a total of 400 minutes" }));
@@ -62,10 +78,34 @@ describe("weekly task rules", () => {
     fireEvent.click(within(dialog).getByRole("checkbox", { name: "Log in daily" }));
     expect(screen.getByText("SIGILS MO SA DEC 10: 505")).toBeTruthy();
     fireEvent.click(within(dialog).getByRole("button", { name: "OKAY" }));
-    fireEvent.click(screen.getByRole("button", { name: /SIGIL TASKS/ }));
+    enterTasks();
     const reopened = screen.getByRole("dialog");
     expect(within(reopened).getByRole("checkbox", { name: "Play Matches for a total of 400 minutes" })).toBeChecked();
     fireEvent.click(within(reopened).getByRole("checkbox", { name: "Play Matches for a total of 400 minutes" }));
     expect(screen.getByText("SIGILS MO SA DEC 10: 497")).toBeTruthy();
+  });
+
+  it("copies a week's selections and pastes them into each subsequent week without sharing edits", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(EVENT_DEADLINE_MS - 3 * WEEK_MS);
+    render(<Index />);
+    fireEvent.change(screen.getByLabelText("CURRENT SIGILS"), { target: { value: "490" } });
+    enterTasks();
+    const dialog = within(screen.getByRole("dialog"));
+    const task = () => dialog.getByRole("checkbox", { name: "Play Matches for a total of 400 minutes" });
+    fireEvent.click(task());
+    fireEvent.click(dialog.getByRole("button", { name: "COPY" }));
+    fireEvent.click(dialog.getByRole("button", { name: "NEXT" }));
+    expect(task()).not.toBeChecked();
+    fireEvent.click(dialog.getByRole("button", { name: "PASTE" }));
+    expect(task()).toBeChecked();
+    expect(screen.getByText("SIGILS MO SA DEC 10: 506")).toBeTruthy();
+    fireEvent.click(task());
+    fireEvent.click(dialog.getByRole("button", { name: "NEXT" }));
+    fireEvent.click(dialog.getByRole("button", { name: "PASTE" }));
+    expect(task()).toBeChecked();
+    expect(screen.getByText("SIGILS MO SA DEC 10: 506")).toBeTruthy();
+    fireEvent.click(dialog.getByRole("button", { name: "OKAY" }));
+    expect(screen.queryByRole("dialog")).toBeNull();
   });
 });

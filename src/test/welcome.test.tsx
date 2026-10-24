@@ -38,4 +38,19 @@ describe("welcome entry rules", () => {
     expect(container.querySelector("audio")?.loop).toBe(true);
     expect(screen.queryByRole("dialog")).toBeNull();
   });
+
+  it("mutes and unmutes music without restarting or pausing playback", async () => {
+    vi.useFakeTimers();
+    const play = vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue(undefined);
+    const pause = vi.spyOn(HTMLMediaElement.prototype, "pause").mockImplementation(() => {});
+    const { container } = render(<Welcome />);
+    act(() => vi.advanceTimersByTime(5000));
+    await act(async () => fireEvent.click(screen.getByRole("button", { name: "OKAY" })));
+    fireEvent.click(screen.getByRole("button", { name: "Mute music" }));
+    expect(container.querySelector("audio")?.muted).toBe(true);
+    fireEvent.click(screen.getByRole("button", { name: "Unmute music" }));
+    expect(container.querySelector("audio")?.muted).toBe(false);
+    expect(play).toHaveBeenCalledTimes(1);
+    expect(pause).not.toHaveBeenCalled();
+  });
 });
