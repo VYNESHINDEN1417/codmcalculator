@@ -45,7 +45,6 @@ function PhClock() {
   const { time, date } = now ? formatManila(new Date(now)) : { time: "--:--:-- --", date: "—" };
   return (
     <div className="text-center font-mono" aria-label="Current Philippine time">
-      <div className="text-sm tabular-nums text-foreground">{time}</div>
       <div className="mt-1 text-[10px] text-muted-foreground">{date}</div>
     </div>
   );
@@ -179,9 +178,6 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
               : res.status === "NOT ON TRACK"
                 ? `${res.deadlineProjection} lang ang aabutin ng sigil mo sa Deadline`
                 : `${res.weeksRequired} WEEK${res.weeksRequired === 1 ? "" : "S"} LEFT TO GRIND`}
-          </p>
-          <p className="mt-1 font-mono text-xs text-muted-foreground">
-            {res.current} / {TARGET_SIGILS} · {res.remaining} to go
           </p>
           <div className="mx-auto mt-2 h-1 w-full bg-muted">
             <div className="h-1 bg-primary" style={{ width: `${Math.min(100, (res.current / TARGET_SIGILS) * 100)}%` }} />
