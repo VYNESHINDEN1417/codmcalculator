@@ -4,6 +4,14 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@font-face {
+  font-family: "Heavitas";
+  src: url("./assets/heavitas.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
 /*
  * Design system definition.
  *
@@ -19,6 +27,8 @@
  */
 
 @theme inline {
+  --font-sans: "Heavitas", sans-serif;
+  --font-mono: "Heavitas", sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -147,6 +157,8 @@
   }
 
   body {
+    font-family: var(--font-sans);
+    letter-spacing: 0;
     background-color: var(--color-background);
     color: var(--color-foreground);
   }
@@ -173,6 +185,11 @@
 
 .welcome-neon {
   text-shadow: var(--welcome-glow);
+}
+
+.copy-confirmed {
+  transform: scale(0.95);
+  box-shadow: var(--welcome-glow);
 }
 
 .weapon-orbit {
