@@ -10,6 +10,6 @@
 - [x] Add timed task explanation, copy/paste and mandatory weekly completion.
 - [x] Compact home task button, remove progress numbers and clock time, add music mute.
 - [x] Verify task flow, music toggle and home layout.
-- [ ] Update task introduction, immediate entry, green copy/paste feedback and centered week counter.
-- [ ] Apply uploaded Heavitas font throughout and add task help popup.
-- [ ] Verify task interactions and desktop/mobile layout.
+- [x] Update task introduction, immediate entry, green copy/paste feedback and centered week counter.
+- [x] Apply uploaded Heavitas font throughout and add task help popup.
+- [x] Verify task interactions and desktop/mobile layout.
