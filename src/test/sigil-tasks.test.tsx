@@ -9,7 +9,6 @@ afterEach(() => { cleanup(); vi.useRealTimers(); });
 
 function enterTasks() {
   fireEvent.click(screen.getByRole("button", { name: /SIGIL TASKS/ }));
-  act(() => vi.advanceTimersByTime(20000));
   fireEvent.click(within(screen.getByRole("dialog")).getByRole("button", { name: "OKAY" }));
 }
 
@@ -39,16 +38,14 @@ describe("weekly task rules", () => {
     expect(calcSigils(450, startsAtMs, undefined, false, { startsAtMs, selections: [[], []] })).toMatchObject({ deadlineProjection: 566, status: "ON TRACK" });
   });
 
-  it("withholds checkboxes for 20 seconds and prevents canceling the task flow", () => {
+  it("allows immediate entry and prevents canceling the task flow", () => {
     vi.useFakeTimers();
     vi.setSystemTime(EVENT_DEADLINE_MS - 2 * WEEK_MS);
     render(<Index />);
     fireEvent.click(screen.getByRole("button", { name: /SIGIL TASKS/ }));
     fireEvent.keyDown(screen.getByRole("dialog"), { key: "Escape" });
-    act(() => vi.advanceTimersByTime(19999));
-    expect(within(screen.getByRole("dialog")).queryByRole("button", { name: "OKAY" })).toBeNull();
+    expect(within(screen.getByRole("dialog")).getByRole("button", { name: "OKAY" })).toBeEnabled();
     expect(within(screen.getByRole("dialog")).queryAllByRole("checkbox")).toHaveLength(0);
-    act(() => vi.advanceTimersByTime(1));
     fireEvent.click(within(screen.getByRole("dialog")).getByRole("button", { name: "OKAY" }));
     fireEvent.keyDown(screen.getByRole("dialog"), { key: "Escape" });
     expect(screen.getByRole("dialog")).toBeVisible();
@@ -56,6 +53,17 @@ describe("weekly task rules", () => {
     fireEvent.click(within(screen.getByRole("dialog")).getByRole("button", { name: "NEXT" }));
     fireEvent.click(within(screen.getByRole("dialog")).getByRole("button", { name: "OKAY" }));
     expect(screen.queryByRole("dialog")).toBeNull();
+  });
+
+  it("shows the introduction again on every task entry", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(EVENT_DEADLINE_MS - WEEK_MS);
+    render(<Index />);
+    enterTasks();
+    fireEvent.click(within(screen.getByRole("dialog")).getByRole("button", { name: "OKAY" }));
+    fireEvent.click(screen.getByRole("button", { name: /SIGIL TASKS/ }));
+    expect(within(screen.getByRole("dialog")).queryAllByRole("checkbox")).toHaveLength(0);
+    expect(within(screen.getByRole("dialog")).getByRole("button", { name: "OKAY" })).toBeEnabled();
   });
 
   it("ignores expired task weeks and rewards after the deadline", () => {

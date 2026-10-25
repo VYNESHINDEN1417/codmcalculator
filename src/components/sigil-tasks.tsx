@@ -3,14 +3,13 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { ArrowLeft, Copy, ClipboardPaste, ListChecks } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { SigilTaskHelp } from "@/components/sigil-task-help";
 import { remainingTaskWeeks, SIGIL_TASKS, taskReward, type TaskPlan } from "@/lib/sigil-tasks";
-
-export const TASK_INTRO_WAIT_SECONDS = 20;
 
 export function SigilTasks({ plan, onChange }: { plan: TaskPlan | undefined; onChange: (plan: TaskPlan) => void }) {
   const [open, setOpen] = useState(false);
   const [intro, setIntro] = useState(true);
-  const [remaining, setRemaining] = useState(TASK_INTRO_WAIT_SECONDS);
+  const [confirmation, setConfirmation] = useState<"COPIED" | "PASTED" | null>(null);
   const [copied, setCopied] = useState<{ week: number; selection: number[] } | null>(null);
   const [week, setWeek] = useState(0);
   const [furthestWeek, setFurthestWeek] = useState(0);
@@ -20,15 +19,10 @@ export function SigilTasks({ plan, onChange }: { plan: TaskPlan | undefined; onC
   const finalWeek = week === selections.length - 1;
 
   useEffect(() => {
-    if (!open || !intro) return;
-    const readyAt = Date.now() + TASK_INTRO_WAIT_SECONDS * 1000;
-    const timer = setInterval(() => {
-      const seconds = Math.max(0, Math.ceil((readyAt - Date.now()) / 1000));
-      setRemaining(seconds);
-      if (seconds === 0) clearInterval(timer);
-    }, 250);
-    return () => clearInterval(timer);
-  }, [open, intro]);
+    if (!confirmation) return;
+    const timer = setTimeout(() => setConfirmation(null), 1000);
+    return () => clearTimeout(timer);
+  }, [confirmation]);
 
   function openTasks() {
     if (!plan) {
@@ -38,18 +32,21 @@ export function SigilTasks({ plan, onChange }: { plan: TaskPlan | undefined; onC
     setWeek(0);
     setFurthestWeek(0);
     setIntro(true);
-    setRemaining(TASK_INTRO_WAIT_SECONDS);
+    setConfirmation(null);
     setCopied(null);
     setOpen(true);
   }
 
   return (
     <>
-      <Button onClick={openTasks} className="mt-2 h-8 max-w-full gap-2 font-mono text-xs font-bold">
+      <div className="mt-2 flex items-center justify-center gap-1">
+      <Button onClick={openTasks} className="h-8 min-w-0 gap-2 px-2 font-mono text-[10px] font-bold sm:text-xs">
         <ListChecks className="size-4" /> SIGIL TASKS
         <span className="font-normal text-foreground">OPTIONAL LANG</span>
         {plan && <span className="ml-auto tabular-nums">+{total}</span>}
       </Button>
+      <SigilTaskHelp />
+      </div>
       <Dialog.Root open={open}>
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 z-50 bg-background/80 backdrop-blur-md" />
@@ -65,17 +62,17 @@ export function SigilTasks({ plan, onChange }: { plan: TaskPlan | undefined; onC
                 <div className="mt-4 space-y-4 text-sm leading-relaxed">
                   <p>Dito mo pwede piliin ang mga tasks na kaya mong gawin, ang point nito is para ma calculate yung mismong mga tasks na ginagawa mo, mas accurate ang projection dahil mismong mga tasks na kaya mo lang gawin ang i ca-calculate.</p>
                   <p>Kasi kung type sigil ka lang tapos calculate, complete tasks ang projected sayo ng website. Check mo lang ang tasks na kaya mo gawin, par</p>
-                  <p>Click mo copy paste para paste paste na lang sa ibang week.</p>
+                  <p>Click mo copy paste para paste paste na lang sa ibang week. Pag katapos mo lagyan sagot lahat ng weeks, type mo lang current sigils mo par tapos calculate ka na</p>
                 </div>
               </Dialog.Description>
               <div className="mt-5 flex h-10 items-center justify-center">
-                {remaining > 0 ? <p role="timer" className="text-xl font-bold tabular-nums text-primary">{remaining}s</p> : <Button className="w-full font-bold" onClick={() => setIntro(false)}>OKAY</Button>}
+                <Button className="w-full font-bold" onClick={() => setIntro(false)}>OKAY</Button>
               </div>
             </div> : <>
             <div className="shrink-0 border-b border-border px-4 py-2 sm:px-6">
               <Dialog.Title className="font-mono text-sm font-bold text-primary">Check mo ang task na kaya mong gawin weekly, par</Dialog.Title>
               <Dialog.Description className="sr-only">Optional weekly sigil task selections until December 10, 2026.</Dialog.Description>
-              {plan && selections.length > 0 && <div className="mt-1 font-mono text-xs">
+              {plan && selections.length > 0 && <div className="mt-2 text-center font-mono text-xl sm:text-2xl">
                 <span className="font-bold">WEEK {week + 1} / {selections.length}</span>
               </div>}
               {furthestWeek > 0 && <div className="mt-2 flex flex-wrap gap-1" aria-label="Answered weeks">
@@ -100,17 +97,19 @@ export function SigilTasks({ plan, onChange }: { plan: TaskPlan | undefined; onC
               <div className="mb-2 flex justify-between gap-2 font-mono text-xs"><span>THIS WEEK <strong className="text-primary">+{taskReward(selected)}</strong></span><span>TOTAL <strong className="text-primary">+{total}</strong></span></div>
               <div className="flex gap-2">
                 {week > 0 && <Button variant="outline" size="icon" aria-label="Previous week" onClick={() => setWeek((value) => value - 1)}><ArrowLeft className="size-4" /></Button>}
-                 {selections.length > 0 && <Button variant="outline" className="w-28 shrink-0 gap-2 font-mono text-xs font-bold" onClick={() => {
+                  {selections.length > 0 && <Button variant="live" aria-label={copied && copied.week !== week ? "PASTE" : "COPY"} className={`w-28 shrink-0 gap-2 font-mono text-xs font-bold ${confirmation ? "copy-confirmed" : ""}`} onClick={() => {
                    if (copied && copied.week !== week) {
                      if (!plan) return;
                      onChange({ ...plan, selections: selections.map((value, i) => i === week ? [...copied.selection] : value) });
-                   } else setCopied({ week, selection: [...selected] });
+                      setConfirmation("PASTED");
+                    } else { setCopied({ week, selection: [...selected] }); setConfirmation("COPIED"); }
                  }}>
-                   {copied && copied.week !== week ? <><ClipboardPaste className="size-4" /> PASTE</> : <><Copy className="size-4" /> COPY</>}
+                    {copied && copied.week !== week ? <ClipboardPaste className="size-4" /> : <Copy className="size-4" />}
+                    <span aria-live="polite">{confirmation ?? (copied && copied.week !== week ? "PASTE" : "COPY")}</span>
                  </Button>}
                  <Button className="min-w-0 flex-1 font-mono font-bold" onClick={() => {
                    if ((finalWeek && furthestWeek >= selections.length - 1) || selections.length === 0) setOpen(false);
-                  else { setWeek((value) => value + 1); setFurthestWeek((value) => Math.max(value, week + 1)); }
+                   else { setConfirmation(null); setWeek((value) => value + 1); setFurthestWeek((value) => Math.max(value, week + 1)); }
                 }}>{finalWeek || selections.length === 0 ? "OKAY" : "NEXT"}</Button>
               </div>
             </div>
