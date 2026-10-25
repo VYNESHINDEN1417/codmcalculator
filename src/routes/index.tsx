@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { BoosterHelp } from "@/components/booster-help";
 import { useEffect, useState, type CSSProperties } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -130,7 +131,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
           {acquisitionPhrase(res.projectedAtMs)}
         </p>
       )}
-      <div className="mt-4 flex items-center justify-center gap-2 font-mono text-xs font-bold text-foreground">
+      <div className="mt-4 flex items-center justify-center gap-1 font-mono text-xs font-bold text-foreground">
         <Checkbox
           id="sigil-booster"
           checked={booster}
@@ -141,6 +142,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
           }}
         />
         <label htmlFor="sigil-booster" className="cursor-pointer">50 SIGIL BOOSTER</label>
+        <BoosterHelp />
       </div>
       <SigilTasks plan={taskPlan} onChange={(plan) => {
         setTaskPlan(plan);
@@ -165,7 +167,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
       />
       <Button
         onClick={() => calculate()}
-        className="mt-3 h-auto w-full rounded-full bg-primary py-2 font-mono font-bold tracking-[0.3em] text-primary-foreground hover:opacity-90"
+        className="calculate-btn mt-3 h-auto w-full rounded-full bg-primary py-2 font-mono font-bold tracking-[0.3em] text-primary-foreground hover:opacity-90"
       >
         CALCULATE
       </Button>
