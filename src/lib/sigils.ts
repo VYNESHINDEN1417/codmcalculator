@@ -3,7 +3,7 @@ import { SIGIL_TASKS, taskReward, type TaskPlan } from "./sigil-tasks";
 
 export const TARGET_SIGILS = 500;
 export const WEEKLY_SIGILS = SIGIL_TASKS.reduce((total, task) => total + task.sigils, 0);
-export const BOOSTER_SIGILS = 50;
+export const BOOSTER_SIGILS = 70;
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 
 export function acquisitionWeek(projectedAtMs: number) {

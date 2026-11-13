@@ -131,9 +131,19 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
           {acquisitionPhrase(res.projectedAtMs)}
         </p>
       )}
-      <div className="mt-4 flex items-center justify-center gap-1 font-mono text-xs font-bold text-foreground">
+      <div className="mt-3 flex items-center justify-center gap-1 font-mono text-xs font-bold text-muted-foreground">
         <Checkbox
           id="sigil-booster"
+          checked={false}
+          disabled
+          className="border-muted-foreground"
+        />
+        <label htmlFor="sigil-booster" className="cursor-not-allowed">50 SIGIL BOOSTER</label>
+        <BoosterHelp disabled />
+      </div>
+      <div className="mt-1 flex items-center justify-center gap-1 font-mono text-xs font-bold text-foreground">
+        <Checkbox
+          id="new-sigil-booster"
           checked={booster}
           onCheckedChange={(checked) => {
             const enabled = checked === true;
@@ -141,8 +151,8 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
             if (res) calculate(enabled);
           }}
         />
-        <label htmlFor="sigil-booster" className="cursor-pointer">50 SIGIL BOOSTER</label>
-        <BoosterHelp />
+        <label htmlFor="new-sigil-booster" className="cursor-pointer">New 70 free booster sigils</label>
+        <BoosterHelp newBooster />
       </div>
       <SigilTasks plan={taskPlan} onChange={(plan) => {
         setTaskPlan(plan);
