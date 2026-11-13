@@ -13,5 +13,5 @@
 - [x] Update task introduction, immediate entry, green copy/paste feedback and centered week counter.
 - [x] Apply uploaded Heavitas font throughout and add task help popup.
 - [x] Verify task interactions and desktop/mobile layout.
-- [ ] Shorten welcome wait to two seconds and show PAG BABAGO with the supplied login-event image.
-- [ ] Remove Honkai match rewards from checklist and projections; verify entry and calculation flows.
+- [x] Shorten welcome wait to two seconds and show PAG BABAGO with the supplied login-event image.
+- [x] Remove Honkai match rewards from checklist and projections; verify entry and calculation flows.
