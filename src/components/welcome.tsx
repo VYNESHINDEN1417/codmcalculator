@@ -50,10 +50,16 @@ export function Welcome() {
     }).catch(() => setPlayError(true));
   }
 
+  function toggleMusicMute() {
+    const nextMuted = !muted;
+    if (audio.current) audio.current.muted = nextMuted;
+    setMuted(nextMuted);
+  }
+
   return (
     <>
       <audio ref={audio} src={music} loop muted={muted} preload="auto" />
-      {!open && <Button variant="ghost" size="icon" aria-label={muted ? "Unmute music" : "Mute music"} aria-pressed={muted} title={muted ? "Unmute music" : "Mute music"} onClick={() => setMuted((value) => !value)} className="fixed bottom-3 right-3 z-40 size-16 bg-background/80 text-foreground [&_svg]:size-9">
+      {!open && <Button variant="ghost" size="icon" aria-label={muted ? "Unmute music" : "Mute music"} aria-pressed={muted} title={muted ? "Unmute music" : "Mute music"} onClick={toggleMusicMute} className="fixed bottom-3 right-3 z-40 size-14 bg-background/80 text-foreground [&_svg]:size-8">
         {muted ? <VolumeX /> : <Volume2 />}
       </Button>}
       <DialogPrimitive.Root open={open}>
