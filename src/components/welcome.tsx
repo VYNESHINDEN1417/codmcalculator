@@ -53,8 +53,8 @@ export function Welcome() {
   return (
     <>
       <audio ref={audio} src={music} loop muted={muted} preload="auto" />
-      {!open && <Button variant="ghost" size="icon" aria-label={muted ? "Unmute music" : "Mute music"} aria-pressed={muted} title={muted ? "Unmute music" : "Mute music"} onClick={() => setMuted((value) => !value)} className="fixed bottom-3 right-3 z-40 bg-background/80 text-foreground">
-        {muted ? <VolumeX className="size-5" /> : <Volume2 className="size-5" />}
+      {!open && <Button variant="ghost" size="icon" aria-label={muted ? "Unmute music" : "Mute music"} aria-pressed={muted} title={muted ? "Unmute music" : "Mute music"} onClick={() => setMuted((value) => !value)} className="fixed bottom-3 right-3 z-40 size-16 bg-background/80 text-foreground [&_svg]:size-9">
+        {muted ? <VolumeX /> : <Volume2 />}
       </Button>}
       <DialogPrimitive.Root open={open}>
         <DialogPrimitive.Portal>
