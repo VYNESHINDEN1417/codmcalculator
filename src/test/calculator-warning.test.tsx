@@ -8,15 +8,25 @@ afterEach(() => {
 });
 
 describe("calculator warning lifecycle", () => {
-  it("uses the 50-sigil booster selected before calculation", () => {
+  it("disables the old 50-sigil booster so it cannot add rewards", () => {
+    render(<Index />);
+    const oldBooster = screen.getByRole("checkbox", { name: "50 SIGIL BOOSTER" });
+    expect(oldBooster).toBeDisabled();
+    fireEvent.click(oldBooster);
+    fireEvent.change(screen.getByLabelText("CURRENT SIGILS"), { target: { value: "300" } });
+    fireEvent.click(screen.getByRole("button", { name: "CALCULATE" }));
+    expect(oldBooster).not.toBeChecked();
+    expect(screen.getByLabelText("Sigil progress").getAttribute("aria-valuenow")).toBe("300");
+  });
+  it("uses the 70-sigil booster selected before calculation", () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date("2026-10-19T22:26:00Z"));
     render(<Index />);
-    fireEvent.change(screen.getByLabelText("CURRENT SIGILS"), { target: { value: "450" } });
-    fireEvent.click(screen.getByRole("checkbox", { name: "50 SIGIL BOOSTER" }));
+    fireEvent.change(screen.getByLabelText("CURRENT SIGILS"), { target: { value: "430" } });
+    fireEvent.click(screen.getByRole("checkbox", { name: "New 70 free booster sigils" }));
     fireEvent.click(screen.getByRole("button", { name: "CALCULATE" }));
     expect(screen.getByLabelText("Sigil progress").getAttribute("aria-valuenow")).toBe("500");
-    expect(screen.getByLabelText("CURRENT SIGILS")).toHaveValue("450");
+    expect(screen.getByLabelText("CURRENT SIGILS")).toHaveValue("430");
   });
 
   it("recalculates after submission without accumulating the booster", () => {
@@ -27,12 +37,12 @@ describe("calculator warning lifecycle", () => {
     fireEvent.click(screen.getByRole("button", { name: "CALCULATE" }));
     expect(screen.getByLabelText("Sigil progress").getAttribute("aria-valuenow")).toBe("100");
     expect(screen.queryByRole("alert")).not.toBeNull();
-    const booster = screen.getByRole("checkbox", { name: "50 SIGIL BOOSTER" });
+    const booster = screen.getByRole("checkbox", { name: "New 70 free booster sigils" });
     fireEvent.click(booster);
-    expect(screen.getByLabelText("Sigil progress").getAttribute("aria-valuenow")).toBe("150");
+    expect(screen.getByLabelText("Sigil progress").getAttribute("aria-valuenow")).toBe("170");
     expect(screen.queryByRole("alert")).toBeNull();
     fireEvent.click(screen.getByRole("button", { name: "CALCULATE" }));
-    expect(screen.getByLabelText("Sigil progress").getAttribute("aria-valuenow")).toBe("150");
+    expect(screen.getByLabelText("Sigil progress").getAttribute("aria-valuenow")).toBe("170");
     fireEvent.click(booster);
     expect(screen.getByLabelText("Sigil progress").getAttribute("aria-valuenow")).toBe("100");
     expect(screen.queryByRole("alert")).not.toBeNull();

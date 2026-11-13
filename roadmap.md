@@ -15,3 +15,5 @@
 - [x] Verify task interactions and desktop/mobile layout.
 - [x] Shorten welcome wait to two seconds and show PAG BABAGO with the supplied login-event image.
 - [x] Remove Honkai match rewards from checklist and projections; verify entry and calculation flows.
+- [x] Disable the old booster, add the 70-sigil booster and image help, and gate PAG BABAGO for five seconds.
+- [x] Verify booster recalculation, popup timing, and desktop/mobile layouts.
