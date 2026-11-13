@@ -19,3 +19,5 @@
 - Apply the optional booster once in the calculator utility; toggling it recalculates submitted results from the unchanged input so projections, progress, and warnings stay synchronized.
 - Keep all media assets (gun images and any future images, fonts, or media) as real files inside the repo under `src/assets/`, imported directly by Vite — never re-externalize them to CDN `.asset.json` pointers — so the synced repository serves them when deployed to Vercel.
 - Keep the entry popup, looping audio and mute control in the root layout so calculator actions and route navigation cannot restart playback; start audio only from the dismissal gesture and mute using the audio muted property without pausing.
+- Render the event announcement as a separate dialog sequenced by the root welcome component, so dismissing announcements cannot restart music.
+- Derive the default weekly reward from the available task catalog so removed tasks cannot remain in full-grind projections.

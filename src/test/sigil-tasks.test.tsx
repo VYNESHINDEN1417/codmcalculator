@@ -13,10 +13,17 @@ function enterTasks() {
 }
 
 describe("weekly task rules", () => {
-  it("uses every supplied reward, totaling 58 for all 15 tasks", () => {
-    expect(SIGIL_TASKS.map((task) => task.sigils)).toEqual([8, 2, 2, 2, 2, 3, 5, 5, 5, 5, 5, 2, 2, 3, 7]);
-    expect(taskReward(SIGIL_TASKS.map((_, index) => index))).toBe(58);
-    expect(taskReward([0, 0, 14])).toBe(15);
+  it("uses every supplied reward, totaling 54 for the 13 remaining tasks", () => {
+    expect(SIGIL_TASKS.map((task) => task.sigils)).toEqual([8, 2, 2, 3, 5, 5, 5, 5, 5, 2, 2, 3, 7]);
+    expect(taskReward(SIGIL_TASKS.map((_, index) => index))).toBe(54);
+    expect(taskReward([0, 0, 12])).toBe(15);
+  });
+
+  it("excludes both removed Honkai match rewards from full-grind calculations", () => {
+    const startsAtMs = EVENT_DEADLINE_MS - WEEK_MS;
+    expect(SIGIL_TASKS.filter((task) => task.name.includes("Honkai"))).toHaveLength(0);
+    expect(calcSigils(0, startsAtMs).deadlineProjection).toBe(54);
+    expect(calcSigils(0, startsAtMs, undefined, false, { startsAtMs, selections: [SIGIL_TASKS.map((_, index) => index)] }).deadlineProjection).toBe(54);
   });
 
   it("only allows complete seven-day opportunities before the deadline", () => {
@@ -27,7 +34,7 @@ describe("weekly task rules", () => {
 
   it("adds chosen rewards per week, finds the acquisition week, and adds the booster once", () => {
     const startsAtMs = EVENT_DEADLINE_MS - 3 * WEEK_MS;
-    const plan = { startsAtMs, selections: [[0], [14], [1]] };
+    const plan = { startsAtMs, selections: [[0], [12], [1]] };
     expect(calcSigils(490, startsAtMs, undefined, false, plan)).toMatchObject({ deadlineProjection: 507, projected: 505, weeksRequired: 2, projectedAtMs: startsAtMs + 2 * WEEK_MS, status: "ON TRACK" });
     expect(calcSigils(440, startsAtMs, undefined, true, plan).deadlineProjection).toBe(507);
     expect(calcSigils(440, startsAtMs, undefined, false, plan).status).toBe("NOT ON TRACK");
@@ -35,7 +42,7 @@ describe("weekly task rules", () => {
 
   it("falls back to the weekly grind when no tasks are selected, since tasks are optional", () => {
     const startsAtMs = EVENT_DEADLINE_MS - 2 * WEEK_MS;
-    expect(calcSigils(450, startsAtMs, undefined, false, { startsAtMs, selections: [[], []] })).toMatchObject({ deadlineProjection: 566, status: "ON TRACK" });
+    expect(calcSigils(450, startsAtMs, undefined, false, { startsAtMs, selections: [[], []] })).toMatchObject({ deadlineProjection: 558, status: "ON TRACK" });
   });
 
   it("allows immediate entry and prevents canceling the task flow", () => {
@@ -68,7 +75,7 @@ describe("weekly task rules", () => {
 
   it("ignores expired task weeks and rewards after the deadline", () => {
     const startsAtMs = EVENT_DEADLINE_MS - 2 * WEEK_MS;
-    const plan = { startsAtMs, selections: [[0], [14], [0]] };
+    const plan = { startsAtMs, selections: [[0], [12], [0]] };
     expect(calcSigils(100, startsAtMs + WEEK_MS, undefined, false, plan).deadlineProjection).toBe(107);
   });
 

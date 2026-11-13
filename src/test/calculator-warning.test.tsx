@@ -23,18 +23,18 @@ describe("calculator warning lifecycle", () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date("2026-10-19T22:26:00Z"));
     render(<Index />);
-    fireEvent.change(screen.getByLabelText("CURRENT SIGILS"), { target: { value: "90" } });
+    fireEvent.change(screen.getByLabelText("CURRENT SIGILS"), { target: { value: "100" } });
     fireEvent.click(screen.getByRole("button", { name: "CALCULATE" }));
-    expect(screen.getByLabelText("Sigil progress").getAttribute("aria-valuenow")).toBe("90");
+    expect(screen.getByLabelText("Sigil progress").getAttribute("aria-valuenow")).toBe("100");
     expect(screen.queryByRole("alert")).not.toBeNull();
     const booster = screen.getByRole("checkbox", { name: "50 SIGIL BOOSTER" });
     fireEvent.click(booster);
-    expect(screen.getByLabelText("Sigil progress").getAttribute("aria-valuenow")).toBe("140");
+    expect(screen.getByLabelText("Sigil progress").getAttribute("aria-valuenow")).toBe("150");
     expect(screen.queryByRole("alert")).toBeNull();
     fireEvent.click(screen.getByRole("button", { name: "CALCULATE" }));
-    expect(screen.getByLabelText("Sigil progress").getAttribute("aria-valuenow")).toBe("140");
+    expect(screen.getByLabelText("Sigil progress").getAttribute("aria-valuenow")).toBe("150");
     fireEvent.click(booster);
-    expect(screen.getByLabelText("Sigil progress").getAttribute("aria-valuenow")).toBe("90");
+    expect(screen.getByLabelText("Sigil progress").getAttribute("aria-valuenow")).toBe("100");
     expect(screen.queryByRole("alert")).not.toBeNull();
   });
   it("warns for an unreachable 0-sigil result and persists across weapon changes", () => {
@@ -68,7 +68,7 @@ describe("calculator warning lifecycle", () => {
     render(<Index />);
     fireEvent.change(screen.getByLabelText("CURRENT SIGILS"), { target: { value: "0" } });
     fireEvent.click(screen.getByRole("button", { name: "CALCULATE" }));
-    expect(screen.getByText("406 lang ang aabutin ng sigil mo sa Deadline")).toBeTruthy();
+    expect(screen.getByText("378 lang ang aabutin ng sigil mo sa Deadline")).toBeTruthy();
     expect(screen.queryByText(/WEEKS LEFT TO GRIND/)).toBeNull();
   });
 
@@ -100,7 +100,7 @@ describe("calculator warning lifecycle", () => {
     render(<Index />);
     fireEvent.change(screen.getByLabelText("CURRENT SIGILS"), { target: { value: "0" } });
     fireEvent.click(screen.getByRole("button", { name: "CALCULATE" }));
-    expect(screen.getByText("SIGILS MO SA DEC 10: 406")).toBeTruthy();
+    expect(screen.getByText("SIGILS MO SA DEC 10: 378")).toBeTruthy();
     expect(screen.queryByText(/Projection kung kailan/)).toBeNull();
   });
 });

@@ -3,12 +3,14 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { Check, Copy, Volume2, VolumeX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import music from "@/assets/honkai-music.mp3";
+import { EventUpdates } from "@/components/event-updates";
 
 const UID = "6957634743378640897";
-export const WELCOME_WAIT_SECONDS = 5;
+export const WELCOME_WAIT_SECONDS = 2;
 
 export function Welcome() {
   const [open, setOpen] = useState(false);
+  const [updatesOpen, setUpdatesOpen] = useState(false);
   const [remaining, setRemaining] = useState(WELCOME_WAIT_SECONDS);
   const [copied, setCopied] = useState(false);
   const [copyError, setCopyError] = useState(false);
@@ -44,6 +46,7 @@ export function Welcome() {
     void player.play().then(() => {
       setPlayError(false);
       setOpen(false);
+      setUpdatesOpen(true);
     }).catch(() => setPlayError(true));
   }
 
@@ -89,6 +92,7 @@ export function Welcome() {
           </DialogPrimitive.Content>
         </DialogPrimitive.Portal>
       </DialogPrimitive.Root>
+      <EventUpdates open={updatesOpen} onClose={() => setUpdatesOpen(false)} />
     </>
   );
 }

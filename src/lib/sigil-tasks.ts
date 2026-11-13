@@ -5,8 +5,6 @@ export const SIGIL_TASKS = [
   { name: "Play Matches for a total of 400 minutes", sigils: 8 },
   { name: "Play 1 Match in any mode", sigils: 2 },
   { name: "Play 3 Matches in any mode", sigils: 2 },
-  { name: "Play 1 Match in Honkai: Gleaming Front", sigils: 2 },
-  { name: "3 Matches in Honkai: Gleaming Front", sigils: 2 },
   { name: "Play 5 Matches in any mode", sigils: 3 },
   { name: "Play 10 Matches in any mode", sigils: 5 },
   { name: "Play 20 Matches in any mode", sigils: 5 },
