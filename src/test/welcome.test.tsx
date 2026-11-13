@@ -49,6 +49,9 @@ describe("welcome entry rules", () => {
     const { container } = render(<Welcome />);
     act(() => vi.advanceTimersByTime(2000));
     await act(async () => fireEvent.click(screen.getByRole("button", { name: "OKAY" })));
+    fireEvent.keyDown(screen.getByRole("dialog"), { key: "Escape" });
+    expect(screen.getByRole("dialog")).toBeVisible();
+    await act(async () => fireEvent.click(screen.getByRole("button", { name: "OKAY" })));
     fireEvent.click(screen.getByRole("button", { name: "Mute music" }));
     expect(container.querySelector("audio")?.muted).toBe(true);
     fireEvent.click(screen.getByRole("button", { name: "Unmute music" }));
