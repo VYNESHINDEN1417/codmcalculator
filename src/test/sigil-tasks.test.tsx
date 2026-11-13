@@ -36,7 +36,7 @@ describe("weekly task rules", () => {
     const startsAtMs = EVENT_DEADLINE_MS - 3 * WEEK_MS;
     const plan = { startsAtMs, selections: [[0], [12], [1]] };
     expect(calcSigils(490, startsAtMs, undefined, false, plan)).toMatchObject({ deadlineProjection: 507, projected: 505, weeksRequired: 2, projectedAtMs: startsAtMs + 2 * WEEK_MS, status: "ON TRACK" });
-    expect(calcSigils(440, startsAtMs, undefined, true, plan).deadlineProjection).toBe(507);
+    expect(calcSigils(420, startsAtMs, undefined, true, plan).deadlineProjection).toBe(507);
     expect(calcSigils(440, startsAtMs, undefined, false, plan).status).toBe("NOT ON TRACK");
   });
 

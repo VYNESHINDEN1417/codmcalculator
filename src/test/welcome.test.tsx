@@ -36,7 +36,11 @@ describe("welcome entry rules", () => {
     await act(async () => fireEvent.click(screen.getByRole("button", { name: "OKAY" })));
     expect(play).toHaveBeenCalledTimes(1);
     expect(container.querySelector("audio")?.loop).toBe(true);
+    act(() => vi.advanceTimersByTime(4999));
+    expect(screen.queryByRole("button", { name: "OKAY" })).toBeNull();
+    act(() => vi.advanceTimersByTime(1));
     expect(screen.getByRole("dialog")).toBeVisible();
+    act(() => vi.advanceTimersByTime(5000));
     await act(async () => fireEvent.click(screen.getByRole("button", { name: "OKAY" })));
     expect(screen.queryByRole("dialog")).toBeNull();
     expect(play).toHaveBeenCalledTimes(1);
@@ -51,6 +55,7 @@ describe("welcome entry rules", () => {
     await act(async () => fireEvent.click(screen.getByRole("button", { name: "OKAY" })));
     fireEvent.keyDown(screen.getByRole("dialog"), { key: "Escape" });
     expect(screen.getByRole("dialog")).toBeVisible();
+    act(() => vi.advanceTimersByTime(5000));
     await act(async () => fireEvent.click(screen.getByRole("button", { name: "OKAY" })));
     fireEvent.click(screen.getByRole("button", { name: "Mute music" }));
     expect(container.querySelector("audio")?.muted).toBe(true);
