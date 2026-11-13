@@ -1,8 +1,8 @@
 import { EVENT_DEADLINE_MS } from "./ph-time";
-import { taskReward, type TaskPlan } from "./sigil-tasks";
+import { SIGIL_TASKS, taskReward, type TaskPlan } from "./sigil-tasks";
 
 export const TARGET_SIGILS = 500;
-export const WEEKLY_SIGILS = 58;
+export const WEEKLY_SIGILS = SIGIL_TASKS.reduce((total, task) => total + task.sigils, 0);
 export const BOOSTER_SIGILS = 50;
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 
