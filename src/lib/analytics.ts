@@ -45,7 +45,7 @@ function send(payload: Record<string, unknown>) {
 }
 
 export function trackCalculatorVisit() {
-  if (typeof window === "undefined") return;
+  if (typeof window === "undefined" || window.location.pathname === "/analytics") return;
   try {
     const params = new URLSearchParams(window.location.search);
     const referrer = document.referrer;
