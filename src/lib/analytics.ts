@@ -18,10 +18,14 @@ function getId(storage: Storage, key: string): string {
 }
 
 function getIdentity() {
-  return {
-    visitor_id: getId(localStorage, "codm_analytics_visitor"),
-    session_id: getId(sessionStorage, "codm_analytics_session"),
-  };
+  try {
+    return {
+      visitor_id: getId(localStorage, "codm_analytics_visitor"),
+      session_id: getId(sessionStorage, "codm_analytics_session"),
+    };
+  } catch {
+    return { visitor_id: crypto.randomUUID(), session_id: crypto.randomUUID() };
+  }
 }
 
 function send(payload: Record<string, unknown>) {
