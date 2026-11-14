@@ -17,7 +17,7 @@ export function Welcome() {
   const [copied, setCopied] = useState(false);
   const [copyError, setCopyError] = useState(false);
   const [playError, setPlayError] = useState(false);
-  const [muted, setMuted] = useState(true);
+  const [muted, setMuted] = useState(false);
   const audio = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
