@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState, type FormEvent } from "react";
 const SUPABASE_URL = "https://bmeddjzihcvraqmhkxen.supabase.co";
 const SUPABASE_KEY = "sb_publishable_Y5Vkz3pQPuihk6qXt2w2bA_BOPEJJpm";
 const SESSION_KEY = "codm_calculator_analytics_session";
+const OWNER_VISITOR_KEY = "codm_calculator_owner_visitor";
+const VISITOR_ID_KEY = "codm_analytics_visitor";
 
 type AuthSession = { access_token: string; refresh_token: string; expires_at?: number };
 type Visit = {
@@ -96,6 +98,7 @@ function AnalyticsPage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [loaded, setLoaded] = useState(false);
+  const [ownerVisitorId, setOwnerVisitorId] = useState<string | null>(null);
 
   async function signIn(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -111,6 +114,10 @@ function AnalyticsPage() {
       if (!response.ok) throw new Error(data.msg || data.message || data.error_description || "Sign-in failed.");
       const next = { access_token: data.access_token, refresh_token: data.refresh_token, expires_at: data.expires_at };
       localStorage.setItem(SESSION_KEY, JSON.stringify(next));
+      const ownerId = localStorage.getItem(VISITOR_ID_KEY) || crypto.randomUUID();
+      localStorage.setItem(VISITOR_ID_KEY, ownerId);
+      localStorage.setItem(OWNER_VISITOR_KEY, ownerId);
+      setOwnerVisitorId(ownerId);
       setPassword("");
       setSession(next);
     } catch (err) {
@@ -135,7 +142,13 @@ function AnalyticsPage() {
 
   useEffect(() => {
     const saved = readSession();
-    if (saved) setSession(saved);
+    if (saved) {
+      setSession(saved);
+      const ownerId = localStorage.getItem(VISITOR_ID_KEY) || crypto.randomUUID();
+      localStorage.setItem(VISITOR_ID_KEY, ownerId);
+      localStorage.setItem(OWNER_VISITOR_KEY, ownerId);
+      setOwnerVisitorId(ownerId);
+    }
     setLoaded(true);
   }, []);
 
@@ -180,6 +193,7 @@ function AnalyticsPage() {
     const time = new Date(row.occurred_at).getTime();
     return time >= cutoff && time <= Date.now();
   }), [events, cutoff]);
+  const recentVisits = [...filteredVisits].sort((a, b) => new Date(b.visited_at).getTime() - new Date(a.visited_at).getTime()).slice(0, 15);
 
   const uniqueVisitors = new Set(filteredVisits.map((row) => row.visitor_id)).size;
   const sessions = new Set(filteredVisits.map((row) => row.session_id).filter(Boolean)).size;
@@ -351,6 +365,24 @@ function AnalyticsPage() {
                 </div>
               )) : <p className="text-sm text-slate-500">No device data yet.</p>}
             </div>
+          </div>
+        </section>
+
+        <section className="mt-4 rounded-xl border border-white/10 bg-[#11151d] p-4 sm:p-5">
+          <div className="flex flex-wrap items-center justify-between gap-2"><h2 className="font-semibold">Recent visitors</h2><span className="text-[11px] text-slate-500"><span className="font-semibold text-amber-300">OWNER</span> = your browser</span></div>
+          <div className="mt-4 divide-y divide-white/5">
+            {recentVisits.length ? recentVisits.map((row, index) => {
+              const isOwner = Boolean(ownerVisitorId && row.visitor_id === ownerVisitorId);
+              return (
+                <div key={`${row.visited_at}-${index}`} className="flex items-center justify-between gap-3 py-3 text-sm">
+                  <div className="min-w-0">
+                    <p className={`truncate font-medium ${isOwner ? "text-amber-300" : "text-slate-300"}`}>{isOwner ? "OWNER · You" : `Visitor · ${row.visitor_id.slice(0, 8)}`}</p>
+                    <p className="mt-1 truncate text-[11px] text-slate-500">{row.page_path || "/"} · {row.traffic_source || "unknown"} · {row.device_type || "unknown"}</p>
+                  </div>
+                  <time className={`shrink-0 text-[11px] ${isOwner ? "text-amber-300/80" : "text-slate-500"}`}>{new Date(row.visited_at).toLocaleString()}</time>
+                </div>
+              );
+            }) : <p className="py-4 text-sm text-slate-500">No visits recorded in this period yet.</p>}
           </div>
         </section>
 
