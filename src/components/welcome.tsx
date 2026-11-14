@@ -4,6 +4,7 @@ import { Check, Copy, Volume2, VolumeX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import music from "@/assets/honkai-music.mp3";
 import { EventUpdates } from "@/components/event-updates";
+import { trackCalculatorEvent } from "@/lib/analytics";
 
 const UID = "6957634743378640897";
 export const WELCOME_WAIT_SECONDS = 2;
@@ -45,6 +46,7 @@ export function Welcome() {
     if (!player) return;
     void player.play().then(() => {
       setPlayError(false);
+      trackCalculatorEvent("music_toggle");
       setOpen(false);
       setUpdatesOpen(true);
     }).catch(() => setPlayError(true));
@@ -53,6 +55,7 @@ export function Welcome() {
   function toggleMusicMute() {
     const nextMuted = !muted;
     if (audio.current) audio.current.muted = nextMuted;
+    trackCalculatorEvent("music_toggle");
     setMuted(nextMuted);
   }
 
