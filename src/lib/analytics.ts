@@ -60,7 +60,7 @@ export function trackCalculatorVisit() {
     const socialHosts = ["facebook.com", "m.facebook.com", "l.facebook.com", "t.co", "x.com", "twitter.com", "reddit.com", "instagram.com", "messenger.com"];
     const trafficSource = searchEngine
       ? "search"
-      : socialHosts.some((host) => refHost === host || refHost.endsWith(`.${host}"))
+      : socialHosts.some((host) => refHost === host || refHost.endsWith(`.${host}`))
         ? "social"
         : refHost
           ? "referral"
