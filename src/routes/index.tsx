@@ -10,6 +10,7 @@ import gun2 from "@/assets/gun2.png";
 import gun3 from "@/assets/gun3.png";
 import { countdownParts, formatManila } from "@/lib/ph-time";
 import { acquisitionPhrase, BOOSTER_SIGILS, calcSigils, parseSigils, STATUS_LABEL, TARGET_SIGILS, WEEKLY_SIGILS } from "@/lib/sigils";
+import { trackCalculatorEvent } from "@/lib/analytics";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -106,6 +107,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
     setError(null);
     const result = calcSigils(p.value, Date.now(), undefined, withBooster, withPlan);
     setRes(result);
+    trackCalculatorEvent("calculate");
     onWarningChange(result.status === "NOT ON TRACK");
   };
   const rows = res
@@ -230,6 +232,7 @@ export function Index() {
               key={weapon.name}
               variant="ghost"
               onClick={() => {
+                trackCalculatorEvent("weapon_select", { weapon: weapon.name });
                 const offset = (i - sel + n) % n;
                 if (offset === 1) setRotation((value) => value + 1);
                 if (offset === 2) setRotation((value) => value - 1);
