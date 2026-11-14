@@ -46,7 +46,7 @@ function send(payload: Record<string, unknown>) {
 
 function isAnalyticsDashboard() {
   if (typeof window === "undefined") return false;
-  return window.location.pathname.replace(/\\/+$/, "") === "/analytics";
+  return window.location.pathname === "/analytics" || window.location.pathname.startsWith("/analytics/");
 }
 
 export function trackCalculatorVisit() {
