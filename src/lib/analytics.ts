@@ -44,8 +44,15 @@ function send(payload: Record<string, unknown>) {
   });
 }
 
+function isAnalyticsDashboard() {
+  if (typeof window === "undefined") return false;
+  return window.location.pathname.replace(/\\/+$/, "") === "/analytics";
+}
+
 export function trackCalculatorVisit() {
-  if (typeof window === "undefined" || window.location.pathname === "/analytics") return;
+  // Never count the private owner dashboard as public calculator traffic.
+  // Normalize trailing slashes so /analytics and /analytics/ are both excluded.
+  if (isAnalyticsDashboard()) return;
   try {
     const params = new URLSearchParams(window.location.search);
     const referrer = document.referrer;
@@ -94,6 +101,8 @@ export function trackCalculatorVisit() {
 }
 
 export function trackCalculatorEvent(eventName: AnalyticsEvent, options?: { weapon?: string }) {
+  // Dashboard interactions and owner logins are not public visitor activity.
+  if (isAnalyticsDashboard()) return;
   send({
     kind: "event",
     event_name: eventName,
