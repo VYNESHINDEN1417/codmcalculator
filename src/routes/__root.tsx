@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { trackCalculatorVisit } from "@/lib/analytics";
 import { Welcome } from "@/components/welcome";
 
 function NotFoundComponent() {
@@ -118,6 +119,10 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+
+  useEffect(() => {
+    trackCalculatorVisit();
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
