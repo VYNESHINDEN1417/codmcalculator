@@ -10,16 +10,18 @@ const UID = "6957634743378640897";
 export const WELCOME_WAIT_SECONDS = 2;
 
 export function Welcome() {
+  const isAnalyticsPage = typeof window !== "undefined" && window.location.pathname === "/analytics";
   const [open, setOpen] = useState(false);
   const [updatesOpen, setUpdatesOpen] = useState(false);
   const [remaining, setRemaining] = useState(WELCOME_WAIT_SECONDS);
   const [copied, setCopied] = useState(false);
   const [copyError, setCopyError] = useState(false);
   const [playError, setPlayError] = useState(false);
-  const [muted, setMuted] = useState(false);
+  const [muted, setMuted] = useState(true);
   const audio = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
+    if (isAnalyticsPage) return;
     setOpen(true);
     const readyAt = Date.now() + WELCOME_WAIT_SECONDS * 1000;
     const timer = setInterval(() => {
@@ -28,7 +30,7 @@ export function Welcome() {
       if (seconds === 0) clearInterval(timer);
     }, 250);
     return () => clearInterval(timer);
-  }, []);
+  }, [isAnalyticsPage]);
 
   async function copyUid() {
     try {
@@ -51,6 +53,8 @@ export function Welcome() {
       setUpdatesOpen(true);
     }).catch(() => setPlayError(true));
   }
+
+  if (isAnalyticsPage) return null;
 
   function toggleMusicMute() {
     const nextMuted = !muted;
