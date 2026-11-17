@@ -7,7 +7,7 @@ import { EventUpdates } from "@/components/event-updates";
 import { trackCalculatorEvent } from "@/lib/analytics";
 
 const UID = "6957634743378640897";
-export const WELCOME_WAIT_SECONDS = 2;
+export const WELCOME_WAIT_SECONDS = 3;
 
 export function Welcome() {
   const isAnalyticsPage = typeof window !== "undefined" && window.location.pathname === "/analytics";

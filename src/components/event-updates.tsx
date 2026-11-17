@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import loginEvent from "@/assets/login-event.webp";
 import { useEffect, useState } from "react";
 
-export const UPDATES_WAIT_SECONDS = 5;
+export const UPDATES_WAIT_SECONDS = 4;
 
 export function EventUpdates({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [remaining, setRemaining] = useState(UPDATES_WAIT_SECONDS);
