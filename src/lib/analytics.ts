@@ -77,7 +77,8 @@ export function trackCalculatorVisit() {
           ? "referral"
           : "direct";
     const ua = navigator.userAgent;
-    const deviceType = /ipad|tablet|kindle|silk/i.test(ua)
+    const androidTablet = /android/i.test(ua) && !/mobile/i.test(ua);
+    const deviceType = /ipad|tablet|kindle|silk/i.test(ua) || androidTablet
       ? "tablet"
       : /mobi|android|iphone|ipod/i.test(ua)
         ? "mobile"
