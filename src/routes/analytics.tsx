@@ -16,6 +16,9 @@ type Visit = {
   traffic_source: string;
   search_engine: string | null;
   device_type: string | null;
+  browser: string | null;
+  operating_system: string | null;
+  device_family: string | null;
   bot_type?: string | null;
 };
 type AnalyticsEvent = {
@@ -85,6 +88,27 @@ function StatCard({ label, value, note }: { label: string; value: number; note: 
       <p className="text-xs text-slate-400">{label}</p>
       <p className="mt-3 text-3xl font-semibold tabular-nums sm:text-4xl">{value.toLocaleString()}</p>
       <p className="mt-2 text-[11px] text-slate-500">{note}</p>
+    </div>
+  );
+}
+
+function BreakdownList({ title, items, total }: { title: string; items: [string, number][]; total: number }) {
+  return (
+    <div className="min-w-0">
+      <h3 className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">{title}</h3>
+      <div className="space-y-3">
+        {items.length ? items.slice(0, 5).map(([name, count]) => (
+          <div key={name}>
+            <div className="mb-1 flex items-center justify-between gap-2 text-xs">
+              <span className="truncate text-slate-300">{name}</span>
+              <span className="shrink-0 tabular-nums text-slate-400">{count} · {Math.round((count / Math.max(1, total)) * 100)}%</span>
+            </div>
+            <div className="h-1.5 overflow-hidden rounded-full bg-white/10">
+              <div className="h-full rounded-full bg-[#FF7300]" style={{ width: `${(count / Math.max(1, total)) * 100}%` }} />
+            </div>
+          </div>
+        )) : <p className="text-xs text-slate-500">Waiting for new visitor data.</p>}
+      </div>
     </div>
   );
 }
@@ -207,11 +231,40 @@ function AnalyticsPage() {
     acc[key] = (acc[key] ?? 0) + 1;
     return acc;
   }, {})).sort((a, b) => b[1] - a[1]);
-  const devices = Object.entries(filteredVisits.reduce<Record<string, number>>((acc, row) => {
-    const key = row.device_type || "unknown";
-    acc[key] = (acc[key] ?? 0) + 1;
-    return acc;
-  }, {})).sort((a, b) => b[1] - a[1]);
+  const humanVisits = filteredVisits.filter((row) => row.bot_type === "human" && row.visitor_id !== ownerVisitorId);
+  const allHumanVisits = visits.filter((row) => row.bot_type === "human" && row.visitor_id !== ownerVisitorId);
+  const countBy = (rows: Visit[], key: "device_type" | "browser" | "operating_system" | "device_family") =>
+    Object.entries(rows.reduce<Record<string, number>>((acc, row) => {
+      const value = row[key] || "unknown";
+      acc[value] = (acc[value] ?? 0) + 1;
+      return acc;
+    }, {})).sort((a, b) => b[1] - a[1]);
+  const deviceTypes = countBy(humanVisits, "device_type");
+  const browsers = countBy(humanVisits, "browser");
+  const operatingSystems = countBy(humanVisits, "operating_system");
+  const deviceFamilies = countBy(humanVisits, "device_family");
+
+  const visitorSessions = humanVisits.reduce<Map<string, Set<string>>>((map, row) => {
+    if (row.session_id) {
+      if (!map.has(row.visitor_id)) map.set(row.visitor_id, new Set());
+      map.get(row.visitor_id)?.add(row.session_id);
+    }
+    return map;
+  }, new Map());
+  const firstSeen = allHumanVisits.reduce<Map<string, number>>((map, row) => {
+    const time = new Date(row.visited_at).getTime();
+    map.set(row.visitor_id, Math.min(map.get(row.visitor_id) ?? Infinity, time));
+    return map;
+  }, new Map());
+  const loyaltyVisitorCount = visitorSessions.size;
+  const returningVisitors = [...visitorSessions.entries()].filter(([id, sessionsForVisitor]) =>
+    sessionsForVisitor.size >= 2 || (cutoff > 0 && (firstSeen.get(id) ?? Infinity) < cutoff),
+  ).length;
+  const newVisitors = Math.max(0, loyaltyVisitorCount - returningVisitors);
+  const totalHumanSessions = new Set(humanVisits.map((row) => row.session_id).filter(Boolean)).size;
+  const frequentVisitors = [...visitorSessions.values()].filter((sessionsForVisitor) => sessionsForVisitor.size >= 3).length;
+  const returningRate = loyaltyVisitorCount ? Math.round((returningVisitors / loyaltyVisitorCount) * 100) : 0;
+  const averageSessions = loyaltyVisitorCount ? (totalHumanSessions / loyaltyVisitorCount).toFixed(1) : "0.0";
   const weapons = Object.entries(filteredEvents.filter((row) => row.event_name === "weapon_select" && row.weapon).reduce<Record<string, number>>((acc, row) => {
     const key = row.weapon as string;
     acc[key] = (acc[key] ?? 0) + 1;
@@ -356,16 +409,33 @@ function AnalyticsPage() {
             </div>
           </div>
           <div className="rounded-xl border border-white/10 bg-[#11151d] p-4 sm:p-5">
-            <h2 className="font-semibold">Devices</h2>
-            <div className="mt-4 space-y-4">
-              {devices.length ? devices.map(([name, count]) => (
-                <div key={name}>
-                  <div className="mb-1.5 flex justify-between text-xs"><span className="capitalize text-slate-300">{name}</span><span className="tabular-nums text-slate-400">{count}</span></div>
-                  <div className="h-1.5 overflow-hidden rounded-full bg-white/10"><div className="h-full rounded-full bg-[#FF7300]" style={{ width: `${(count / Math.max(1, filteredVisits.length)) * 100}%` }} /></div>
-                </div>
-              )) : <p className="text-sm text-slate-500">No device data yet.</p>}
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <h2 className="font-semibold">Device intelligence</h2>
+              <span className="text-[10px] text-slate-500">HUMAN VISITORS ONLY</span>
             </div>
+            <div className="mt-5 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+              <BreakdownList title="Device type" items={deviceTypes} total={humanVisits.length} />
+              <BreakdownList title="Device family" items={deviceFamilies} total={humanVisits.length} />
+              <BreakdownList title="Operating system" items={operatingSystems} total={humanVisits.length} />
+              <BreakdownList title="Browser" items={browsers} total={humanVisits.length} />
+            </div>
+            <p className="mt-4 text-[10px] text-slate-500">Browser, OS and device-family details begin collecting with this update. Older visits appear as unknown.</p>
           </div>
+        </section>
+
+        <section className="mt-4 rounded-xl border border-white/10 bg-[#11151d] p-4 sm:p-5">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <h2 className="font-semibold">Visitor loyalty</h2>
+            <span className="text-[10px] text-slate-500">HUMAN VISITORS · SESSION-BASED</span>
+          </div>
+          <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-5">
+            <div className="rounded-lg bg-white/[0.035] p-3"><p className="text-[11px] text-slate-400">Returning</p><p className="mt-2 text-2xl font-semibold tabular-nums text-[#FFB36B]">{returningVisitors.toLocaleString()}</p></div>
+            <div className="rounded-lg bg-white/[0.035] p-3"><p className="text-[11px] text-slate-400">New</p><p className="mt-2 text-2xl font-semibold tabular-nums">{newVisitors.toLocaleString()}</p></div>
+            <div className="rounded-lg bg-white/[0.035] p-3"><p className="text-[11px] text-slate-400">Returning rate</p><p className="mt-2 text-2xl font-semibold tabular-nums">{returningRate}%</p></div>
+            <div className="rounded-lg bg-white/[0.035] p-3"><p className="text-[11px] text-slate-400">Sessions / visitor</p><p className="mt-2 text-2xl font-semibold tabular-nums">{averageSessions}</p></div>
+            <div className="col-span-2 rounded-lg bg-white/[0.035] p-3 sm:col-span-1"><p className="text-[11px] text-slate-400">Frequent visitors</p><p className="mt-2 text-2xl font-semibold tabular-nums">{frequentVisitors.toLocaleString()}</p><p className="mt-1 text-[10px] text-slate-500">3+ sessions in range</p></div>
+          </div>
+          <p className="mt-4 text-[10px] text-slate-500">Returning means a visitor had an earlier recorded visit before this range or started 2+ distinct sessions during it. Owner and bot traffic are excluded. Historical comparisons use the latest 5,000 available visits.</p>
         </section>
 
         <section className="mt-4 rounded-xl border border-white/10 bg-[#11151d] p-4 sm:p-5">
