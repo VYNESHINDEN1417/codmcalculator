@@ -7,13 +7,13 @@ import { EventUpdates } from "@/components/event-updates";
 import { trackCalculatorEvent } from "@/lib/analytics";
 
 const UID = "6957634743378640897";
-export const WELCOME_WAIT_SECONDS = 3;
+export const WELCOME_WAIT_SECONDS = 0;
 
 export function Welcome() {
   const isAnalyticsPage = typeof window !== "undefined" && window.location.pathname === "/analytics";
   const [open, setOpen] = useState(false);
   const [updatesOpen, setUpdatesOpen] = useState(false);
-  const [remaining, setRemaining] = useState(WELCOME_WAIT_SECONDS);
+  const [remaining] = useState(0);
   const [copied, setCopied] = useState(false);
   const [copyError, setCopyError] = useState(false);
   const [playError, setPlayError] = useState(false);
@@ -23,13 +23,7 @@ export function Welcome() {
   useEffect(() => {
     if (isAnalyticsPage) return;
     setOpen(true);
-    const readyAt = Date.now() + WELCOME_WAIT_SECONDS * 1000;
-    const timer = setInterval(() => {
-      const seconds = Math.max(0, Math.ceil((readyAt - Date.now()) / 1000));
-      setRemaining(seconds);
-      if (seconds === 0) clearInterval(timer);
-    }, 250);
-    return () => clearInterval(timer);
+
   }, [isAnalyticsPage]);
 
   async function copyUid() {
