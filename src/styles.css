@@ -218,6 +218,32 @@
   transition: --orbit-angle 850ms cubic-bezier(0.45, 0, 0.25, 1);
 }
 
+.weapon-orbit img {
+  filter: none;
+  transition: filter 350ms ease-in-out;
+}
+
+.weapon-orbit[aria-pressed="true"].weapon-orbit-bal27 img {
+  filter:
+    drop-shadow(0 0 1px rgb(155 205 255 / 88%))
+    drop-shadow(0 0 3px rgb(55 135 255 / 58%))
+    drop-shadow(0 0 6px rgb(20 95 255 / 28%));
+}
+
+.weapon-orbit[aria-pressed="true"].weapon-orbit-static-hv img {
+  filter:
+    drop-shadow(0 0 1px rgb(255 170 170 / 88%))
+    drop-shadow(0 0 3px rgb(255 55 55 / 58%))
+    drop-shadow(0 0 6px rgb(220 20 35 / 30%));
+}
+
+.weapon-orbit[aria-pressed="true"].weapon-orbit-iso-hemlock img {
+  filter:
+    drop-shadow(0 0 1px rgb(220 180 255 / 88%))
+    drop-shadow(0 0 3px rgb(155 65 255 / 58%))
+    drop-shadow(0 0 6px rgb(105 25 220 / 30%));
+}
+
 .weapon-orbit:hover {
   background: transparent;
 }
@@ -227,29 +253,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .weapon-orbit {
+  .weapon-orbit,
+  .weapon-orbit img {
     transition: none;
   }
-}
-
-/* Weapon-specific energy glows */
-.weapon-orbit-bal27 img {
-  filter:
-    drop-shadow(0 0 1px rgb(155 205 255 / 88%))
-    drop-shadow(0 0 3px rgb(55 135 255 / 58%))
-    drop-shadow(0 0 6px rgb(20 95 255 / 28%));
-}
-
-.weapon-orbit-static-hv img {
-  filter:
-    drop-shadow(0 0 1px rgb(255 170 170 / 88%))
-    drop-shadow(0 0 3px rgb(255 55 55 / 58%))
-    drop-shadow(0 0 6px rgb(220 20 35 / 30%));
-}
-
-.weapon-orbit-iso-hemlock img {
-  filter:
-    drop-shadow(0 0 1px rgb(220 180 255 / 88%))
-    drop-shadow(0 0 3px rgb(155 65 255 / 58%))
-    drop-shadow(0 0 6px rgb(105 25 220 / 30%));
 }
