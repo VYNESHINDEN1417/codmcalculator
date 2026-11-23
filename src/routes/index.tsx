@@ -26,6 +26,8 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
+const MINIMUM_SIGILS_REQUIRED = 330;
+
 const WEAPONS = [
   { name: "BAL27 CORE OF REASON", img: gun1 },
   { name: "STATIC-HV CORE OF FIRE", img: gun2 },
@@ -133,16 +135,6 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
           {acquisitionPhrase(res.projectedAtMs)}
         </p>
       )}
-      <div className="mt-3 flex items-center justify-center gap-1 font-mono text-xs font-bold text-muted-foreground">
-        <Checkbox
-          id="sigil-booster"
-          checked={false}
-          disabled
-          className="border-muted-foreground"
-        />
-        <label htmlFor="sigil-booster" className="cursor-not-allowed">50 SIGIL BOOSTER</label>
-        <BoosterHelp disabled />
-      </div>
       <div className="mt-1 flex items-center justify-center gap-1 font-mono text-xs font-bold text-foreground">
         <Checkbox
           id="new-sigil-booster"
@@ -160,7 +152,10 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
         setTaskPlan(plan);
         calculate(booster, plan, true);
       }} />
-      <label className="mt-3 block font-mono text-xs tracking-[0.2em] text-muted-foreground" htmlFor="sigils">
+      <p className="mt-3 font-mono text-xs font-bold tracking-[0.08em] text-live" aria-live="polite">
+        MINIMUM SIGIL: {MINIMUM_SIGILS_REQUIRED - (booster ? BOOSTER_SIGILS : 0)}
+      </p>
+      <label className="mt-2 block font-mono text-xs tracking-[0.2em] text-muted-foreground" htmlFor="sigils">
         CURRENT SIGILS
       </label>
       <input
