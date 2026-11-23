@@ -232,54 +232,24 @@
   }
 }
 
-/* BAL-27: many tiny electrical streaks flickering around the weapon */
+/* Weapon-specific energy glows */
 .weapon-orbit-bal27 img {
-  position: relative;
-  z-index: 1;
   filter:
-    drop-shadow(0 0 0.5px rgb(155 205 255 / 65%))
-    drop-shadow(0 0 1.5px rgb(55 135 255 / 25%));
+    drop-shadow(0 0 1px rgb(155 205 255 / 88%))
+    drop-shadow(0 0 3px rgb(55 135 255 / 58%))
+    drop-shadow(0 0 6px rgb(20 95 255 / 28%));
 }
 
-.weapon-orbit-bal27::before,
-.weapon-orbit-bal27::after {
-  content: "";
-  position: absolute;
-  z-index: 2;
-  inset: 0;
-  pointer-events: none;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
+.weapon-orbit-static-hv img {
   filter:
-    drop-shadow(0 0 1px rgb(255 255 255 / 95%))
-    drop-shadow(0 0 2px rgb(65 150 255 / 75%));
-  opacity: 0;
-  animation: bal27-streaks 1.65s steps(5, end) infinite;
+    drop-shadow(0 0 1px rgb(255 170 170 / 88%))
+    drop-shadow(0 0 3px rgb(255 55 55 / 58%))
+    drop-shadow(0 0 6px rgb(220 20 35 / 30%));
 }
 
-.weapon-orbit-bal27::before {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg fill='none' stroke='%23f5fbff' stroke-width='.65' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M13 24l2 -2 1 2 3 -4'/%3E%3Cpath d='M29 12l1 2 -2 2 3 1'/%3E%3Cpath d='M72 16l-2 2 2 1 -3 3'/%3E%3Cpath d='M88 32l-3 1 1 2 -3 2'/%3E%3Cpath d='M9 56l3 -2 1 2 2 -1'/%3E%3Cpath d='M91 63l-2 -1 -1 3 -3 1'/%3E%3Cpath d='M19 82l2 -3 2 1 2 -3'/%3E%3Cpath d='M77 86l-1 -3 3 -1 1 -3'/%3E%3C/g%3E%3C/svg%3E");
-}
-
-.weapon-orbit-bal27::after {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='.55' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 34l2 -2 1 2 2 -3'/%3E%3Cpath d='M43 8l-1 2 2 1 -2 2'/%3E%3Cpath d='M62 27l2 -2 1 2 2 -1'/%3E%3Cpath d='M95 47l-3 2 1 2 -3 1'/%3E%3Cpath d='M5 70l3 -2 1 2 2 -1'/%3E%3Cpath d='M35 91l1 -3 2 1 1 -2'/%3E%3Cpath d='M58 78l2 -2 1 2 2 -2'/%3E%3Cpath d='M82 9l-2 2 2 1 -1 2'/%3E%3C/g%3E%3C/svg%3E");
-  animation-delay: -0.82s;
-}
-
-@keyframes bal27-streaks {
-  0%, 100% { opacity: 0.04; }
-  12% { opacity: 0.72; }
-  22% { opacity: 0.08; }
-  39% { opacity: 0.58; }
-  51% { opacity: 0.03; }
-  67% { opacity: 0.82; }
-  78% { opacity: 0.12; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .weapon-orbit-bal27::before,
-  .weapon-orbit-bal27::after {
-    animation: none;
-    opacity: 0.32;
-  }
+.weapon-orbit-iso-hemlock img {
+  filter:
+    drop-shadow(0 0 1px rgb(220 180 255 / 88%))
+    drop-shadow(0 0 3px rgb(155 65 255 / 58%))
+    drop-shadow(0 0 6px rgb(105 25 220 / 30%));
 }
