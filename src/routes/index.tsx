@@ -4,11 +4,11 @@ import { useEffect, useState, type CSSProperties } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { SigilTasks } from "@/components/sigil-tasks";
-import { type TaskPlan } from "@/lib/sigil-tasks";
+import { type TaskPlan, WEEK_MS } from "@/lib/sigil-tasks";
 import gun1 from "@/assets/gun1.png";
 import gun2 from "@/assets/gun2.png";
 import gun3 from "@/assets/gun3.png";
-import { countdownParts, formatManila } from "@/lib/ph-time";
+import { countdownParts, formatManila, EVENT_DEADLINE_MS } from "@/lib/ph-time";
 import { acquisitionPhrase, BOOSTER_SIGILS, calcSigils, parseSigils, STATUS_LABEL, TARGET_SIGILS, WEEKLY_SIGILS } from "@/lib/sigils";
 import { trackCalculatorEvent } from "@/lib/analytics";
 
@@ -26,7 +26,6 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const MINIMUM_SIGILS_REQUIRED = 330;
 
 const WEAPONS = [
   { name: "BAL27 CORE OF REASON", img: gun1 },
@@ -87,6 +86,7 @@ function Countdown() {
 }
 
 function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) => void }) {
+  const now = useNow();
   const [raw, setRaw] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [res, setRes] = useState<ReturnType<typeof calcSigils> | null>(null);
@@ -136,7 +136,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
         </p>
       )}
       <p className="mt-3 font-mono text-xs font-bold tracking-[0.08em] text-live" aria-live="polite">
-        MINIMUM SIGIL: {MINIMUM_SIGILS_REQUIRED - (booster ? BOOSTER_SIGILS : 0)}
+        MINIMUM SIGIL: {Math.max(0, TARGET_SIGILS - Math.floor(Math.max(0, EVENT_DEADLINE_MS - (now ?? Date.now())) / WEEK_MS) * WEEKLY_SIGILS - (booster ? BOOSTER_SIGILS : 0))}
       </p>
       <div className="mt-3 flex items-center justify-center gap-1 font-mono text-xs font-bold text-foreground">
         <Checkbox
