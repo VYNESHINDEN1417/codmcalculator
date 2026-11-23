@@ -239,7 +239,7 @@ export function Index() {
               }}
               aria-label={`Show ${weapon.name}`}
               aria-pressed={i === sel}
-              className={`weapon-orbit ${i === 0 ? "weapon-orbit-bal27" : ""}`}
+              className={`weapon-orbit ${i === 0 ? "weapon-orbit-bal27" : i === 1 ? "weapon-orbit-static-hv" : "weapon-orbit-iso-hemlock"}`}
               style={{ "--orbit-angle": `${(rotation - i) * 120}deg` } as CSSProperties}
             >
               <img src={weapon.img} alt={weapon.name} className="h-full w-full object-contain" draggable={false} />
