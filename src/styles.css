@@ -231,3 +231,56 @@
     transition: none;
   }
 }
+
+/* BAL-27: restrained electric-blue edge light and tiny lightning sparks */
+.weapon-orbit-bal27 img {
+  filter:
+    drop-shadow(0 0 1px rgb(115 190 255 / 95%))
+    drop-shadow(0 0 4px rgb(35 130 255 / 72%))
+    drop-shadow(0 0 9px rgb(20 95 255 / 34%));
+}
+
+.weapon-orbit-bal27::before,
+.weapon-orbit-bal27::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+  background: #f5fbff;
+  filter:
+    drop-shadow(0 0 2px #fff)
+    drop-shadow(0 0 5px #238bff)
+    drop-shadow(0 0 8px rgb(35 139 255 / 70%));
+  opacity: 0.82;
+  animation: bal27-spark 2.8s ease-in-out infinite;
+}
+
+.weapon-orbit-bal27::before {
+  width: 8px;
+  height: 13px;
+  top: 20%;
+  right: 24%;
+  clip-path: polygon(55% 0, 100% 0, 63% 42%, 95% 42%, 20% 100%, 39% 56%, 0 56%);
+}
+
+.weapon-orbit-bal27::after {
+  width: 6px;
+  height: 10px;
+  bottom: 23%;
+  left: 22%;
+  clip-path: polygon(55% 0, 100% 0, 63% 42%, 95% 42%, 20% 100%, 39% 56%, 0 56%);
+  animation-delay: -1.3s;
+}
+
+@keyframes bal27-spark {
+  0%, 100% { opacity: 0.48; transform: scale(0.88) rotate(-5deg); }
+  45% { opacity: 0.95; transform: scale(1.08) rotate(4deg); }
+  60% { opacity: 0.68; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .weapon-orbit-bal27::before,
+  .weapon-orbit-bal27::after {
+    animation: none;
+  }
+}
