@@ -160,6 +160,13 @@
     font-family: var(--font-sans);
     letter-spacing: 0;
     background-color: var(--color-background);
+    background-image: linear-gradient(
+      to top,
+      rgb(255 115 0 / 22%) 0%,
+      rgb(255 115 0 / 10%) 22%,
+      rgb(255 115 0 / 0%) 58%
+    );
+    background-attachment: fixed;
     color: var(--color-foreground);
   }
 }
