@@ -48,7 +48,7 @@ function PhClock() {
   const { date } = now ? formatManila(new Date(now)) : { date: "—" };
   return (
     <div className="text-center font-mono" aria-label="Current Philippine date">
-      <div className="mt-1 text-[10px] text-muted-foreground">{date}</div>
+      <div className="mt-1 text-[10px] text-foreground">{date}</div>
     </div>
   );
 }
@@ -64,7 +64,7 @@ function Countdown() {
   ] as const;
   return (
     <div className="mx-auto w-full max-w-lg text-center" aria-label="Event countdown">
-      <div className="text-[10px] text-muted-foreground sm:text-xs">
+      <div className="text-[10px] text-foreground sm:text-xs">
         EVENT ENDS · DEC 10, 2026 · 8:00 AM PHT
       </div>
       {c.ended && now ? (
@@ -76,7 +76,7 @@ function Countdown() {
               <div className="text-4xl font-bold tabular-nums text-primary sm:text-5xl">
                 {now ? String(v).padStart(2, "0") : "--"}
               </div>
-              <div className="text-[10px] text-muted-foreground">{l}</div>
+              <div className="text-[10px] text-foreground">{l}</div>
             </div>
           ))}
         </div>
@@ -114,17 +114,17 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
   };
   return (
     <section className="mx-auto max-w-md text-center">
-      <h2 aria-live="polite" className="font-mono text-sm font-bold text-muted-foreground">
+      <h2 aria-live="polite" className="font-mono text-sm font-bold text-foreground">
         EVENT STATUS: <span className="text-yellow-400">{res ? STATUS_LABEL[res.status] : "—"}</span>
       </h2>
       <p
         aria-live="polite"
-        className="mt-1 font-mono text-xs font-bold text-muted-foreground sm:text-sm"
+        className="mt-1 font-mono text-xs font-bold text-foreground sm:text-sm"
       >
         SIGILS MO SA DEC 10: <span className="text-yellow-400">{res ? res.deadlineProjection : "—"}</span>
       </p>
       {res?.status === "ON TRACK" && (
-        <p className="mt-1 font-mono text-xs font-bold uppercase text-muted-foreground sm:text-sm" aria-live="polite">
+        <p className="mt-1 font-mono text-xs font-bold uppercase text-foreground sm:text-sm" aria-live="polite">
           {(() => { const match = acquisitionPhrase(res.projectedAtMs).match(/^(500 sigils ka na sa )(.+?)( week of .+)$/); return match ? <>{match[1]}<span className="text-yellow-400">{match[2]}</span>{match[3]}</> : acquisitionPhrase(res.projectedAtMs); })()}
         </p>
       )}
@@ -148,7 +148,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
         setTaskPlan(plan);
         calculate(booster, plan, true);
       }} />
-      <label className="mt-2 block font-mono text-xs tracking-[0.2em] text-muted-foreground" htmlFor="sigils">
+      <label className="mt-2 block font-mono text-xs tracking-[0.2em] text-foreground" htmlFor="sigils">
         CURRENT SIGILS
       </label>
       <input
@@ -166,7 +166,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
           onWarningChange(false);
         }}
         onKeyDown={(e) => e.key === "Enter" && calculate()}
-        className="mt-1 w-full border-0 border-b border-border bg-transparent py-1 text-center font-mono text-3xl text-foreground outline-none placeholder:text-xl placeholder:text-muted-foreground focus:border-primary"
+        className="mt-1 w-full border-0 border-b border-border bg-transparent py-1 text-center font-mono text-3xl text-foreground outline-none placeholder:text-xl placeholder:text-foreground focus:border-primary"
       />
       <Button
         onClick={() => calculate()}
@@ -237,7 +237,7 @@ export function Index() {
         <SigilCalc onWarningChange={setShowWarning} />
       </div>
 
-      <footer className="mt-6 pt-1 pb-1 text-center font-mono text-xs tracking-[0.2em] text-muted-foreground">
+      <footer className="mt-6 pt-1 pb-1 text-center font-mono text-xs tracking-[0.2em] text-foreground">
         VYNESHINDEN/TIMOTHY LOMIBAO
       </footer>
     </main>
