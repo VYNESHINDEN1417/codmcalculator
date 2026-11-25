@@ -114,17 +114,17 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
   };
   return (
     <section className="mx-auto max-w-md text-center">
-      <h2 aria-live="polite" className={`font-mono text-sm font-bold ${res ? (res.status === "NOT ON TRACK" ? "text-destructive" : "text-live") : "text-muted-foreground"}`}>
+      <h2 aria-live="polite" className="font-mono text-sm font-bold text-yellow-400">
         EVENT STATUS: {res ? STATUS_LABEL[res.status] : "—"}
       </h2>
       <p
         aria-live="polite"
-        className={`mt-1 font-mono text-xs font-bold sm:text-sm ${res ? (res.status === "NOT ON TRACK" ? "text-destructive" : "text-live") : "text-muted-foreground"}`}
+        className="mt-1 font-mono text-xs font-bold text-yellow-400 sm:text-sm"
       >
         SIGILS MO SA DEC 10: {res ? res.deadlineProjection : "—"}
       </p>
       {res?.status === "ON TRACK" && (
-        <p className="mt-1 font-mono text-xs font-bold uppercase text-live sm:text-sm" aria-live="polite">
+        <p className="mt-1 font-mono text-xs font-bold uppercase text-yellow-400 sm:text-sm" aria-live="polite">
           {acquisitionPhrase(res.projectedAtMs)}
         </p>
       )}
