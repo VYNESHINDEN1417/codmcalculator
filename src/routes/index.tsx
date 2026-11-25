@@ -112,11 +112,6 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
     trackCalculatorEvent("calculate");
     onWarningChange(result.status === "NOT ON TRACK");
   };
-  const rows = res
-    ? ([
-        ["AVAILABLE SIGILS PER WEEK", `${WEEKLY_SIGILS} / week`],
-      ] as const)
-    : [];
   return (
     <section className="mx-auto max-w-md text-center">
       <h2 aria-live="polite" className={`font-mono text-sm font-bold ${res ? (res.status === "NOT ON TRACK" ? "text-destructive" : "text-live") : "text-muted-foreground"}`}>
@@ -124,9 +119,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
       </h2>
       <p
         aria-live="polite"
-        className={`mt-1 font-mono text-xs font-bold sm:text-sm ${
-          res ? (res.status === "NOT ON TRACK" ? "text-destructive" : "text-live") : "text-muted-foreground"
-        }`}
+        className={`mt-1 font-mono text-xs font-bold sm:text-sm ${res ? (res.status === "NOT ON TRACK" ? "text-destructive" : "text-live") : "text-muted-foreground"}`}
       >
         SIGILS MO SA DEC 10: {res ? res.deadlineProjection : "—"}
       </p>
@@ -136,7 +129,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
         </p>
       )}
       <p className="mt-3 font-mono text-xs font-bold tracking-[0.08em] text-yellow-400" aria-live="polite">
-        MINIMUM SIGIL: {Math.max(0, TARGET_SIGILS - Math.floor(Math.max(0, EVENT_DEADLINE_MS - (now ?? Date.now())) / WEEK_MS) * WEEKLY_SIGILS - (booster ? BOOSTER_SIGILS : 0))}
+        <span className="inline-block scale-125">MINIMUM SIGIL: {Math.max(0, TARGET_SIGILS - Math.floor(Math.max(0, EVENT_DEADLINE_MS - (now ?? Date.now())) / WEEK_MS) * WEEKLY_SIGILS - (booster ? BOOSTER_SIGILS : 0))}</span>
       </p>
       <div className="mt-3 flex items-center justify-center gap-1 font-mono text-xs font-bold text-foreground">
         <Checkbox
@@ -188,17 +181,6 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
                 ? `${res.deadlineProjection} lang ang aabutin ng sigil mo sa Deadline`
                 : `${res.weeksRequired} WEEK${res.weeksRequired === 1 ? "" : "S"} LEFT TO GRIND`}
           </p>
-          <div role="progressbar" aria-label="Sigil progress" aria-valuemin={0} aria-valuemax={TARGET_SIGILS} aria-valuenow={Math.min(res.current, TARGET_SIGILS)} className="mx-auto mt-2 h-1 w-full bg-muted">
-            <div className="h-1 bg-primary" style={{ width: `${Math.min(100, (res.current / TARGET_SIGILS) * 100)}%` }} />
-          </div>
-          <dl className="mt-3 space-y-1 font-mono text-xs sm:text-sm">
-            {rows.map(([k, v]) => (
-              <div key={k} className="flex justify-between">
-                <dt className="text-muted-foreground">{k}</dt>
-                <dd className="text-foreground">{v}</dd>
-              </div>
-            ))}
-          </dl>
         </div>
       )}
     </section>
