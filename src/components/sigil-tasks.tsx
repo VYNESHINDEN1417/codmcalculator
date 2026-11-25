@@ -39,10 +39,10 @@ export function SigilTasks({ plan, onChange }: { plan: TaskPlan | undefined; onC
 
   return (
     <>
-      <div className="mt-2 flex items-center justify-center gap-1">
-      <Button onClick={openTasks} className="h-8 min-w-0 gap-2 px-2 font-mono text-[10px] font-bold sm:text-xs">
-        <ListChecks className="size-4" /> SIGIL TASKS
-        <span className="font-normal text-foreground">OPTIONAL LANG</span>
+      <div className="flex min-w-0 items-center gap-1">
+      <Button onClick={openTasks} className="h-8 min-w-0 flex-1 gap-1 px-1 font-mono text-[9px] font-bold sm:text-[10px]">
+        <ListChecks className="size-3.5 shrink-0" /> SIGIL TASKS
+        <span className="font-normal text-foreground">OPTIONAL</span>
         {plan && <span className="ml-auto tabular-nums">+{total}</span>}
       </Button>
       <SigilTaskHelp />
