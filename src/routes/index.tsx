@@ -245,7 +245,7 @@ export function Index() {
         <SigilCalc onWarningChange={setShowWarning} />
       </div>
 
-      <div className="absolute bottom-20 left-4 z-10 w-[104px] text-left font-mono">
+      <div className="absolute bottom-3 left-3 z-10 w-[104px] text-left font-mono">
         <p className="mb-1.5 text-[8px] tracking-[0.16em] text-foreground/60">MADE WITH</p>
         <div className="grid grid-cols-2 gap-x-3 gap-y-2">
           <div className="flex flex-col items-center gap-0.5 text-[7px] tracking-normal text-foreground/65">
