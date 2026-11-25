@@ -135,7 +135,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
           {acquisitionPhrase(res.projectedAtMs)}
         </p>
       )}
-      <p className="mt-3 font-mono text-xs font-bold tracking-[0.08em] text-live" aria-live="polite">
+      <p className="mt-3 font-mono text-xs font-bold tracking-[0.08em] text-yellow-400" aria-live="polite">
         MINIMUM SIGIL: {Math.max(0, TARGET_SIGILS - Math.floor(Math.max(0, EVENT_DEADLINE_MS - (now ?? Date.now())) / WEEK_MS) * WEEKLY_SIGILS - (booster ? BOOSTER_SIGILS : 0))}
       </p>
       <div className="mt-3 flex items-center justify-center gap-1 font-mono text-xs font-bold text-foreground">
