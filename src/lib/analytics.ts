@@ -2,7 +2,7 @@ const SUPABASE_URL = "https://bmeddjzihcvraqmhkxen.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_Y5Vkz3pQPuihk6qXt2w2bA_BOPEJJpm";
 const TRACKING_ENDPOINT = `${SUPABASE_URL}/functions/v1/track-codm-calculator`;
 
-type AnalyticsEvent = "calculate" | "weapon_select" | "music_toggle" | "share";
+type AnalyticsEvent = "calculate" | "weapon_select" | "music_toggle" | "share" | "github_repository_click";
 
 function getId(storage: Storage, key: string): string {
   try {
