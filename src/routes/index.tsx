@@ -245,28 +245,28 @@ export function Index() {
         <SigilCalc onWarningChange={setShowWarning} />
       </div>
 
-      <footer className="mt-6 flex flex-col items-center gap-2 pt-1 pb-1 text-center font-mono text-xs tracking-[0.2em] text-foreground">
-        <div className="self-start text-left">
-          <p className="mb-2 text-[10px] tracking-[0.18em] text-foreground/70">MADE WITH</p>
-          <div className="grid grid-cols-4 gap-4">
-            <div className="flex flex-col items-center gap-1 text-[9px] tracking-normal text-foreground/80">
-              <Heart aria-hidden="true" className="h-5 w-5" />
-              <span>Lovable AI</span>
-            </div>
-            <div className="flex flex-col items-center gap-1 text-[9px] tracking-normal text-foreground/80">
-              <Bot aria-hidden="true" className="h-5 w-5" />
-              <span>ChatGPT</span>
-            </div>
-            <div className="flex flex-col items-center gap-1 text-[9px] tracking-normal text-foreground/80">
-              <Github aria-hidden="true" className="h-5 w-5" />
-              <span>GitHub</span>
-            </div>
-            <div className="flex flex-col items-center gap-1 text-[9px] tracking-normal text-foreground/80">
-              <Triangle aria-hidden="true" className="h-5 w-5" />
-              <span>Vercel</span>
-            </div>
+      <div className="absolute bottom-20 left-4 z-10 w-[104px] text-left font-mono">
+        <p className="mb-1.5 text-[8px] tracking-[0.16em] text-foreground/60">MADE WITH</p>
+        <div className="grid grid-cols-2 gap-x-3 gap-y-2">
+          <div className="flex flex-col items-center gap-0.5 text-[7px] tracking-normal text-foreground/65">
+            <Heart aria-hidden="true" className="h-3.5 w-3.5" />
+            <span>Lovable AI</span>
+          </div>
+          <div className="flex flex-col items-center gap-0.5 text-[7px] tracking-normal text-foreground/65">
+            <Bot aria-hidden="true" className="h-3.5 w-3.5" />
+            <span>ChatGPT</span>
+          </div>
+          <div className="flex flex-col items-center gap-0.5 text-[7px] tracking-normal text-foreground/65">
+            <Github aria-hidden="true" className="h-3.5 w-3.5" />
+            <span>GitHub</span>
+          </div>
+          <div className="flex flex-col items-center gap-0.5 text-[7px] tracking-normal text-foreground/65">
+            <Triangle aria-hidden="true" className="h-3.5 w-3.5" />
+            <span>Vercel</span>
           </div>
         </div>
+      </div>
+      <footer className="mt-6 flex flex-col items-center gap-2 pt-1 pb-1 text-center font-mono text-xs tracking-[0.2em] text-foreground">
         <span>VYNESHINDEN/TIMOTHY LOMIBAO</span>
         <Button asChild variant="outline" className="h-9 rounded-full border-primary bg-transparent px-4 font-mono text-[10px] tracking-normal text-foreground hover:bg-primary/10 hover:text-foreground">
           <a href="https://github.com/VYNESHINDEN1417/codmcalculator" target="_blank" rel="noopener noreferrer">
