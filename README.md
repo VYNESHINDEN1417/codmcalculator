@@ -1,37 +1,37 @@
 # CODM Sigil Calculator
 
-A simple tool built for Call of Duty: Mobile players who want to keep track of their event progress and plan their way toward the rewards they want.
+Isang simpleng tool para sa mga manlalaro ng Call of Duty: Mobile na gustong subaybayan ang kanilang event progress at planuhin kung paano makukuha ang mga reward na gusto nila.
 
-## The story behind the app
+## Kuwento sa likod ng app
 
-This project started as a personal tool. I wanted a simple way to calculate the sigils I needed, track my own event progress, and plan ahead for the rewards I was aiming for. Along the way, I realized that the same tool could be helpful to other players too, so I decided to make it available for everyone.
+Nagsimula ang proyektong ito bilang personal na tool. Gusto ko lang magkaroon ng simpleng paraan para malaman kung ilang sigil ang kailangan ko, masubaybayan ang progress ko sa event, at makapagplano para sa mga reward na gusto kong makuha. Pero habang ginagawa ko ito, naisip ko na hindi lang pala ako ang makikinabang. Marami ring ibang players na posibleng makatulongan nito, kaya naisipan kong ibahagi ito para magamit din ng iba.
 
-What began as a personal idea grew through countless little adjustments, from the calculator itself to the countdown, Philippine time display, weapon showcase, and the details of the interface.
+Mula sa simpleng personal na idea, unti-unti itong nadagdagan at napaganda sa pamamagitan ng maraming maliliit na improvements. Kasama rito ang calculator, event countdown, Philippine time display, weapon showcase, at iba pang detalye ng interface.
 
-I brought the idea, the direction, and the persistence to keep improving it. **Lovable AI, GitHub, ChatGPT, and Vercel helped make it possible.** Lovable helped turn the idea into a working application, ChatGPT helped brainstorm, refine, troubleshoot, and polish it, GitHub keeps the project and its development history, and Vercel makes it possible to deploy and host the app online.
+Sa akin nanggaling ang idea, direksyon, at tiyagang patuloy itong pagandahin. **Naging posible ang proyektong ito sa tulong ng Lovable AI, GitHub, ChatGPT, at Vercel.** Tinulungan ako ng Lovable na gawing totoong app ang idea, ng ChatGPT sa pagbuo at paghasa ng mga konsepto, pag-troubleshoot, at pag-improve ng experience, ng GitHub sa pag-iingat ng source code at history ng development, at ng Vercel para ma-deploy at maging accessible online ang app.
 
-It is still a personal project at heart, but now it can be useful to more than just me.
+Personal project pa rin ito para sa akin, pero ngayon, puwede na rin itong makatulong sa mas marami pang CODM players.
 
-## What it does
+## Mga feature
 
-- Calculates sigil requirements and helps track event progress.
-- Includes sigil task and 70-booster sections for planning.
-- Displays an event countdown and a live Philippine date and time.
-- Features a weapon showcase and a mobile-friendly, AMOLED-black interface.
+- Kinakalkula kung ilang sigil ang kailangan at tumutulong sa pagsubaybay ng event progress.
+- May mga section para sa Sigil Tasks at 70 Booster para mas madaling makapagplano.
+- May event countdown at live na petsa at oras sa Pilipinas.
+- May weapon showcase at mobile-friendly na interface na may AMOLED-black na tema.
 
-## Credits
+## Mga pasasalamat
 
-- **Idea and project direction:** Vyneshinden
+- **Idea at direksyon ng proyekto:** Vyneshinden
 - **AI-assisted app building:** [Lovable](https://lovable.dev)
-- **Development collaboration, brainstorming, and refinement:** [ChatGPT](https://chatgpt.com)
-- **Version control and source hosting:** [GitHub](https://github.com)
-- **Deployment and hosting:** [Vercel](https://vercel.com)
+- **Pagtulong sa brainstorming, development, at improvements:** [ChatGPT](https://chatgpt.com)
+- **Version control at pagho-host ng source code:** [GitHub](https://github.com)
+- **Deployment at online hosting:** [Vercel](https://vercel.com)
 
-The idea started as something I made for myself. The tools helped turn it into something others can use, too.
+Nagsimula ito bilang tool na ginawa ko para sa sarili ko. Sa tulong ng mga tamang platform at tools, naging isang proyekto ito na puwede nang magamit at mapakinabangan ng iba.
 
-## Development
+## Pagpapatakbo ng proyekto
 
-To run the project locally, you need Node.js and npm.
+Para patakbuhin ang proyekto sa sarili mong device, kailangan mo ng Node.js at npm.
 
 ```sh
 git clone https://github.com/VYNESHINDEN1417/codmcalculator.git
