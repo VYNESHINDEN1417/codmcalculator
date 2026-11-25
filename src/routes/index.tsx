@@ -129,7 +129,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
         </p>
       )}
       <p className="mt-3 font-mono text-xs font-bold tracking-[0.08em] text-yellow-400" aria-live="polite">
-        <span className="inline-block scale-125">MINIMUM SIGIL: {Math.max(0, TARGET_SIGILS - Math.floor(Math.max(0, EVENT_DEADLINE_MS - (now ?? Date.now())) / WEEK_MS) * WEEKLY_SIGILS - (booster ? BOOSTER_SIGILS : 0))}</span>
+        <span className="inline-block" style={{ transform: "scale(1.875)", transformOrigin: "center" }}>MINIMUM SIGIL: {Math.max(0, TARGET_SIGILS - Math.floor(Math.max(0, EVENT_DEADLINE_MS - (now ?? Date.now())) / WEEK_MS) * WEEKLY_SIGILS - (booster ? BOOSTER_SIGILS : 0))}</span>
       </p>
       <div className="mt-3 flex items-center justify-center gap-1 font-mono text-xs font-bold text-foreground">
         <Checkbox
