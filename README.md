@@ -1,51 +1,41 @@
-# Codmcalculator
+# CODM Sigil Calculator
 
-PHILIPPINE STANDARD TIME (PST)
+A simple tool built for Call of Duty: Mobile players who want to keep track of their event progress and plan their way toward the rewards they want.
 
-Add a live digital clock displaying the current Philippine time (UTC+8) somewhere near the event countdown.
+## The story behind the app
 
-Display format:
+This project started as a personal tool. I wanted a simple way to calculate the sigils I needed, track my own event progress, and plan ahead for the rewards I was aiming for. Along the way, I realized that the same tool could be helpful to other players too, so I decided to make it available for everyone.
 
-- Label: PHILIPPINE STANDARD TIME
-- Current time: 05:39:00 AM
-- Current date: OCTOBER 20, 2026
+What began as a personal idea grew through countless little adjustments, from the calculator itself to the countdown, Philippine time display, weapon showcase, and the details of the interface.
 
-The displayed date and time above are examples only. Always display the actual current Philippine date and time.
+I brought the idea, the direction, and the persistence to keep improving it. **Lovable AI, GitHub, ChatGPT, and Vercel helped make it possible.** Lovable helped turn the idea into a working application, ChatGPT helped brainstorm, refine, troubleshoot, and polish it, GitHub keeps the project and its development history, and Vercel makes it possible to deploy and host the app online.
 
-Functional requirements:
+It is still a personal project at heart, but now it can be useful to more than just me.
 
-- Use the "Asia/Manila" time zone to ensure the clock always displays Philippine local time, regardless of the visitor's location.
-- Update the displayed time every second.
-- Display both the current Philippine date and time.
-- Use a clear, compact digital-clock design that complements the AMOLED-black interface.
-- Add a small green live indicator beside the label to communicate that the clock is active.
-- Keep the clock visible near the event countdown without distracting from the featured weapon or sigil calculator.
-- Calculate the event countdown using the fixed event deadline of December 10, 2026, at 8:00 AM Philippine time.
-- Do not hardcode the displayed current date or time. Generate it dynamically using the browser's date and time functions with the "Asia/Manila" time zone.
+## What it does
 
-Important: The live clock and event countdown must operate independently. Updating the Philippine clock must never reset or extend the event countdown.
+- Calculates sigil requirements and helps track event progress.
+- Includes sigil task and 70-booster sections for planning.
+- Displays an event countdown and a live Philippine date and time.
+- Features a weapon showcase and a mobile-friendly, AMOLED-black interface.
 
-The purpose is to let visitors immediately verify that the website displays an actively updating Philippine clock rather than a static timestamp.
+## Credits
 
-This project was built with [Lovable](https://lovable.dev).
+- **Idea and project direction:** Vyneshinden
+- **AI-assisted app building:** [Lovable](https://lovable.dev)
+- **Development collaboration, brainstorming, and refinement:** [ChatGPT](https://chatgpt.com)
+- **Version control and source hosting:** [GitHub](https://github.com)
+- **Deployment and hosting:** [Vercel](https://vercel.com)
 
-**Live app**: https://codmcalculator.lovable.app
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/63f226bf-9755-4e1d-b914-86035785bd6c).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+The idea started as something I made for myself. The tools helped turn it into something others can use, too.
 
 ## Development
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+To run the project locally, you need Node.js and npm.
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
+git clone https://github.com/VYNESHINDEN1417/codmcalculator.git
+cd codmcalculator
+npm install
 npm run dev
 ```
