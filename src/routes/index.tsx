@@ -125,7 +125,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
       </p>
       {res?.status === "ON TRACK" && (
         <p className="mt-1 font-mono text-xs font-bold uppercase text-muted-foreground sm:text-sm" aria-live="polite">
-          {acquisitionPhrase(res.projectedAtMs).replace(/^(500 sigils ka na sa )/, "") && <>500 sigils ka na sa <span className="text-yellow-400">{acquisitionPhrase(res.projectedAtMs).replace("500 sigils ka na sa ", "")}</span></>}
+          {(() => { const match = acquisitionPhrase(res.projectedAtMs).match(/^(500 sigils ka na sa )(.+?)( week of .+)$/); return match ? <>{match[1]}<span className="text-yellow-400">{match[2]}</span>{match[3]}</> : acquisitionPhrase(res.projectedAtMs); })()}
         </p>
       )}
       <p className="mt-3 font-mono text-xs font-bold tracking-[0.08em] text-yellow-400" aria-live="polite">
