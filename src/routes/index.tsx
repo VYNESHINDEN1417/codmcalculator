@@ -198,7 +198,7 @@ export function Index() {
   const w = WEAPONS[sel];
   if (!w) return null;
   return (
-    <main className="mx-auto flex min-h-screen max-w-6xl flex-col px-4 py-4">
+    <main className="fixed inset-0 mx-auto flex h-dvh w-full max-w-6xl flex-col overflow-hidden px-4 py-4">
       <header className="flex flex-col items-center gap-3">
         <PhClock />
         <Countdown />
