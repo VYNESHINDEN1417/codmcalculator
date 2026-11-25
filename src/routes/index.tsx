@@ -132,18 +132,20 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
         <span className="inline-block" style={{ transform: "scale(1.875)", transformOrigin: "center" }}>MINIMUM SIGIL: {Math.max(0, TARGET_SIGILS - Math.floor(Math.max(0, EVENT_DEADLINE_MS - (now ?? Date.now())) / WEEK_MS) * WEEKLY_SIGILS - (booster ? BOOSTER_SIGILS : 0))}</span>
       </p>
       <div className="mt-3 grid grid-cols-[minmax(0,1fr)_1px_minmax(0,1fr)] items-center gap-2">
-        <div className="flex min-w-0 items-center justify-center gap-1 whitespace-nowrap font-mono text-[9px] font-bold text-foreground sm:text-xs">
-          <Checkbox
-            id="new-sigil-booster"
-            checked={booster}
-            onCheckedChange={(checked) => {
-              const enabled = checked === true;
-              setBooster(enabled);
-              if (res) calculate(enabled);
-            }}
-          />
-          <label htmlFor="new-sigil-booster" className="cursor-pointer whitespace-nowrap">70 booster sigils</label>
-          <BoosterHelp newBooster />
+        <div className="flex min-w-0 items-center justify-center rounded-lg border border-primary bg-transparent px-2 py-1">
+          <div className="flex items-center justify-center gap-1 whitespace-nowrap font-mono text-[10px] font-bold leading-none text-foreground sm:text-sm">
+            <Checkbox
+              id="new-sigil-booster"
+              checked={booster}
+              onCheckedChange={(checked) => {
+                const enabled = checked === true;
+                setBooster(enabled);
+                if (res) calculate(enabled);
+              }}
+            />
+            <label htmlFor="new-sigil-booster" className="flex cursor-pointer items-center whitespace-nowrap leading-none">70 booster sigils</label>
+            <BoosterHelp newBooster />
+          </div>
         </div>
         <div aria-hidden="true" className="h-8 w-px bg-white/80" />
         <div className="min-w-0">
