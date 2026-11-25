@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { BoosterHelp } from "@/components/booster-help";
 import { useEffect, useState, type CSSProperties } from "react";
+import { Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import chatgptLogo from "../../chatgpt.png";
 import githubLogo from "../../github.png";
@@ -249,7 +250,7 @@ export function Index() {
       </div>
 
       <div className="absolute bottom-3 left-3 z-10 w-[220px] text-left font-mono">
-        <p className="mb-1.5 text-[8px] tracking-[0.16em] text-foreground/60">MADE WITH</p>
+        <p className="mb-1.5 text-[8px] tracking-[0.16em] text-foreground/60">VIBE CODED WITH</p>
         <div className="grid grid-cols-4 gap-x-2">
           <div className="flex flex-col items-center gap-0.5 whitespace-nowrap text-[6px] tracking-tight text-foreground/65">
             <img src={lovableLogo} alt="" className="h-3.5 w-3.5 object-contain" />
