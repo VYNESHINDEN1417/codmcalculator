@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { BoosterHelp } from "@/components/booster-help";
 import { useEffect, useState, type CSSProperties } from "react";
 import { Button } from "@/components/ui/button";
+import { Github } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { SigilTasks } from "@/components/sigil-tasks";
 import { type TaskPlan, WEEK_MS } from "@/lib/sigil-tasks";
@@ -244,8 +245,14 @@ export function Index() {
         <SigilCalc onWarningChange={setShowWarning} />
       </div>
 
-      <footer className="mt-6 pt-1 pb-1 text-center font-mono text-xs tracking-[0.2em] text-foreground">
-        VYNESHINDEN/TIMOTHY LOMIBAO
+      <footer className="mt-6 flex flex-col items-center gap-2 pt-1 pb-1 text-center font-mono text-xs tracking-[0.2em] text-foreground">
+        <span>VYNESHINDEN/TIMOTHY LOMIBAO</span>
+        <Button asChild variant="outline" className="h-9 rounded-full border-primary bg-transparent px-4 font-mono text-[10px] tracking-normal text-foreground hover:bg-primary/10 hover:text-foreground">
+          <a href="https://github.com/VYNESHINDEN1417/codmcalculator" target="_blank" rel="noopener noreferrer">
+            <Github aria-hidden="true" />
+            View Github Repository
+          </a>
+        </Button>
       </footer>
     </main>
   );
