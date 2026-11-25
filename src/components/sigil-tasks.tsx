@@ -39,7 +39,7 @@ export function SigilTasks({ plan, onChange }: { plan: TaskPlan | undefined; onC
 
   return (
     <>
-      <div className="flex min-w-0 flex-row-reverse items-center gap-1">
+      <div className="flex min-w-0 items-center gap-1">
       <Button onClick={openTasks} className="h-8 min-w-0 flex-1 gap-1 px-1 font-mono text-[9px] font-bold sm:text-[10px]">
         <ListChecks className="size-3.5 shrink-0" /> SIGIL TASKS
         <span className="font-normal text-foreground">OPTIONAL</span>
