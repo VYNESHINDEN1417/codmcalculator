@@ -2,7 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { BoosterHelp } from "@/components/booster-help";
 import { useEffect, useState, type CSSProperties } from "react";
 import { Button } from "@/components/ui/button";
-import { Bot, Github, Heart, Triangle } from "lucide-react";
+import chatgptLogo from "../../chatgpt.png";
+import githubLogo from "../../github.png";
+import lovableLogo from "../../lovable ai.webp";
+import vercelLogo from "../../vercel.jpg";
 import { Checkbox } from "@/components/ui/checkbox";
 import { SigilTasks } from "@/components/sigil-tasks";
 import { type TaskPlan, WEEK_MS } from "@/lib/sigil-tasks";
@@ -245,23 +248,23 @@ export function Index() {
         <SigilCalc onWarningChange={setShowWarning} />
       </div>
 
-      <div className="absolute bottom-3 left-3 z-10 w-[184px] text-left font-mono">
+      <div className="absolute bottom-3 left-3 z-10 w-[220px] text-left font-mono">
         <p className="mb-1.5 text-[8px] tracking-[0.16em] text-foreground/60">MADE WITH</p>
         <div className="grid grid-cols-4 gap-x-2">
-          <div className="flex flex-col items-center gap-0.5 text-[7px] tracking-normal text-foreground/65">
-            <Heart aria-hidden="true" className="h-3.5 w-3.5" />
-            <span>Lovable AI</span>
+          <div className="flex flex-col items-center gap-0.5 whitespace-nowrap text-[6px] tracking-tight text-foreground/65">
+            <img src={lovableLogo} alt="" className="h-3.5 w-3.5 object-contain" />
+            <span className="whitespace-nowrap">Lovable AI</span>
           </div>
           <div className="flex flex-col items-center gap-0.5 text-[7px] tracking-normal text-foreground/65">
-            <Bot aria-hidden="true" className="h-3.5 w-3.5" />
+            <img src={chatgptLogo} alt="" className="h-3.5 w-3.5 object-contain" />
             <span>ChatGPT</span>
           </div>
           <div className="flex flex-col items-center gap-0.5 text-[7px] tracking-normal text-foreground/65">
-            <Github aria-hidden="true" className="h-3.5 w-3.5" />
+            <img src={githubLogo} alt="" className="h-3.5 w-3.5 object-contain" />
             <span>GitHub</span>
           </div>
           <div className="flex flex-col items-center gap-0.5 text-[7px] tracking-normal text-foreground/65">
-            <Triangle aria-hidden="true" className="h-3.5 w-3.5" />
+            <img src={vercelLogo} alt="" className="h-3.5 w-3.5 object-contain" />
             <span>Vercel</span>
           </div>
         </div>
