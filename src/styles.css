@@ -258,3 +258,12 @@
     transition: none;
   }
 }
+
+
+/* Prevent pinch-to-zoom while keeping normal touch interaction available. */
+html,
+body,
+#root,
+.app-no-zoom {
+  touch-action: pan-x pan-y;
+}
