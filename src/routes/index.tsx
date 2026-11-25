@@ -114,18 +114,18 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
   };
   return (
     <section className="mx-auto max-w-md text-center">
-      <h2 aria-live="polite" className="font-mono text-sm font-bold text-yellow-400">
-        EVENT STATUS: {res ? STATUS_LABEL[res.status] : "—"}
+      <h2 aria-live="polite" className="font-mono text-sm font-bold text-muted-foreground">
+        EVENT STATUS: <span className="text-yellow-400">{res ? STATUS_LABEL[res.status] : "—"}</span>
       </h2>
       <p
         aria-live="polite"
-        className="mt-1 font-mono text-xs font-bold text-yellow-400 sm:text-sm"
+        className="mt-1 font-mono text-xs font-bold text-muted-foreground sm:text-sm"
       >
-        SIGILS MO SA DEC 10: {res ? res.deadlineProjection : "—"}
+        SIGILS MO SA DEC 10: <span className="text-yellow-400">{res ? res.deadlineProjection : "—"}</span>
       </p>
       {res?.status === "ON TRACK" && (
-        <p className="mt-1 font-mono text-xs font-bold uppercase text-yellow-400 sm:text-sm" aria-live="polite">
-          {acquisitionPhrase(res.projectedAtMs)}
+        <p className="mt-1 font-mono text-xs font-bold uppercase text-muted-foreground sm:text-sm" aria-live="polite">
+          {acquisitionPhrase(res.projectedAtMs).replace(/^(500 sigils ka na sa )/, "") && <>500 sigils ka na sa <span className="text-yellow-400">{acquisitionPhrase(res.projectedAtMs).replace("500 sigils ka na sa ", "")}</span></>}
         </p>
       )}
       <p className="mt-3 font-mono text-xs font-bold tracking-[0.08em] text-yellow-400" aria-live="polite">
