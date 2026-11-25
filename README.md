@@ -4,11 +4,13 @@ A simple tool built for Call of Duty: Mobile players who want to keep track of t
 
 ## The story behind the app
 
-This project started with an idea: make a clean, easy-to-use sigil calculator that helps players understand how many sigils they need, track their progress, and see whether they're on pace for the event. What began as a small idea grew through countless little adjustments, from the calculator itself to the countdown, Philippine time display, weapon showcase, and the details of the interface.
+This project started as a personal tool. I wanted a simple way to calculate the sigils I needed, track my own event progress, and plan ahead for the rewards I was aiming for. Along the way, I realized that the same tool could be helpful to other players too, so I decided to make it available for everyone.
 
-I brought the idea, the direction, and the persistence to keep improving it. **Lovable AI, GitHub, and ChatGPT helped make it possible.** Lovable helped turn ideas into a working application, GitHub gave the project a home and a history of its changes, and ChatGPT helped brainstorm, refine, troubleshoot, and polish the experience along the way.
+What began as a personal idea grew through countless little adjustments, from the calculator itself to the countdown, Philippine time display, weapon showcase, and the details of the interface.
 
-It is a reminder that you don't need to do every part alone to create something of your own. Sometimes, one idea and the right tools are enough to get the project moving.
+I brought the idea, the direction, and the persistence to keep improving it. **Lovable AI, GitHub, ChatGPT, and Vercel helped make it possible.** Lovable helped turn the idea into a working application, ChatGPT helped brainstorm, refine, troubleshoot, and polish it, GitHub keeps the project and its development history, and Vercel makes it possible to deploy and host the app online.
+
+It is still a personal project at heart, but now it can be useful to more than just me.
 
 ## What it does
 
@@ -23,8 +25,9 @@ It is a reminder that you don't need to do every part alone to create something 
 - **AI-assisted app building:** [Lovable](https://lovable.dev)
 - **Development collaboration, brainstorming, and refinement:** [ChatGPT](https://chatgpt.com)
 - **Version control and source hosting:** [GitHub](https://github.com)
+- **Deployment and hosting:** [Vercel](https://vercel.com)
 
-The idea came first. The tools helped bring it to life.
+The idea started as something I made for myself. The tools helped turn it into something others can use, too.
 
 ## Development
 
