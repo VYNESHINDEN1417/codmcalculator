@@ -225,6 +225,7 @@ function AnalyticsPage() {
   const weaponSelections = filteredEvents.filter((row) => row.event_name === "weapon_select").length;
   const musicToggles = filteredEvents.filter((row) => row.event_name === "music_toggle").length;
   const shares = filteredEvents.filter((row) => row.event_name === "share").length;
+  const githubRepositoryClicks = filteredEvents.filter((row) => row.event_name === "github_repository_click").length;
 
   const sources = Object.entries(filteredVisits.reduce<Record<string, number>>((acc, row) => {
     const key = row.traffic_source || "unknown";
@@ -360,11 +361,12 @@ function AnalyticsPage() {
           <StatCard label="Interactions" value={range === 0 && !payload?.truncated ? payload?.totalEvents ?? 0 : filteredEvents.length} note="Tracked calculator actions" />
         </section>
 
-        <section className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <section className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
           <StatCard label="Calculations" value={calculations} note="Calculate button used" />
           <StatCard label="Weapon selections" value={weaponSelections} note="Carousel selections" />
           <StatCard label="Music toggles" value={musicToggles} note="Background music control" />
           <StatCard label="Shares" value={shares} note="Share actions recorded" />
+          <StatCard label="GitHub repository clicks" value={githubRepositoryClicks} note="Repository button clicks" />
         </section>
 
         <section className="mt-4 grid min-w-0 gap-4 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
