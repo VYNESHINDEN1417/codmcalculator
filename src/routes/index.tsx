@@ -131,7 +131,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
       <p className="mt-3 font-mono text-xs font-bold tracking-[0.08em] text-yellow-400" aria-live="polite">
         <span className="inline-block" style={{ transform: "scale(1.875)", transformOrigin: "center" }}>MINIMUM SIGIL: {Math.max(0, TARGET_SIGILS - Math.floor(Math.max(0, EVENT_DEADLINE_MS - (now ?? Date.now())) / WEEK_MS) * WEEKLY_SIGILS - (booster ? BOOSTER_SIGILS : 0))}</span>
       </p>
-      <div className="mt-3 grid grid-cols-[minmax(0,1fr)_1px_minmax(0,1fr)] items-center gap-2">
+      <div className="mt-3 grid grid-cols-[minmax(0,1fr)_1px_minmax(0,1fr)] items-center gap-x-2">
         <div className="flex min-w-0 items-center gap-1">
           <div className="flex h-8 min-w-0 flex-1 items-center justify-center rounded-md border border-primary bg-transparent px-1">
             <div className="flex items-center justify-center gap-1 whitespace-nowrap font-mono text-[11px] font-bold leading-none text-foreground sm:text-sm">
