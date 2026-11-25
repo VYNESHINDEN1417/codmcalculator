@@ -154,10 +154,13 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
       <input
         id="sigils"
         inputMode="numeric"
+        maxLength={3}
         placeholder="Type mo dito Sigils mo"
         value={raw}
         onChange={(e) => {
-          setRaw(e.target.value);
+          const digits = e.target.value.replace(/\\D/g, "").slice(0, 3);
+          const limited = digits !== "" && Number(digits) > 500 ? "500" : digits;
+          setRaw(limited);
           setRes(null);
           setError(null);
           onWarningChange(false);
