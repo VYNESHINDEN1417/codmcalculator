@@ -26,10 +26,6 @@ It is a reminder that you don't need to do every part alone to create something 
 
 The idea came first. The tools helped bring it to life.
 
-## Live app
-
-[Open the CODM Sigil Calculator](https://codmcalculator.vercel.app)
-
 ## Development
 
 To run the project locally, you need Node.js and npm.
