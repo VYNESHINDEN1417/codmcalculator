@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { BoosterHelp } from "@/components/booster-help";
 import { useEffect, useState, type CSSProperties } from "react";
 import { Button } from "@/components/ui/button";
-import { Github } from "lucide-react";
+import { Bot, Github, Heart, Triangle } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { SigilTasks } from "@/components/sigil-tasks";
 import { type TaskPlan, WEEK_MS } from "@/lib/sigil-tasks";
@@ -246,6 +246,27 @@ export function Index() {
       </div>
 
       <footer className="mt-6 flex flex-col items-center gap-2 pt-1 pb-1 text-center font-mono text-xs tracking-[0.2em] text-foreground">
+        <div className="self-start text-left">
+          <p className="mb-2 text-[10px] tracking-[0.18em] text-foreground/70">MADE WITH</p>
+          <div className="grid grid-cols-4 gap-4">
+            <div className="flex flex-col items-center gap-1 text-[9px] tracking-normal text-foreground/80">
+              <Heart aria-hidden="true" className="h-5 w-5" />
+              <span>Lovable AI</span>
+            </div>
+            <div className="flex flex-col items-center gap-1 text-[9px] tracking-normal text-foreground/80">
+              <Bot aria-hidden="true" className="h-5 w-5" />
+              <span>ChatGPT</span>
+            </div>
+            <div className="flex flex-col items-center gap-1 text-[9px] tracking-normal text-foreground/80">
+              <Github aria-hidden="true" className="h-5 w-5" />
+              <span>GitHub</span>
+            </div>
+            <div className="flex flex-col items-center gap-1 text-[9px] tracking-normal text-foreground/80">
+              <Triangle aria-hidden="true" className="h-5 w-5" />
+              <span>Vercel</span>
+            </div>
+          </div>
+        </div>
         <span>VYNESHINDEN/TIMOTHY LOMIBAO</span>
         <Button asChild variant="outline" className="h-9 rounded-full border-primary bg-transparent px-4 font-mono text-[10px] tracking-normal text-foreground hover:bg-primary/10 hover:text-foreground">
           <a href="https://github.com/VYNESHINDEN1417/codmcalculator" target="_blank" rel="noopener noreferrer">
