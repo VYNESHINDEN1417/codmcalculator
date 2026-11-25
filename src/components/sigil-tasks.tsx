@@ -81,7 +81,7 @@ export function SigilTasks({ plan, onChange }: { plan: TaskPlan | undefined; onC
             </div>
             <div className="min-h-0 overflow-y-auto px-4 sm:px-6">
               {selections.length === 0 ? <p className="py-8 text-center font-mono text-sm">WALA NANG FULL WEEK BAGO ANG DEADLINE.</p> : <table className="w-full border-collapse text-left text-xs">
-                <thead className="sticky top-0 z-10 bg-background font-mono text-[10px] text-muted-foreground"><tr><th className="py-1 font-normal">TASK</th><th className="py-1 text-right font-normal">SIGILS</th><th className="w-10"><span className="sr-only">Selected</span></th></tr></thead>
+                <thead className="sticky top-0 z-10 bg-background font-mono text-[10px] text-foreground"><tr><th className="py-1 font-normal">TASK</th><th className="py-1 text-right font-normal">SIGILS</th><th className="w-10"><span className="sr-only">Selected</span></th></tr></thead>
                 <tbody>{SIGIL_TASKS.map((task, index) => <tr key={task.name} className="border-t border-border">
                   <td className="py-1.5 pr-2"><label htmlFor={`task-${index}`} className="cursor-pointer leading-tight">{task.name}</label></td>
                   <td className="pr-2 text-right font-mono font-bold tabular-nums text-primary">{task.sigils}</td>
