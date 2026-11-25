@@ -162,9 +162,9 @@
     background-color: var(--color-background);
     background-image: linear-gradient(
       to top,
-      rgb(255 115 0 / 26%) 0%,
-      rgb(255 115 0 / 14%) 38%,
-      rgb(255 115 0 / 5%) 68%,
+      rgb(255 115 0 / 16%) 0%,
+      rgb(255 115 0 / 8%) 38%,
+      rgb(255 115 0 / 3%) 68%,
       rgb(255 115 0 / 0%) 100%
     );
     background-attachment: fixed;
