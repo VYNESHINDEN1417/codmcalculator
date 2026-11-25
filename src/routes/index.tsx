@@ -151,7 +151,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
           <BoosterHelp newBooster />
         </div>
         <div aria-hidden="true" className="h-8 w-px bg-white/80" />
-        <div className="min-w-0">
+        <div className="relative left-1 min-w-0">
           <SigilTasks plan={taskPlan} onChange={(plan) => {
             setTaskPlan(plan);
             calculate(booster, plan, true);
