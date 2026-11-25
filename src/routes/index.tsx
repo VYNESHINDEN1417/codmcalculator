@@ -249,23 +249,23 @@ export function Index() {
         <SigilCalc onWarningChange={setShowWarning} />
       </div>
 
-      <div className="absolute bottom-3 left-3 z-10 w-[220px] text-left font-mono">
-        <p className="mb-1.5 text-[8px] tracking-[0.16em] text-foreground/60">VIBE CODED WITH</p>
-        <div className="grid grid-cols-4 gap-x-2">
+      <div className="absolute bottom-3 left-3 z-10 w-[200px] text-left font-mono">
+        <p className="mb-1 text-[8px] tracking-[0.16em] text-foreground/60">VIBE CODED WITH</p>
+        <div className="grid grid-cols-4 gap-x-1">
           <div className="flex flex-col items-center gap-0.5 whitespace-nowrap text-[6px] tracking-tight text-foreground/65">
-            <img src={lovableLogo} alt="" className="h-3.5 w-3.5 object-contain" />
+            <img src={lovableLogo} alt="" className="h-5 w-5 rounded-[5px] object-contain" />
             <span className="whitespace-nowrap">Lovable AI</span>
           </div>
-          <div className="flex flex-col items-center gap-0.5 text-[7px] tracking-normal text-foreground/65">
-            <img src={chatgptLogo} alt="" className="h-3.5 w-3.5 object-contain" />
+          <div className="flex flex-col items-center gap-0.5 text-[6px] tracking-tight text-foreground/65">
+            <img src={chatgptLogo} alt="" className="h-5 w-5 rounded-[5px] object-contain" />
             <span>ChatGPT</span>
           </div>
-          <div className="flex flex-col items-center gap-0.5 text-[7px] tracking-normal text-foreground/65">
-            <img src={githubLogo} alt="" className="h-3.5 w-3.5 object-contain" />
+          <div className="flex flex-col items-center gap-0.5 text-[6px] tracking-tight text-foreground/65">
+            <img src={githubLogo} alt="" className="h-5 w-5 rounded-[5px] object-contain" />
             <span>GitHub</span>
           </div>
-          <div className="flex flex-col items-center gap-0.5 text-[7px] tracking-normal text-foreground/65">
-            <img src={vercelLogo} alt="" className="h-3.5 w-3.5 object-contain" />
+          <div className="flex flex-col items-center gap-0.5 text-[6px] tracking-tight text-foreground/65">
+            <img src={vercelLogo} alt="" className="h-5 w-5 rounded-[5px] object-contain" />
             <span>Vercel</span>
           </div>
         </div>
