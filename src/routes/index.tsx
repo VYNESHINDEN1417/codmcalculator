@@ -249,7 +249,7 @@ export function Index() {
         <SigilCalc onWarningChange={setShowWarning} />
       </div>
 
-      <div className="absolute bottom-3 left-3 z-10 w-[200px] text-left font-mono">
+      <div className="absolute bottom-3 left-3 z-10 w-[150px] text-left font-mono">
         <p className="mb-1 text-[8px] tracking-[0.16em] text-foreground/60">VIBE CODED WITH</p>
         <div className="grid grid-cols-4 gap-x-1">
           <div className="flex flex-col items-center gap-0.5 whitespace-nowrap text-[6px] tracking-tight text-foreground/65">
