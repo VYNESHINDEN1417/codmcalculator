@@ -129,7 +129,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
         </p>
       )}
       <p className="mt-3 font-mono text-xs font-bold tracking-[0.08em] text-yellow-400" aria-live="polite">
-        <span className="inline-block" style={{ transform: "scale(1.875)", transformOrigin: "center" }}>MINIMUM SIGIL: {Math.max(0, TARGET_SIGILS - Math.floor(Math.max(0, EVENT_DEADLINE_MS - (now ?? Date.now())) / WEEK_MS) * WEEKLY_SIGILS - (booster ? BOOSTER_SIGILS : 0))}</span>
+        <span className="inline-block" style={{ transform: "scale(2.4375)", transformOrigin: "center" }}>MINIMUM SIGIL: {Math.max(0, TARGET_SIGILS - Math.floor(Math.max(0, EVENT_DEADLINE_MS - (now ?? Date.now())) / WEEK_MS) * WEEKLY_SIGILS - (booster ? BOOSTER_SIGILS : 0))}</span>
       </p>
       <div className="mt-3 grid grid-cols-[minmax(0,1fr)_1px_minmax(0,1fr)] items-center gap-2">
         <div className="flex min-w-0 items-center gap-1">
@@ -151,7 +151,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
           <BoosterHelp newBooster />
         </div>
         <div aria-hidden="true" className="h-8 w-px bg-white/80" />
-        <div className="min-w-0">
+        <div className="relative left-2 min-w-0">
           <SigilTasks plan={taskPlan} onChange={(plan) => {
             setTaskPlan(plan);
             calculate(booster, plan, true);
