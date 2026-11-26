@@ -69,7 +69,7 @@ function Countdown() {
   ] as const;
   return (
     <div className="mx-auto w-full max-w-lg text-center" aria-label="Event countdown">
-      <div className="text-[10px] text-foreground sm:text-xs">
+      <div className="text-[10px] text-foreground">
         EVENT ENDS · DEC 10, 2026 · 8:00 AM PHT
       </div>
       {c.ended && now ? (
@@ -78,7 +78,7 @@ function Countdown() {
         <div className="mt-4 grid grid-cols-4 gap-2 font-mono">
           {cells.map(([l, v]) => (
             <div key={l} className="text-center">
-              <div className="text-4xl font-bold tabular-nums text-primary sm:text-5xl">
+              <div className="text-4xl font-bold tabular-nums text-primary">
                 {now ? String(v).padStart(2, "0") : "--"}
               </div>
               <div className="text-[10px] text-foreground">{l}</div>
@@ -124,12 +124,12 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
       </h2>
       <p
         aria-live="polite"
-        className="mt-1 font-mono text-xs font-bold text-foreground sm:text-sm"
+        className="mt-1 font-mono text-xs font-bold text-foreground"
       >
         SIGILS MO SA DEC 10: <span className="text-yellow-400">{res ? res.deadlineProjection : "—"}</span>
       </p>
       {res?.status === "ON TRACK" && (
-        <p className="mt-1 font-mono text-xs font-bold uppercase text-foreground sm:text-sm" aria-live="polite">
+        <p className="mt-1 font-mono text-xs font-bold uppercase text-foreground" aria-live="polite">
           {(() => { const match = acquisitionPhrase(res.projectedAtMs).match(/^(500 sigils ka na sa )(.+?)( week of .+)$/); return match ? <>{match[1]}<span className="text-yellow-400">{match[2]}</span>{match[3]}</> : acquisitionPhrase(res.projectedAtMs); })()}
         </p>
       )}
@@ -139,7 +139,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
       <div className="mt-3 grid grid-cols-[minmax(0,1fr)_1px_minmax(0,1fr)] items-center gap-2">
         <div className="flex min-w-0 items-center gap-1">
           <div className="flex h-8 min-w-0 flex-1 items-center justify-center rounded-md border border-primary bg-transparent px-1">
-            <div className="flex items-center justify-center gap-1 whitespace-nowrap font-mono text-[11px] font-bold leading-none text-foreground sm:text-sm">
+            <div className="flex items-center justify-center gap-1 whitespace-nowrap font-mono text-[11px] font-bold leading-none text-foreground">
               <Checkbox
                 id="new-sigil-booster"
                 checked={booster}
@@ -189,7 +189,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
       {error && <p className="mt-4 font-mono text-sm text-destructive">{error}</p>}
       {res && (
         <div className="mt-3">
-          <p className={`font-mono text-xl font-bold sm:text-2xl ${res.status === "NOT ON TRACK" ? "text-destructive" : "text-live"}`}>
+          <p className={`font-mono text-xl font-bold ${res.status === "NOT ON TRACK" ? "text-destructive" : "text-live"}`}>
             {res.status === "MYTHIC UNLOCKED"
               ? "MYTHIC UNLOCKED"
               : res.status === "NOT ON TRACK"
@@ -210,14 +210,14 @@ export function Index() {
   const w = WEAPONS[sel];
   if (!w) return null;
   return (
-    <main className="fixed inset-0 mx-auto flex h-dvh w-full max-w-6xl flex-col overflow-hidden px-4 py-4">
+    <main className="fixed left-1/2 top-1/2 flex h-[906px] w-[408px] max-w-none flex-col overflow-hidden px-4 py-4" style={{ transform: "translate(-50%, -50%) scale(min(1, 100vw / 408px, 100dvh / 906px))" }}>
       <header className="flex flex-col items-center gap-3">
         <PhClock />
         <Countdown />
       </header>
 
       <section className="mt-4 text-center">
-        <h1 className="text-xl font-bold text-foreground sm:text-3xl" aria-live="polite">{w.name}</h1>
+        <h1 className="text-xl font-bold text-foreground" aria-live="polite">{w.name}</h1>
         <div className="weapon-carousel mt-2" aria-label="Featured weapons">
           {WEAPONS.map((weapon, i) => (
             <Button
@@ -238,7 +238,7 @@ export function Index() {
             </Button>
           ))}
           {showWarning && (
-            <p role="alert" className="carousel-warning pointer-events-none absolute inset-0 z-30 flex items-center justify-center px-4 text-center text-3xl font-black leading-tight text-destructive sm:text-5xl">
+            <p role="alert" className="carousel-warning pointer-events-none absolute inset-0 z-30 flex items-center justify-center px-4 text-center text-3xl font-black leading-tight text-destructive">
               Sorry par, di ka aabot
             </p>
           )}
