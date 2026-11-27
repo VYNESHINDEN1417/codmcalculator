@@ -139,7 +139,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
       <div className="mt-3 grid grid-cols-[minmax(0,1fr)_1px_minmax(0,1fr)] items-center gap-2">
         <div className="flex min-w-0 items-center gap-1">
           <div className="flex h-8 min-w-0 flex-1 items-center justify-center rounded-md border border-primary bg-transparent px-1">
-            <div className="flex items-center justify-center gap-1 whitespace-nowrap font-mono text-[11px] font-bold leading-none text-foreground sm:text-sm">
+            <div className="flex min-w-0 items-center justify-center gap-1 whitespace-nowrap font-mono text-[9px] font-bold leading-none text-foreground sm:text-xs">
               <Checkbox
                 id="new-sigil-booster"
                 checked={booster}
@@ -148,7 +148,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
                   setBooster(enabled);
                   if (res) calculate(enabled);
                 }}
-                className="h-5 w-5"
+                className="h-4 w-4 shrink-0"
               />
               <label htmlFor="new-sigil-booster" className="flex cursor-pointer items-center whitespace-nowrap leading-none">70 booster sigils</label>
             </div>
@@ -203,6 +203,13 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
 }
 
 export function Index() {
+  const [uiScale, setUiScale] = useState(1);
+  useEffect(() => {
+    const updateScale = () => setUiScale(Math.max(0.65, Math.min(1.5, window.innerWidth / 390)));
+    updateScale();
+    window.addEventListener("resize", updateScale);
+    return () => window.removeEventListener("resize", updateScale);
+  }, []);
   const [rotation, setRotation] = useState(0);
   const [showWarning, setShowWarning] = useState(false);
   const n = WEAPONS.length;
@@ -210,7 +217,7 @@ export function Index() {
   const w = WEAPONS[sel];
   if (!w) return null;
   return (
-    <main className="fixed inset-0 mx-auto flex h-dvh w-full max-w-6xl flex-col overflow-hidden px-4 py-4">
+    <div className="fixed inset-0 flex justify-center overflow-hidden"><main className="relative flex w-[390px] max-w-none flex-col overflow-hidden px-4 py-4" style={{ height: `${100 / uiScale}dvh`, transform: `scale(${uiScale})`, transformOrigin: "top center" }}>
       <header className="flex flex-col items-center gap-3">
         <PhClock />
         <Countdown />
@@ -271,14 +278,14 @@ export function Index() {
         </div>
       </div>
       <footer className="mt-6 flex flex-col items-center gap-2 pt-1 pb-1 text-center font-mono text-xs tracking-[0.2em] text-foreground">
-        <span>VYNESHINDEN/TIMOTHY LOMIBAO</span>
-        <Button asChild variant="outline" className="h-9 rounded-full border-primary bg-transparent px-4 font-mono text-[10px] tracking-normal text-foreground hover:bg-primary/10 hover:text-foreground">
+        <span className="-translate-y-5">VYNESHINDEN/TIMOTHY LOMIBAO</span>
+        <Button asChild variant="outline" className="github-pulse mt-1 h-9 translate-y-2 rounded-full border-primary bg-transparent px-4 font-mono text-[10px] tracking-normal text-foreground hover:bg-primary/10 hover:text-foreground">
           <a href="https://github.com/VYNESHINDEN1417/codmcalculator" target="_blank" rel="noopener noreferrer" onClick={() => trackCalculatorEvent("github_repository_click")}>
             <Github aria-hidden="true" />
             View Github Repository
           </a>
         </Button>
       </footer>
-    </main>
+    </main></div>
   );
 }

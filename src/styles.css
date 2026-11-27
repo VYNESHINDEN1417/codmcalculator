@@ -267,3 +267,24 @@ body,
 .app-no-zoom {
   touch-action: pan-x pan-y;
 }
+
+
+@keyframes github-orange-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgb(255 115 0 / 28%), 0 0 7px rgb(255 115 0 / 35%);
+  }
+  50% {
+    box-shadow: 0 0 7px 2px rgb(255 115 0 / 72%), 0 0 19px 6px rgb(255 115 0 / 48%), 0 0 30px 10px rgb(255 115 0 / 22%);
+  }
+}
+
+.github-pulse {
+  animation: github-orange-pulse 2.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .github-pulse {
+    animation: none;
+    box-shadow: 0 0 9px rgb(255 115 0 / 45%);
+  }
+}
