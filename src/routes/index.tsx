@@ -279,7 +279,7 @@ export function Index() {
       </div>
       <footer className="mt-6 flex flex-col items-center gap-2 pt-1 pb-1 text-center font-mono text-xs tracking-[0.2em] text-foreground">
         <span>VYNESHINDEN/TIMOTHY LOMIBAO</span>
-        <Button asChild variant="outline" className="github-pulse mt-1 h-9 translate-y-1 rounded-full border-primary bg-transparent px-4 font-mono text-[10px] tracking-normal text-foreground hover:bg-primary/10 hover:text-foreground">
+        <Button asChild variant="outline" className="github-pulse mt-1 h-9 translate-y-2 rounded-full border-primary bg-transparent px-4 font-mono text-[10px] tracking-normal text-foreground hover:bg-primary/10 hover:text-foreground">
           <a href="https://github.com/VYNESHINDEN1417/codmcalculator" target="_blank" rel="noopener noreferrer" onClick={() => trackCalculatorEvent("github_repository_click")}>
             <Github aria-hidden="true" />
             View Github Repository
