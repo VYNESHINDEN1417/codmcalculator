@@ -139,7 +139,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
       <div className="mt-3 grid grid-cols-[minmax(0,1fr)_1px_minmax(0,1fr)] items-center gap-2">
         <div className="flex min-w-0 items-center gap-1">
           <div className="flex h-8 min-w-0 flex-1 items-center justify-center rounded-md border border-primary bg-transparent px-1">
-            <div className="flex items-center justify-center gap-1 whitespace-nowrap font-mono text-[11px] font-bold leading-none text-foreground sm:text-sm">
+            <div className="flex min-w-0 items-center justify-center gap-1 whitespace-nowrap font-mono text-[9px] font-bold leading-none text-foreground sm:text-xs">
               <Checkbox
                 id="new-sigil-booster"
                 checked={booster}
@@ -148,7 +148,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
                   setBooster(enabled);
                   if (res) calculate(enabled);
                 }}
-                className="h-5 w-5"
+                className="h-4 w-4 shrink-0"
               />
               <label htmlFor="new-sigil-booster" className="flex cursor-pointer items-center whitespace-nowrap leading-none">70 booster sigils</label>
             </div>
