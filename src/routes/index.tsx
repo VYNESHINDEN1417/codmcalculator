@@ -224,7 +224,7 @@ export function Index() {
       </header>
 
       <section className="mt-4 text-center">
-        <h1 className="text-xl font-bold text-foreground sm:text-3xl" aria-live="polite">{w.name}</h1>
+        <h1 className={`flex h-7 items-center justify-center whitespace-nowrap font-bold text-foreground sm:h-9 ${sel === 2 ? "text-[15px]" : "text-xl sm:text-3xl"}`} aria-live="polite">{w.name}</h1>
         <div className="weapon-carousel mt-2" aria-label="Featured weapons">
           {WEAPONS.map((weapon, i) => (
             <Button
