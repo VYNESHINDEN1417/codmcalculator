@@ -279,7 +279,7 @@ body,
 }
 
 .github-pulse {
-  animation: github-orange-pulse 1.5s ease-in-out infinite;
+  animation: github-orange-pulse 2.2s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
