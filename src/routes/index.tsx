@@ -78,7 +78,7 @@ function Countdown() {
         <div className="mt-4 grid grid-cols-4 gap-2 font-mono">
           {cells.map(([l, v]) => (
             <div key={l} className="text-center">
-              <div className="text-4xl font-bold tabular-nums text-primary sm:text-5xl">
+              <div className="text-[clamp(2rem,7vw,3rem)] font-bold tabular-nums text-primary">
                 {now ? String(v).padStart(2, "0") : "--"}
               </div>
               <div className="text-[10px] text-foreground">{l}</div>
@@ -118,7 +118,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
     onWarningChange(result.status === "NOT ON TRACK");
   };
   return (
-    <section className="mx-auto max-w-md text-center">
+    <section className="mx-auto w-full max-w-md text-center">
       <h2 aria-live="polite" className="font-mono text-sm font-bold text-foreground">
         EVENT STATUS: <span className="text-yellow-400">{res ? STATUS_LABEL[res.status] : "—"}</span>
       </h2>
@@ -133,10 +133,10 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
           {(() => { const match = acquisitionPhrase(res.projectedAtMs).match(/^(500 sigils ka na sa )(.+?)( week of .+)$/); return match ? <>{match[1]}<span className="text-yellow-400">{match[2]}</span>{match[3]}</> : acquisitionPhrase(res.projectedAtMs); })()}
         </p>
       )}
-      <p className="mt-3 font-mono text-xs font-bold tracking-[0.08em] text-yellow-400" aria-live="polite">
-        <span className="inline-block" style={{ transform: "scale(2.4375)", transformOrigin: "center" }}>MINIMUM SIGIL: {Math.max(0, TARGET_SIGILS - Math.floor(Math.max(0, EVENT_DEADLINE_MS - (now ?? Date.now())) / WEEK_MS) * WEEKLY_SIGILS - (booster ? BOOSTER_SIGILS : 0))}</span>
+      <p className="mt-3 break-words font-mono text-[clamp(0.95rem,4.2vw,1.5rem)] font-bold tracking-[0.04em] text-yellow-400" aria-live="polite">
+        MINIMUM SIGIL: {Math.max(0, TARGET_SIGILS - Math.floor(Math.max(0, EVENT_DEADLINE_MS - (now ?? Date.now())) / WEEK_MS) * WEEKLY_SIGILS - (booster ? BOOSTER_SIGILS : 0))}
       </p>
-      <div className="mt-3 grid grid-cols-[minmax(0,1fr)_1px_minmax(0,1fr)] items-center gap-2">
+      <div className="mt-3 grid grid-cols-1 items-center gap-2 min-[420px]:grid-cols-[minmax(0,1fr)_1px_minmax(0,1fr)]">
         <div className="flex min-w-0 items-center gap-1">
           <div className="flex h-8 min-w-0 flex-1 items-center justify-center rounded-md border border-primary bg-transparent px-1">
             <div className="flex items-center justify-center gap-1 whitespace-nowrap font-mono text-[11px] font-bold leading-none text-foreground sm:text-sm">
@@ -155,7 +155,7 @@ function SigilCalc({ onWarningChange }: { onWarningChange: (visible: boolean) =>
           </div>
           <BoosterHelp newBooster />
         </div>
-        <div aria-hidden="true" className="h-8 w-px bg-white/80" />
+        <div aria-hidden="true" className="hidden h-8 w-px bg-white/80 min-[420px]:block" />
         <div className="relative left-2 min-w-0">
           <SigilTasks plan={taskPlan} onChange={(plan) => {
             setTaskPlan(plan);
@@ -210,14 +210,14 @@ export function Index() {
   const w = WEAPONS[sel];
   if (!w) return null;
   return (
-    <main className="fixed inset-0 mx-auto flex h-dvh w-full max-w-6xl flex-col overflow-hidden px-4 py-4">
+    <main className="relative mx-auto flex min-h-dvh w-full max-w-6xl flex-col overflow-x-hidden px-[clamp(0.75rem,3vw,2rem)] py-[clamp(0.75rem,2.5vh,1.5rem)]">
       <header className="flex flex-col items-center gap-3">
         <PhClock />
         <Countdown />
       </header>
 
       <section className="mt-4 text-center">
-        <h1 className="text-xl font-bold text-foreground sm:text-3xl" aria-live="polite">{w.name}</h1>
+        <h1 className="break-words px-2 text-[clamp(1rem,4.2vw,1.875rem)] font-bold leading-tight text-foreground" aria-live="polite">{w.name}</h1>
         <div className="weapon-carousel mt-2" aria-label="Featured weapons">
           {WEAPONS.map((weapon, i) => (
             <Button
@@ -249,9 +249,9 @@ export function Index() {
         <SigilCalc onWarningChange={setShowWarning} />
       </div>
 
-      <div className="absolute bottom-3 left-3 z-10 w-[150px] text-left font-mono">
+      <div className="mt-auto flex w-full justify-center pt-6 font-mono">
         <p className="mb-1 text-[8px] tracking-[0.16em] text-foreground/60">VIBE CODED WITH</p>
-        <div className="grid grid-cols-4 gap-x-1">
+        <div className="grid w-[min(100%,220px)] grid-cols-4 gap-x-2">
           <div className="flex flex-col items-center gap-0.5 whitespace-nowrap text-[6px] tracking-tight text-foreground/65">
             <img src={lovableLogo} alt="" className="h-5 w-5 rounded-[5px] object-contain" />
             <span className="whitespace-nowrap">Lovable AI</span>
@@ -270,9 +270,9 @@ export function Index() {
           </div>
         </div>
       </div>
-      <footer className="mt-6 flex flex-col items-center gap-2 pt-1 pb-1 text-center font-mono text-xs tracking-[0.2em] text-foreground">
-        <span>VYNESHINDEN/TIMOTHY LOMIBAO</span>
-        <Button asChild variant="outline" className="h-9 rounded-full border-primary bg-transparent px-4 font-mono text-[10px] tracking-normal text-foreground hover:bg-primary/10 hover:text-foreground">
+      <footer className="mt-4 flex w-full flex-col items-center gap-2 px-2 pb-2 pt-1 text-center font-mono text-[clamp(0.55rem,2.6vw,0.75rem)] tracking-[clamp(0.08em,0.8vw,0.2em)] text-foreground">
+        <span className="max-w-full break-words">VYNESHINDEN/TIMOTHY LOMIBAO</span>
+        <Button asChild variant="outline" className="h-9 max-w-full rounded-full border-primary bg-transparent px-4 font-mono text-[10px] tracking-normal text-foreground hover:bg-primary/10 hover:text-foreground">
           <a href="https://github.com/VYNESHINDEN1417/codmcalculator" target="_blank" rel="noopener noreferrer" onClick={() => trackCalculatorEvent("github_repository_click")}>
             <Github aria-hidden="true" />
             View Github Repository
